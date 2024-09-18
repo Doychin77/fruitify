@@ -397,14 +397,17 @@ const Shop = () => {
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" onClick={() => addToCart(product)}>
+                                                        <a href="#" onClick={(e) => {
+                                                            e.preventDefault();
+                                                            addToCart(product);
+                                                        }}>
                                                             <i className="fa fa-shopping-cart"/>
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div className="product__item__text">
-                                                <h6>
+                                            <h6>
                                                     <a href="#">{product.name}</a>
                                                 </h6>
                                                 <h5>${product.price}</h5>

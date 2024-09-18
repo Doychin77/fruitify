@@ -1,7 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {CartContext} from "@/src/context/cartContext.jsx";
 
 
 const Header = () => {
+    const { cartItems } = useContext(CartContext);
+
+    // Calculate the total price
+    const totalPrice = cartItems.reduce((total, item) => {
+        const price = parseFloat(item.price) || 0; // Convert price to number
+        return total + price;
+    }, 0);
+
+    const totalQuantity = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
+
+    const formattedTotalPrice = totalPrice.toFixed(2);
+
     return (
         <header className="header">
             <div className="header__top">
@@ -110,12 +123,12 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <a href="/cart">
-                                        <i className="fa fa-shopping-bag"/> <span>3</span>
+                                        <i className="fa fa-shopping-bag"/> <span>{totalQuantity}</span>
                                     </a>
                                 </li>
                             </ul>
                             <div className="header__cart__price">
-                                item: <span>$150.00</span>
+                                <span>${formattedTotalPrice}</span>
                             </div>
                         </div>
                     </div>

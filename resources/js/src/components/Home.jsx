@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
@@ -9,6 +9,7 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { getCategories, getProducts } from '../services/baseService';
 import useProducts from "@/src/hooks/useProducts.js";
 import useCategories from "@/src/hooks/useCategories.js";
+import {CartContext} from "@/src/context/cartContext.jsx";
 
 
 
@@ -19,6 +20,7 @@ const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState('*');
     const { products, error } = useProducts();
     const { categories } = useCategories();
+    const { addToCart } = useContext(CartContext);
 
 
 
@@ -248,11 +250,18 @@ const Home = () => {
                                         <ul className="featured__item__pic__hover">
                                             <li><a href="#"><i className="fa fa-heart"></i></a></li>
                                             <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                            <li>
+                                                <a href="#" onClick={(e) => {
+                                                    e.preventDefault();
+                                                    addToCart(product);
+                                                }}>
+                                                    <i className="fa fa-shopping-cart"/>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div className="featured__item__text">
-                                        <h6><a href="#">{product.name}</a></h6>
+                                    <h6><a href="#">{product.name}</a></h6>
                                         <h5>${product.price}</h5>
                                     </div>
                                 </div>

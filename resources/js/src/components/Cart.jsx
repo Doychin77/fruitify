@@ -6,8 +6,12 @@ import {CartContext} from "@/src/context/cartContext.jsx";
 
 const Cart = () => {
 
-    const { cartItems } = useContext(CartContext);
+    const { cartItems, removeFromCart } = useContext(CartContext);
     const [items, setItems] = useState([]);
+
+    const handleRemove = (productId) => {
+        removeFromCart(productId);
+    };
 
 
     useEffect(() => {
@@ -22,7 +26,7 @@ const Cart = () => {
     console.log('Cart Items:', cartItems);
 
     const subtotal = cartItems.reduce((total, item) => {
-        const price = parseFloat(item.price) || 0;
+        const price = parseFloat(item.price * item.quantity) || 0;
         return total + price;
     }, 0);
 
@@ -172,14 +176,13 @@ const Cart = () => {
                                             <td className="shoping__cart__quantity">
                                                 <div className="quantity">
                                                     <div className="pro-qty">
-                                                        <input type="text" defaultValue={1}/>
+                                                        <input type="text" value={item.quantity || 1} readOnly/>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="shoping__cart__total">${item.price}</td>
-                                            {/* Calculate total based on quantity */}
                                             <td className="shoping__cart__item__close">
-                                                <span className="icon_close"/>
+                                                <span className="icon_close" onClick={() => handleRemove(item.id)}/>
                                             </td>
                                         </tr>
                                     ))}

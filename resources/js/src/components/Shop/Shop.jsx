@@ -122,7 +122,7 @@ const Shop = () => {
             {/* Breadcrumb Section Begin */}
             <section
                 className="breadcrumb-section set-bg"
-                data-setbg="img/breadcrumb.jpg"
+                style={{backgroundImage: "url('img/breadcrumb.jpg')"}}
             >
                 <div className="container">
                     <div className="row">
@@ -130,7 +130,7 @@ const Shop = () => {
                             <div className="breadcrumb__text">
                                 <h2>Organi Shop</h2>
                                 <div className="breadcrumb__option">
-                                    <a href="./index.html">Home</a>
+                                    <a href="/public">Home</a>
                                     <span>Shop</span>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@ const Shop = () => {
             {/* Breadcrumb Section End */}
             {/* Product Section Begin */}
             <section className="product spad">
-                <div className="container">
+            <div className="container">
                     <div className="row">
                         <div className="col-lg-3 col-md-5">
                             <div className="sidebar">

@@ -122,7 +122,7 @@ const Home = () => {
                                         100% Organic
                                     </h2>
                                     <p>Free Pickup and Delivery Available</p>
-                                    <a href="/shop" className="primary-btn">
+                                    <a href="/Shop/Shop" className="primary-btn">
                                         SHOP NOW
                                     </a>
                                 </div>

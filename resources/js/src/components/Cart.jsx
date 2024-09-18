@@ -95,7 +95,7 @@ const Cart = () => {
             {/* Breadcrumb Section Begin */}
             <section
                 className="breadcrumb-section set-bg"
-                data-setbg="img/breadcrumb.jpg"
+                style={{backgroundImage: "url('img/breadcrumb.jpg')"}}
             >
                 <div className="container">
                     <div className="row">
@@ -191,7 +191,7 @@ const Cart = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="shoping__cart__btns">
-                                <a href="#" className="primary-btn cart-btn">
+                                <a href="/shop" className="primary-btn cart-btn">
                                     CONTINUE SHOPPING
                                 </a>
                                 <a href="#" className="primary-btn cart-btn cart-btn-right">

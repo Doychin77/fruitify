@@ -95,7 +95,7 @@ const Checkout = () => {
             {/* Breadcrumb Section Begin */}
             <section
                 className="breadcrumb-section set-bg"
-                data-setbg="img/breadcrumb.jpg"
+                style={{backgroundImage: "url('img/breadcrumb.jpg')"}}
             >
                 <div className="container">
                     <div className="row">

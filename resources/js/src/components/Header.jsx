@@ -78,7 +78,7 @@ const Header = () => {
                                     <a href="#">Pages</a>
                                     <ul className="header__menu__dropdown">
                                         <li>
-                                            <a href="./shop-details.html">Shop Details</a>
+                                            <a href="/shop-details">Shop Details</a>
                                         </li>
                                         <li>
                                             <a href="/cart">Shoping Cart</a>
@@ -87,7 +87,7 @@ const Header = () => {
                                             <a href="/checkout">Check Out</a>
                                         </li>
                                         <li>
-                                            <a href="./blog-details.html">Blog Details</a>
+                                            <a href="/blog-details">Blog Details</a>
                                         </li>
                                     </ul>
                                 </li>

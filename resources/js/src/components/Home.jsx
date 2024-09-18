@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
@@ -6,18 +6,75 @@ import bannerImage from '../../../../public/img/hero/banner.jpg';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
+import { getCategories, getProducts } from '../../../services/baseService';
+
+
 
 const Home = () => {
+    const BaseURL = 'http://fruitify.test/storage/'
+
+    const [categories, setCategories] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('*');
+    const [error, setError] = useState(null);
+
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const data = await getCategories(); // Fetch categories
+                console.log('Fetched categories:', data); // Log fetched data for debugging
+                setCategories(data);
+            } catch (error) {
+                console.error('There was an error fetching categories:', error);
+                setError('Error fetching categories');
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const data = await getProducts(); // Fetch products from your API
+                console.log('Fetched products:', data); // Log fetched data for debugging
+                setProducts(data);
+            } catch (error) {
+                console.error('There was an error fetching products:', error);
+                setError('Error fetching products');
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    useEffect(() => {
+        if (selectedCategory === '*') {
+            setFilteredProducts(products);
+        } else {
+            const filtered = products.filter(product =>
+                product.category_id && categories.find(cat => cat.id === product.category_id)?.name.toLowerCase() === selectedCategory
+            );
+            setFilteredProducts(filtered);
+        }
+    }, [selectedCategory, products, categories]);
+
 
     const carouselOptions = {
         loop: true,
         margin: 10,
         nav: true,
         autoplay: true,
-        autoplayTimeout: 3000,  // Interval between slides
+        autoplayTimeout: 3000,
         autoplayHoverPause: true,
-        smartSpeed: 1000,        // Speed of the animation (in milliseconds)
-        autoplaySpeed: 1000,     // Speed of the autoplay transition (in milliseconds)
+        smartSpeed: 1000,
+        autoplaySpeed: 1000,
         responsive: {
             0: {
                 items: 1,
@@ -26,7 +83,7 @@ const Home = () => {
                 items: 2,
             },
             1000: {
-                items: 1,  // Show 1 item at a time on larger screens
+                items: 1,
             }
         }
     };
@@ -138,14 +195,15 @@ const Home = () => {
                 <div className="container">
                     <div className="row">
                         <OwlCarousel
+                            key={categories.length}
                             className='categories__slider owl-carousel'
                             loop
                             margin={10}
                             nav
-                            smartSpeed={1000}         // Speed of the animation (in milliseconds)
+                            smartSpeed={1000}
                             autoplaySpeed={1000}
                             autoplay
-                            autoplayTimeout={3000}  // Adjust the auto-slide interval (in milliseconds)
+                            autoplayTimeout={3000}
                             autoplayHoverPause
                             responsive={{
                                 0: {
@@ -155,60 +213,22 @@ const Home = () => {
                                     items: 2,
                                 },
                                 1000: {
-                                    items: 4,  // Show 4 items at a time on larger screens
+                                    items: 4,
                                 }
                             }}
                         >
-                            <div className="item col-lg-3">
-                                <div
-                                    className="categories__item set-bg"
-                                    style={{backgroundImage: 'url(img/categories/cat-1.jpg)'}}
-                                >
-                                    <h5>
-                                        <a href="#">Fresh Fruit</a>
-                                    </h5>
+                            {categories.map((category) => (
+                                <div key={category.id} className="item col-lg-3">
+                                    <div
+                                        className="categories__item set-bg"
+                                        style={{ backgroundImage: `url(${BaseURL}${category.img})` }}
+                                    >
+                                        <h5>
+                                            <a href="#">{category.name}</a>
+                                        </h5>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="item col-lg-3">
-                                <div
-                                    className="categories__item set-bg"
-                                    style={{backgroundImage: 'url(img/categories/cat-2.jpg)'}}
-                                >
-                                    <h5>
-                                        <a href="#">Dried Fruit</a>
-                                    </h5>
-                                </div>
-                            </div>
-                            <div className="item col-lg-3">
-                                <div
-                                    className="categories__item set-bg"
-                                    style={{backgroundImage: 'url(img/categories/cat-3.jpg)'}}
-                                >
-                                    <h5>
-                                        <a href="#">Vegetables</a>
-                                    </h5>
-                                </div>
-                            </div>
-                            <div className="item col-lg-3">
-                                <div
-                                    className="categories__item set-bg"
-                                    style={{backgroundImage: 'url(img/categories/cat-4.jpg)'}}
-                                >
-                                    <h5>
-                                        <a href="#">Drink Fruits</a>
-                                    </h5>
-                                </div>
-                            </div>
-                            <div className="item col-lg-3">
-                                <div
-                                    className="categories__item set-bg"
-                                    style={{backgroundImage: 'url(img/categories/cat-5.jpg)'}}
-                                >
-                                    <h5>
-                                        <a href="#">Drink Fruits</a>
-                                    </h5>
-                                </div>
-                            </div>
+                            ))}
                         </OwlCarousel>
                     </div>
                 </div>
@@ -220,209 +240,55 @@ const Home = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="section-title">
-                                <h2>Featured Product</h2>
+                                <h2>Featured Products</h2>
                             </div>
                             <div className="featured__controls">
                                 <ul>
-                                    <li className="active" data-filter="*">
+                                    <li
+                                        className={selectedCategory === '*' ? 'active' : ''}
+                                        data-filter="*"
+                                        onClick={() => setSelectedCategory('*')}
+                                    >
                                         All
                                     </li>
-                                    <li data-filter=".oranges">Oranges</li>
-                                    <li data-filter=".fresh-meat">Fresh Meat</li>
-                                    <li data-filter=".vegetables">Vegetables</li>
-                                    <li data-filter=".fastfood">Fastfood</li>
+                                    {categories.map(category => (
+                                        <li
+                                            key={category.id}
+                                            className={selectedCategory === category.name.toLowerCase() ? 'active' : ''}
+                                            data-filter={`.${category.name.toLowerCase()}`}
+                                            onClick={() => setSelectedCategory(category.name.toLowerCase())}
+                                        >
+                                            {category.name}
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div className="row featured__filter">
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="img/featured/feature-1.jpg" alt="Feature 1"/>
-                                    <ul className="featured__item__pic__hover">
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-heart"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-retweet"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-shopping-cart"/>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6>
-                                        <a href="#">Crab Pool Security</a>
-                                    </h6>
-                                    <h5>$30.00</h5>
+                        {filteredProducts.map(product => (
+                            <div key={product.id}
+                                 className={`col-lg-3 col-md-4 col-sm-6 mix ${categories.find(cat => cat.id === product.category_id)?.name.toLowerCase() || ''}`}>
+                                <div className="featured__item">
+                                    <div className="featured__item__pic">
+                                        {product.images && product.images.length > 0 && (
+                                            <img src={`http://fruitify.test/storage/${product.images[0].image_url}`}
+                                                 alt={product.name}/>
+                                        )}
+                                        <ul className="featured__item__pic__hover">
+                                            <li><a href="#"><i className="fa fa-heart"></i></a></li>
+                                            <li><a href="#"><i className="fa fa-retweet"></i></a></li>
+                                            <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div className="featured__item__text">
+                                        <h6><a href="#">{product.name}</a></h6>
+                                        <h5>${product.price}</h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="img/featured/feature-2.jpg" alt="Feature 2"/>
-                                    <ul className="featured__item__pic__hover">
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-heart"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-retweet"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-shopping-cart"/>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6>
-                                        <a href="#">Crab Pool Security</a>
-                                    </h6>
-                                    <h5>$30.00</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="img/featured/feature-3.jpg" alt="Feature 3"/>
-                                    <ul className="featured__item__pic__hover">
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-heart"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-retweet"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-shopping-cart"/>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6>
-                                        <a href="#">Crab Pool Security</a>
-                                    </h6>
-                                    <h5>$30.00</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="img/featured/feature-4.jpg" alt="Feature 4"/>
-                                    <ul className="featured__item__pic__hover">
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-heart"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-retweet"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-shopping-cart"/>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6>
-                                        <a href="#">Crab Pool Security</a>
-                                    </h6>
-                                    <h5>$30.00</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="img/featured/feature-5.jpg" alt="Feature 4"/>
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="img/featured/feature-6.jpg" alt="Feature 4"/>
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="img/featured/feature-7.jpg" alt="Feature 4"/>
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                            <div className="featured__item">
-                                <div className="featured__item__pic">
-                                    <img src="img/featured/feature-8.jpg" alt="Feature 4"/>
-                                    <ul className="featured__item__pic__hover">
-                                        <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i className="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div className="featured__item__text">
-                                    <h6><a href="#">Crab Pool Security</a></h6>
-                                    <h5>$30.00</h5>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Repeat similar blocks for the remaining items */}
+                        ))}
                     </div>
-
                 </div>
             </section>
             {/* Featured Section End */}

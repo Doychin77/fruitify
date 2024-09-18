@@ -5,15 +5,14 @@ import {CartContext} from "@/src/context/cartContext.jsx";
 const Header = () => {
     const { cartItems } = useContext(CartContext);
 
-    // Calculate the total price
-    const totalPrice = cartItems.reduce((total, item) => {
-        const price = parseFloat(item.price) || 0; // Convert price to number
+    const subtotal = cartItems.reduce((total, item) => {
+        const price = parseFloat(item.price * item.quantity) || 0;
         return total + price;
     }, 0);
 
     const totalQuantity = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
 
-    const formattedTotalPrice = totalPrice.toFixed(2);
+    const formattedTotalPrice = subtotal.toFixed(2);
 
     return (
         <header className="header">
@@ -26,7 +25,7 @@ const Header = () => {
                                     <li>
                                         <i className="fa fa-envelope"/> hello@fruitify.com
                                     </li>
-                                    <li>Free Shipping for all Order of $99</li>
+                                    <li>Free Shipping for all Orders of $99</li>
                                 </ul>
                             </div>
                         </div>
@@ -52,7 +51,7 @@ const Header = () => {
                                     <span className="arrow_carrot-down"/>
                                     <ul>
                                         <li>
-                                            <a href="#">Spanis</a>
+                                            <a href="#">Spanish</a>
                                         </li>
                                         <li>
                                             <a href="#">English</a>

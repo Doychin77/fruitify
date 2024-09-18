@@ -6,7 +6,7 @@ import {CartContext} from "@/src/context/cartContext.jsx";
 
 const Cart = () => {
 
-    const { cartItems, removeFromCart } = useContext(CartContext);
+    const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
     const [items, setItems] = useState([]);
 
     const handleRemove = (productId) => {
@@ -197,9 +197,15 @@ const Cart = () => {
                                 <a href="/shop" className="primary-btn cart-btn">
                                     CONTINUE SHOPPING
                                 </a>
-                                <a href="#" className="primary-btn cart-btn cart-btn-right">
-                                    <span className="icon_loading"/>
-                                    Upadate Cart
+                                <a
+                                    href="#"
+                                    className="primary-btn cart-btn cart-btn-right"
+                                    onClick={(e) => {
+                                        clearCart();
+                                    }}
+                                >
+                                    <i className="fa fa-trash"/>
+                                    Clear Cart
                                 </a>
                             </div>
                         </div>
@@ -208,7 +214,7 @@ const Cart = () => {
                                 <div className="shoping__discount">
                                     <h5>Discount Codes</h5>
                                     <form action="#">
-                                        <input type="text" placeholder="Enter your coupon code"/>
+                                    <input type="text" placeholder="Enter your coupon code"/>
                                         <button type="submit" className="site-btn">
                                             APPLY COUPON
                                         </button>

@@ -42,13 +42,21 @@ export const CartProvider = ({ children }) => {
         });
     };
 
+    // Function to clear all items from the cart
+    const clearCart = () => {
+        setCartItems([]);
+        localStorage.removeItem('cartItems'); // Clear from local storage
+    };
+
+
+
     // Use useEffect to update local storage whenever cartItems change
     useEffect(() => {
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }, [cartItems]);
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
             {children}
         </CartContext.Provider>
     );

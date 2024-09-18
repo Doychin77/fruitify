@@ -10,6 +10,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import useProducts from "@/src/hooks/useProducts.js";
 import { CartContext } from '../../context/CartContext';
+import ProductCarousel from "@/src/components/ProductCarousel.jsx";
 
 const Shop = () => {
 
@@ -281,67 +282,7 @@ const Shop = () => {
                                 <div className="sidebar__item">
                                     <div className="latest-product__text">
                                         <h4>Latest Products</h4>
-                                        <OwlCarousel
-                                            className='latest-product__slider owl-carousel' {...carouselOptions}>
-                                            <div className="latest-prdouct__slider__item">
-                                                <a href="#" className="latest-product__item">
-                                                    <div className="latest-product__item__pic">
-                                                        <img src="img/latest-product/lp-1.jpg" alt=""/>
-                                                    </div>
-                                                    <div className="latest-product__item__text">
-                                                        <h6>Crab Pool Security</h6>
-                                                        <span>$30.00</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#" className="latest-product__item">
-                                                    <div className="latest-product__item__pic">
-                                                        <img src="img/latest-product/lp-2.jpg" alt=""/>
-                                                    </div>
-                                                    <div className="latest-product__item__text">
-                                                        <h6>Crab Pool Security</h6>
-                                                        <span>$30.00</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#" className="latest-product__item">
-                                                    <div className="latest-product__item__pic">
-                                                        <img src="img/latest-product/lp-3.jpg" alt=""/>
-                                                    </div>
-                                                    <div className="latest-product__item__text">
-                                                        <h6>Crab Pool Security</h6>
-                                                        <span>$30.00</span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div className="latest-prdouct__slider__item">
-                                                <a href="#" className="latest-product__item">
-                                                    <div className="latest-product__item__pic">
-                                                        <img src="img/latest-product/lp-1.jpg" alt=""/>
-                                                    </div>
-                                                    <div className="latest-product__item__text">
-                                                        <h6>Crab Pool Security</h6>
-                                                        <span>$30.00</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#" className="latest-product__item">
-                                                    <div className="latest-product__item__pic">
-                                                        <img src="img/latest-product/lp-2.jpg" alt=""/>
-                                                    </div>
-                                                    <div className="latest-product__item__text">
-                                                        <h6>Crab Pool Security</h6>
-                                                        <span>$30.00</span>
-                                                    </div>
-                                                </a>
-                                                <a href="#" className="latest-product__item">
-                                                    <div className="latest-product__item__pic">
-                                                        <img src="img/latest-product/lp-3.jpg" alt=""/>
-                                                    </div>
-                                                    <div className="latest-product__item__text">
-                                                        <h6>Crab Pool Security</h6>
-                                                        <span>$30.00</span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </OwlCarousel>
+                                        <ProductCarousel products={products} carouselOptions={carouselOptions} />
                                     </div>
                                 </div>
                             </div>
@@ -429,10 +370,7 @@ const Shop = () => {
             </div>
             </section>
             {/* Product Section End */}
-
             <Footer/>
-
-            {/* Js Plugins */}
         </>
     );
 };

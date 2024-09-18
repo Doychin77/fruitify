@@ -1,9 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
+import {CartContext} from "@/src/context/cartContext.jsx";
 
 const Checkout = () => {
+
+    const { cartItems } = useContext(CartContext);
+
+    // Calculate subtotal and total
+    const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity || 1), 0);
+    const total = subtotal;
+
+
     return (
         <>
 
@@ -243,27 +252,24 @@ const Checkout = () => {
                                             Products <span>Total</span>
                                         </div>
                                         <ul>
-                                            <li>
-                                                Vegetable’s Package <span>$75.99</span>
-                                            </li>
-                                            <li>
-                                                Fresh Vegetable <span>$151.99</span>
-                                            </li>
-                                            <li>
-                                                Organic Bananas <span>$53.99</span>
-                                            </li>
+                                            {cartItems.map((item, index) => (
+                                                <li key={index}>
+                                                    {item.name}
+                                                    <span>${(item.price * item.quantity || 1).toFixed(2)}</span>
+                                                </li>
+                                            ))}
                                         </ul>
                                         <div className="checkout__order__subtotal">
-                                            Subtotal <span>$750.99</span>
+                                            Subtotal <span>${subtotal.toFixed(2)}</span>
                                         </div>
                                         <div className="checkout__order__total">
-                                            Total <span>$750.99</span>
+                                            Total <span>${total.toFixed(2)}</span>
                                         </div>
                                         <div className="checkout__input__checkbox">
                                             <label htmlFor="acc-or">
                                                 Create an account?
-                                                <input type="checkbox" id="acc-or" />
-                                                <span className="checkmark" />
+                                                <input type="checkbox" id="acc-or"/>
+                                                <span className="checkmark"/>
                                             </label>
                                         </div>
                                         <p>
@@ -273,15 +279,15 @@ const Checkout = () => {
                                         <div className="checkout__input__checkbox">
                                             <label htmlFor="payment">
                                                 Check Payment
-                                                <input type="checkbox" id="payment" />
-                                                <span className="checkmark" />
+                                                <input type="checkbox" id="payment"/>
+                                                <span className="checkmark"/>
                                             </label>
                                         </div>
                                         <div className="checkout__input__checkbox">
                                             <label htmlFor="paypal">
                                                 Paypal
-                                                <input type="checkbox" id="paypal" />
-                                                <span className="checkmark" />
+                                                <input type="checkbox" id="paypal"/>
+                                                <span className="checkmark"/>
                                             </label>
                                         </div>
                                         <button type="submit" className="site-btn">

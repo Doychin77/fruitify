@@ -18,6 +18,12 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
     protected static ?string $navigationIcon = 'heroicon-o-square-3-stack-3d';
 
+    protected static ?string $navigationLabel = 'Категории';
+    protected static ?string $pluralLabel = 'Категории';
+
+    protected static ?string $label = 'Категория';
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -38,9 +44,15 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('img'),
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID'),
+                Tables\Columns\TextColumn::make('name')
+                ->label('Име'),
+                Tables\Columns\ImageColumn::make('img')
+                    ->label('Изображение')
+                ->square()
+                ->height(80)
+                ->alignCenter(),
             ])
             ->filters([
                 //

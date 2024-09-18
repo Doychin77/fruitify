@@ -19,6 +19,12 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Продукти';
+    protected static ?string $pluralLabel = 'Продукти';
+
+    protected static ?string $label = 'Продукт';
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -44,11 +50,17 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('category.name'),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('price'),
-                Tables\Columns\TextColumn::make('quantity'),
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ИД'),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Категория'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Име'),
+                Tables\Columns\TextColumn::make('price')
+                    ->label('Цена'),
+                Tables\Columns\TextColumn::make('quantity')
+                    ->label('Налично количество')
+                    ->alignCenter(),
             ])
             ->filters([
                 //

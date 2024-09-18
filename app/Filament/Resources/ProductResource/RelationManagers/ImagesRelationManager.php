@@ -14,8 +14,7 @@ class ImagesRelationManager extends RelationManager
 {
     protected static string $relationship = 'images';
 
-    protected static ?string $recordTitleAttribute = 'name';
-
+    protected static ?string $recordTitleAttribute = 'Изображения';
     protected static ?string $pluralLabel = 'Изображения';
 
     protected static ?string $label = 'Изображение';
@@ -41,8 +40,11 @@ class ImagesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('product_id')
                     ->label('ИД на продукт'),
-                Tables\Columns\TextColumn::make('image_url')
-                    ->label('IMAGE PATH'),
+                Tables\Columns\ImageColumn::make('image_url')
+                    ->label('Изображение')
+                    ->square()
+                    ->height(80)
+                    ->alignCenter(),
             ])
             ->filters([
                 //

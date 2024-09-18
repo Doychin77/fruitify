@@ -6,53 +6,23 @@ import bannerImage from '../../../../public/img/hero/banner.jpg';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import { getCategories, getProducts } from '../../../services/baseService';
+import { getCategories, getProducts } from '../services/baseService';
+import useProducts from "@/src/hooks/useProducts.js";
+import useCategories from "@/src/hooks/useCategories.js";
 
 
 
 const Home = () => {
     const BaseURL = 'http://fruitify.test/storage/'
 
-    const [categories, setCategories] = useState([]);
-    const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('*');
-    const [error, setError] = useState(null);
+    const { products, error } = useProducts();
+    const { categories } = useCategories();
 
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const data = await getCategories(); // Fetch categories
-                console.log('Fetched categories:', data); // Log fetched data for debugging
-                setCategories(data);
-            } catch (error) {
-                console.error('There was an error fetching categories:', error);
-                setError('Error fetching categories');
-            }
-        };
 
-        fetchCategories();
-    }, []);
 
-    if (error) {
-        return <div>{error}</div>;
-    }
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const data = await getProducts(); // Fetch products from your API
-                console.log('Fetched products:', data); // Log fetched data for debugging
-                setProducts(data);
-            } catch (error) {
-                console.error('There was an error fetching products:', error);
-                setError('Error fetching products');
-            }
-        };
-
-        fetchProducts();
-    }, []);
 
     useEffect(() => {
         if (selectedCategory === '*') {
@@ -179,7 +149,7 @@ const Home = () => {
                                         100% Organic
                                     </h2>
                                     <p>Free Pickup and Delivery Available</p>
-                                    <a href="/Shop/Shop" className="primary-btn">
+                                    <a href="/shop" className="primary-btn">
                                         SHOP NOW
                                     </a>
                                 </div>

@@ -1,9 +1,37 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Footer from "@/src/components/Footer.jsx";
 import Header from "@/src/components/Header.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
+import {CartContext} from "@/src/context/cartContext.jsx";
 
 const Cart = () => {
+
+    const { cartItems } = useContext(CartContext);
+    const [items, setItems] = useState([]);
+
+
+    useEffect(() => {
+        const storedItems = localStorage.getItem('cartItems');
+        if (storedItems) {
+            setItems(JSON.parse(storedItems));
+        } else {
+            setItems(cartItems);
+        }
+    }, [cartItems]);
+
+    console.log('Cart Items:', cartItems);
+
+    const subtotal = cartItems.reduce((total, item) => {
+        const price = parseFloat(item.price) || 0;
+        return total + price;
+    }, 0);
+
+    const formattedSubtotal = subtotal.toFixed(2);
+
+    const total = subtotal;
+
+    console.log(items);
+
     return (
         <>
             {/* Page Preloder */}
@@ -129,60 +157,32 @@ const Cart = () => {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td className="shoping__cart__item">
-                                            <img src="img/cart/cart-1.jpg" alt="" />
-                                            <h5>Vegetable’s Package</h5>
-                                        </td>
-                                        <td className="shoping__cart__price">$55.00</td>
-                                        <td className="shoping__cart__quantity">
-                                            <div className="quantity">
-                                                <div className="pro-qty">
-                                                    <input type="text" defaultValue={1} />
+
+                                    {items.map((item, index) => (
+
+                                        <tr key={index}>
+                                            <td className="shoping__cart__item">
+                                                <img
+                                                src={`http://fruitify.test/storage/${item.images ? item.images[0].image_url : 'default.jpg'}`}
+                                                     alt={item.name}
+                                                style={{ width: '100px', height: 'auto' }}/>
+                                                <h5>{item.name}</h5>
+                                            </td>
+                                            <td className="shoping__cart__price">${item.price}</td>
+                                            <td className="shoping__cart__quantity">
+                                                <div className="quantity">
+                                                    <div className="pro-qty">
+                                                        <input type="text" defaultValue={1}/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td className="shoping__cart__total">$110.00</td>
-                                        <td className="shoping__cart__item__close">
-                                            <span className="icon_close" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="shoping__cart__item">
-                                            <img src="img/cart/cart-2.jpg" alt="" />
-                                            <h5>Fresh Garden Vegetable</h5>
-                                        </td>
-                                        <td className="shoping__cart__price">$39.00</td>
-                                        <td className="shoping__cart__quantity">
-                                            <div className="quantity">
-                                                <div className="pro-qty">
-                                                    <input type="text" defaultValue={1} />
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="shoping__cart__total">$39.99</td>
-                                        <td className="shoping__cart__item__close">
-                                            <span className="icon_close" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="shoping__cart__item">
-                                            <img src="img/cart/cart-3.jpg" alt="" />
-                                            <h5>Organic Bananas</h5>
-                                        </td>
-                                        <td className="shoping__cart__price">$69.00</td>
-                                        <td className="shoping__cart__quantity">
-                                            <div className="quantity">
-                                                <div className="pro-qty">
-                                                    <input type="text" defaultValue={1} />
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="shoping__cart__total">$69.99</td>
-                                        <td className="shoping__cart__item__close">
-                                            <span className="icon_close" />
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td className="shoping__cart__total">${item.price}</td>
+                                            {/* Calculate total based on quantity */}
+                                            <td className="shoping__cart__item__close">
+                                                <span className="icon_close"/>
+                                            </td>
+                                        </tr>
+                                    ))}
                                     </tbody>
                                 </table>
                             </div>
@@ -195,7 +195,7 @@ const Cart = () => {
                                     CONTINUE SHOPPING
                                 </a>
                                 <a href="#" className="primary-btn cart-btn cart-btn-right">
-                                    <span className="icon_loading" />
+                                    <span className="icon_loading"/>
                                     Upadate Cart
                                 </a>
                             </div>
@@ -205,7 +205,7 @@ const Cart = () => {
                                 <div className="shoping__discount">
                                     <h5>Discount Codes</h5>
                                     <form action="#">
-                                        <input type="text" placeholder="Enter your coupon code" />
+                                        <input type="text" placeholder="Enter your coupon code"/>
                                         <button type="submit" className="site-btn">
                                             APPLY COUPON
                                         </button>
@@ -218,10 +218,10 @@ const Cart = () => {
                                 <h5>Cart Total</h5>
                                 <ul>
                                     <li>
-                                        Subtotal <span>$454.98</span>
+                                        Subtotal <span>${formattedSubtotal}</span>
                                     </li>
                                     <li>
-                                        Total <span>$454.98</span>
+                                        Total <span>${formattedSubtotal}</span>
                                     </li>
                                 </ul>
                                 <a href="/checkout" className="primary-btn">

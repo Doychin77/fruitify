@@ -5,7 +5,7 @@ import Hamburger from "@/src/components/Hamburger.jsx";
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import ProductDiscountCarousel from "@/src/components/ProductDiscountCarousel.jsx";
+import ProductDiscountCarousel from "@/src/components/ProductDiscount.jsx";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import useProducts from "@/src/hooks/useProducts.js";
@@ -351,7 +351,9 @@ const Shop = () => {
                                             <h6>
                                                     <a href="#">{product.name}</a>
                                                 </h6>
-                                                <h5>${product.price}</h5>
+                                                <h5>
+                                                    ${product.on_sale ? product.on_sale_price : product.price}
+                                                </h5>
                                             </div>
                                         </div>
                                     </div>

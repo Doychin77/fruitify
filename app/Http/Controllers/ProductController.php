@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('images')->get();
+        $products = Product::with(['images', 'category'])->get();
 
         Log::info($products);
 

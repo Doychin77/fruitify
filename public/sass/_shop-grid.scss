@@ -143,35 +143,8 @@
 }
 
 .product__discount__slider {
-
-    .col-lg-4 {
-        max-width: 100%;
-    }
-
-    &.owl-carousel {
-
-        .owl-dots {
-            text-align: center;
-            margin-top: 30px;
-
-            button {
-                height: 12px;
-                width: 12px;
-                border: 1px solid #b2b2b2;
-                border-radius: 50%;
-                margin-right: 12px;
-
-                &.active {
-                    background: #707070;
-                    border-color: $para-color;
-                }
-
-                &:last-child {
-                    margin-right: 0;
-                }
-            }
-        }
-    }
+    width: 100%;
+    overflow: hidden;
 }
 
 .filter__item {

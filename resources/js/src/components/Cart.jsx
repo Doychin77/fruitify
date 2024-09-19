@@ -26,15 +26,18 @@ const Cart = () => {
     console.log('Cart Items:', cartItems);
 
     const subtotal = cartItems.reduce((total, item) => {
-        const price = parseFloat(item.price * item.quantity) || 0;
-        return total + price;
+        const price = item.on_sale ? parseFloat(item.on_sale_price) : parseFloat(item.price);
+
+        const itemTotal = price * item.quantity;
+
+        return total + itemTotal;
     }, 0);
+
 
     const formattedSubtotal = subtotal.toFixed(2);
 
     const total = subtotal;
 
-    console.log(items);
 
     return (
         <>
@@ -172,15 +175,19 @@ const Cart = () => {
                                                 style={{ width: '100px', height: 'auto' }}/>
                                                 <h5>{item.name}</h5>
                                             </td>
-                                            <td className="shoping__cart__price">${item.price}</td>
+                                            <td className="shoping__cart__price">
+                                                ${item.on_sale ? item.on_sale_price : item.price}
+                                            </td>
                                             <td className="shoping__cart__quantity">
-                                                <div className="quantity">
+                                            <div className="quantity">
                                                     <div className="pro-qty">
                                                         <input type="text" value={item.quantity || 1} readOnly/>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="shoping__cart__total">${item.price}</td>
+                                            <td className="shoping__cart__total">
+                                                ${item.on_sale ? (item.on_sale_price * item.quantity).toFixed(2) : (item.price * item.quantity).toFixed(2)}
+                                            </td>
                                             <td className="shoping__cart__item__close">
                                                 <span className="icon_close" onClick={() => handleRemove(item.id)}/>
                                             </td>

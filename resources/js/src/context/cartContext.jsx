@@ -45,7 +45,7 @@ export const CartProvider = ({ children }) => {
     // Function to clear all items from the cart
     const clearCart = () => {
         setCartItems([]);
-        localStorage.removeItem('cartItems'); // Clear from local storage
+        localStorage.removeItem('cartItems');
     };
 
 

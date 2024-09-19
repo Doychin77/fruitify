@@ -21,7 +21,10 @@ const useProducts = () => {
         fetchProducts();
     }, []);
 
-    return { products, error };
+
+    const onSaleProducts = products.filter(product => product.on_sale);
+
+    return { products, onSaleProducts, error };
 };
 
 export default useProducts;

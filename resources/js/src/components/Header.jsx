@@ -6,8 +6,11 @@ const Header = () => {
     const { cartItems } = useContext(CartContext);
 
     const subtotal = cartItems.reduce((total, item) => {
-        const price = parseFloat(item.price * item.quantity) || 0;
-        return total + price;
+        const price = item.on_sale ? parseFloat(item.on_sale_price) : parseFloat(item.price);
+
+        const itemTotal = price * item.quantity;
+
+        return total + itemTotal;
     }, 0);
 
     const totalQuantity = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);

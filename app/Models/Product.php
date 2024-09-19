@@ -15,6 +15,9 @@ class Product extends Model
         'description',
         'price',
         'quantity',
+        'on_sale',
+        'on_sale_percent',
+        'on_sale_price',
     ];
 
     public function images()
@@ -26,5 +29,8 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+
+
 
 }

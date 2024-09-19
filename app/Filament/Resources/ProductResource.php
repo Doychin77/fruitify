@@ -24,7 +24,6 @@ class ProductResource extends Resource
 
     protected static ?string $label = 'Продукт';
 
-
     public static function form(Form $form): Form
     {
         return $form
@@ -39,12 +38,38 @@ class ProductResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('price')
                     ->required()
-                    ->numeric(),
+                    ->lazy()
+                    ->numeric()
+                    ->live(onBlur: True)
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        self::updateSalePrice($set);
+                    }),
                 Forms\Components\TextInput::make('quantity')
                     ->required()
                     ->numeric(),
+                Forms\Components\Toggle::make('on_sale')
+                    ->label('On Sale')
+                    ->live(onBlur: True)
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        self::updateSalePrice($set);
+                    }),
+                Forms\Components\TextInput::make('on_sale_percent')
+                    ->label('Sale Percentage')
+                    ->numeric()
+                    ->nullable()
+                    ->lazy()
+                    ->live(onBlur: True)
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        self::updateSalePrice($set);
+                    }),
+                Forms\Components\TextInput::make('on_sale_price')
+                    ->label('Sale Price')
+                    ->numeric()
+                    ->live(onBlur: True)
+                    ->hint('Automatically calculated based on price and sale percentage.'),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
@@ -57,9 +82,22 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Име'),
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Цена'),
+                    ->label('Цена')
+                    ->suffix('лв'),
+                Tables\Columns\TextColumn::make('on_sale_price')
+                    ->label('Цена на промоция')
+                    ->alignCenter()
+                    ->suffix('лв'),
                 Tables\Columns\TextColumn::make('quantity')
                     ->label('Налично количество')
+                    ->alignCenter(),
+                Tables\Columns\IconColumn::make('on_sale')
+                    ->label('Промоция')
+                    ->boolean()
+                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('on_sale_percent')
+                    ->label('Процент намаление')
+                    ->formatStateUsing(fn($state) => $state ? "{$state}%" : 'N/A')
                     ->alignCenter(),
             ])
             ->filters([
@@ -91,4 +129,21 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
+
+    protected static function updateSalePrice(callable $set)
+    {
+        $set('on_sale_price', function ($get) {
+            $price = $get('price');
+            $onSalePercent = $get('on_sale_percent');
+            $onSale = $get('on_sale');
+
+            if ($onSale && $price && $onSalePercent) {
+                return $price - ($price * $onSalePercent / 100);
+            }
+
+            return null;
+        });
+    }
+
+
 }

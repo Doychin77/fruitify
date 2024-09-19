@@ -29,7 +29,7 @@ const ProductDiscount = () => {
                     modules={[Navigation, Pagination, Autoplay]}
                     spaceBetween={10}
                     autoplay={{
-                        delay: 3000,
+                        delay: 2000,
                         disableOnInteraction: false,
                     }}
                     slidesPerView={3}
@@ -44,8 +44,6 @@ const ProductDiscount = () => {
                             slidesPerView: 1,
                         }
                     }}
-
-
                 >
                     {onSaleProducts.map((product, index) => (
                         <SwiperSlide key={index}>
@@ -55,7 +53,12 @@ const ProductDiscount = () => {
                                         src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
                                         alt={product.name}
                                     />
-                                    <div className="product-item-percent">{product.on_sale_percent}%</div>
+                                    <div className="product-item-percent">
+                                        -{product.on_sale_percent.toString().includes('.')
+                                        ? product.on_sale_percent.toString().split('.')[0]
+                                        : product.on_sale_percent}%
+                                    </div>
+
                                     <ul className="product-item-hover">
                                         <li>
                                             <a href="#">

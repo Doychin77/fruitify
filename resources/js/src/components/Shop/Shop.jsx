@@ -11,11 +11,12 @@ import 'slick-carousel/slick/slick-theme.css';
 import useProducts from "@/src/hooks/useProducts.js";
 import { CartContext } from '../../context/CartContext';
 import ProductCarousel from "@/src/components/ProductCarousel.jsx";
+import Spinner from "@/src/components/Spinner.jsx";
 
 const Shop = () => {
 
     const { addToCart } = useContext(CartContext);
-    const { products, error } = useProducts();
+    const { products, error, isLoading } = useProducts();
 
     const carouselOptions = {
         loop: true,
@@ -38,6 +39,10 @@ const Shop = () => {
             }
         }
     };
+
+    if (isLoading) {
+        return <Spinner />; // Show spinner while loading
+    }
 
     return (
         <>

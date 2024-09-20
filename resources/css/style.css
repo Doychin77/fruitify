@@ -2046,6 +2046,10 @@ ol {
 	background: #6f6f6f;
 }
 
+.shoping__discount form button:hover {
+    background: #000000;
+}
+
 .shoping__checkout {
 	background: #f5f5f5;
 	padding: 30px;

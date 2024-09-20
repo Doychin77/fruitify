@@ -4,10 +4,14 @@ import Footer from "@/src/components/Footer.jsx";
 import Header from "@/src/components/Header.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
 import { CartContext } from "@/src/context/cartContext.jsx";
+import axios from 'axios'; // For handling coupon API requests
 
 const Cart = () => {
     const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
     const [items, setItems] = useState([]);
+    const [couponCode, setCouponCode] = useState('');
+    const [couponError, setCouponError] = useState('');
+    const [discountPercent, setDiscountPercent] = useState(0);
 
     const handleRemove = (productId) => {
         removeFromCart(productId);
@@ -30,6 +34,25 @@ const Cart = () => {
 
     const formattedSubtotal = subtotal.toFixed(2);
 
+    const handleApplyCoupon = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('/apply-coupon', { coupon_code: couponCode });
+            if (response.data.valid) {
+                setDiscountPercent(response.data.percent);
+                setCouponError('');
+            } else {
+                setCouponError('Invalid or expired coupon');
+            }
+        } catch (error) {
+            setCouponError('Invalid or expired coupon');
+        }
+    };
+
+
+    const discountAmount = (subtotal * discountPercent) / 100;
+    const totalAfterDiscount = (subtotal - discountAmount).toFixed(2);
+
     return (
         <>
             <Hamburger />
@@ -46,11 +69,9 @@ const Cart = () => {
                                     <span>All departments</span>
                                 </div>
                                 <ul>
-                                    {/* Category items */}
                                     <li><a href="#">Fresh Meat</a></li>
                                     <li><a href="#">Vegetables</a></li>
                                     <li><a href="#">Fruit & Nut Gifts</a></li>
-                                    {/* Other categories */}
                                 </ul>
                             </div>
                         </div>
@@ -100,7 +121,6 @@ const Cart = () => {
             </section>
             {/* Breadcrumb Section End */}
 
-            {/* Conditionally render the shopping cart section if items are present */}
             {items.length > 0 ? (
                 <section className="shoping-cart spad">
                     <div className="container">
@@ -158,10 +178,16 @@ const Cart = () => {
                                 <div className="shoping__continue">
                                     <div className="shoping__discount">
                                         <h5>Discount Codes</h5>
-                                        <form action="#">
-                                            <input type="text" placeholder="Enter your coupon code" />
+                                        <form onSubmit={handleApplyCoupon}>
+                                            <input
+                                                type="text"
+                                                placeholder="Enter your coupon code"
+                                                value={couponCode}
+                                                onChange={(e) => setCouponCode(e.target.value)}
+                                            />
                                             <button type="submit" className="site-btn">APPLY COUPON</button>
                                         </form>
+                                        {couponError && <p style={{ color: 'red' }}>{couponError}</p>}
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +196,8 @@ const Cart = () => {
                                     <h5>Cart Total</h5>
                                     <ul>
                                         <li>Subtotal <span>${formattedSubtotal}</span></li>
-                                        <li>Total <span>${formattedSubtotal}</span></li>
+                                        {discountPercent > 0 && <li>Discount <span>-{discountPercent}%</span></li>}
+                                        <li>Total <span>${totalAfterDiscount}</span></li> {/* Total after applying discount */}
                                     </ul>
                                     <a href="/checkout" className="primary-btn">PROCEED TO CHECKOUT</a>
                                 </div>

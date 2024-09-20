@@ -50,9 +50,13 @@ class CouponResource extends Resource
                         }
                     )
                     ->maxLength(191),
+
+                Forms\Components\TextInput::make('percent')
+                    ->label('Процент отстъпка')
+                    ->numeric(),
                 Forms\Components\Toggle::make('is_active')
                     ->label('Активен')
-                    ->required()
+                    ->required(),
             ]);
     }
 
@@ -66,6 +70,10 @@ class CouponResource extends Resource
                     ->label('Активен')
                     ->boolean()
                     ->alignCenter(),
+                Tables\Columns\TextColumn::make('percent')
+                    ->label('Процент отстъпка')
+                    ->alignCenter()
+                    ->suffix('%')
             ])
             ->filters([
             ])

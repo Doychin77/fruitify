@@ -374,10 +374,7 @@ const ProductDetails = () => {
                 </section>
                 <Footer/>
             </>
-
         </>
-
-
     );
 };
 

@@ -36,7 +36,7 @@ class CategoryResource extends Resource
                     ->disk('public')
                     ->directory('images/category')
                     ->image()
-                    ->maxSize(2 * 1024)
+                    ->maxSize(4 * 1024)
             ]);
     }
 

@@ -7,7 +7,7 @@ import Hamburger from "@/src/components/Hamburger.jsx";
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 
-const ShopDetails = () => {
+const ProductDetails = () => {
 
     const [largeImageSrc, setLargeImageSrc] = useState('img/product/details/product-details-1.jpg');
 
@@ -525,4 +525,4 @@ const ShopDetails = () => {
     );
 };
 
-export default ShopDetails;
+export default ProductDetails;

@@ -1,8 +1,8 @@
 import React from 'react';
 import OwlCarousel from 'react-owl-carousel';
 
-const ProductCarousel = ({ products, carouselOptions }) => {
-    // Group products into sets of three
+const LatestProducts = ({ products, carouselOptions }) => {
+
     const groupProducts = (products, itemsPerGroup) => {
         const groups = [];
         for (let i = 0; i < products.length; i += itemsPerGroup) {
@@ -31,7 +31,9 @@ const ProductCarousel = ({ products, carouselOptions }) => {
                             </div>
                             <div className="latest-product__item__text">
                                 <h6>{product.name}</h6>
-                                <span>${product.price}</span>
+                                <span>
+                                    ${product.on_sale ? product.on_sale_price : product.price}
+                                </span>
                             </div>
                         </a>
                     ))}
@@ -41,4 +43,4 @@ const ProductCarousel = ({ products, carouselOptions }) => {
     );
 };
 
-export default ProductCarousel;
+export default LatestProducts;

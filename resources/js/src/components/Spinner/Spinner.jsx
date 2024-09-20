@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.css'; // Make sure to include the corresponding CSS file
+import './spinner.css';
 
 const Spinner = () => (
     <div className="spinner-overlay">

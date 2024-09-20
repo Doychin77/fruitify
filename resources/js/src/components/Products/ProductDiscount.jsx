@@ -4,7 +4,7 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import './styles.css';
+import '../styles.css';
 import useProducts from "@/src/hooks/useProducts.js";
 import {CartContext} from "@/src/context/cartContext.jsx";
 

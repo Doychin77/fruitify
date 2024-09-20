@@ -5,13 +5,13 @@ import Hamburger from "@/src/components/Hamburger.jsx";
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import ProductDiscountCarousel from "@/src/components/ProductDiscount.jsx";
+import ProductDiscountCarousel from "@/src/components/Products/ProductDiscount.jsx";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import useProducts from "@/src/hooks/useProducts.js";
 import { CartContext } from '../../context/CartContext';
-import ProductCarousel from "@/src/components/ProductCarousel.jsx";
-import Spinner from "@/src/components/Spinner.jsx";
+import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
+import Spinner from "@/src/components/Spinner/Spinner.jsx";
 
 const Shop = () => {
 
@@ -41,16 +41,11 @@ const Shop = () => {
     };
 
     if (isLoading) {
-        return <Spinner />; // Show spinner while loading
+        return <Spinner />;
     }
 
     return (
         <>
-            {/* Page Preloder */}
-            {/*<div id="preloder">*/}
-            {/*    <div className="loader" />*/}
-            {/*</div>*/}
-
             <Hamburger/>
 
             <Header/>

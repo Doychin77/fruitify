@@ -9,7 +9,8 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import useProducts from "@/src/hooks/useProducts.js";
 import useCategories from "@/src/hooks/useCategories.js";
 import {CartContext} from "@/src/context/cartContext.jsx";
-import ProductCarousel from "@/src/components/ProductCarousel.jsx";
+import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
+import Spinner from "@/src/components/Spinner/Spinner.jsx";
 
 
 
@@ -18,7 +19,7 @@ const Home = () => {
 
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('*');
-    const { products, error } = useProducts();
+    const { products, isLoading } = useProducts();
     const { categories } = useCategories();
     const { addToCart } = useContext(CartContext);
 
@@ -56,14 +57,13 @@ const Home = () => {
         }
     };
 
+    if (isLoading) {
+        return <Spinner />;
+    }
+
     return (
 
         <>
-            {/* Page Preloder */}
-            {/*<div id="preloder">*/}
-            {/*    <div className="loader" />*/}
-            {/*</div>*/}
-
             <Hamburger/>
 
             <Header/>

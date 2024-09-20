@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
             react(),
             laravel({
                 input: [
+                    "resources/css/app.css",
                     "resources/js/src/index.jsx",
                 ],
                 refresh: true,

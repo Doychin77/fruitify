@@ -7,6 +7,7 @@ import 'swiper/css/pagination';
 import '../styles.css';
 import useProducts from "@/src/hooks/useProducts.js";
 import {CartContext} from "@/src/context/cartContext.jsx";
+import {Link} from "react-router-dom";
 
 
 const ProductDiscount = () => {
@@ -82,7 +83,9 @@ const ProductDiscount = () => {
                                 </div>
                                 <div className="product-item-text">
                                     <span>{product.category.name}</span>
-                                    <h5>{product.name}</h5>
+                                    <h5>
+                                        <Link to={`/product-details/${product.id}`} className="plain-link">{product.name} </Link>
+                                    </h5>
                                     <div className="product-item-price">
                                         <span className="current-price">${product.on_sale_price}</span>
                                         {product.price && (

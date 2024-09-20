@@ -25,7 +25,13 @@ const useProducts = () => {
 
     const onSaleProducts = products.filter(product => product.on_sale);
 
-    return { products, onSaleProducts, error, isLoading };
+    const getRelatedProducts = (currentProductId) => {
+        return products
+            .filter(product => product.id !== currentProductId)
+            .slice(0, 4);
+    };
+
+    return { products, onSaleProducts, error, isLoading, getRelatedProducts };
 };
 
 export default useProducts;

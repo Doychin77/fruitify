@@ -1,15 +1,48 @@
-import React from 'react';
-import { useState } from 'react';
+import React, {useContext, useEffect} from 'react';
+import {useState} from 'react';
+import {Link, useParams} from 'react-router-dom';
+import axios from 'axios';
 import ReactOwlCarousel from 'react-owl-carousel';
 import Footer from "@/src/components/Footer.jsx";
 import Header from "@/src/components/Header.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
+import Spinner from "@/src/components/Spinner/Spinner.jsx";
+import useProducts from "@/src/hooks/useProducts.js";
+import {CartContext} from "@/src/context/cartContext.jsx";
 
 const ProductDetails = () => {
+    const {id} = useParams();
+    const {addToCart} = useContext(CartContext);
+    const {getRelatedProducts} = useProducts();
 
-    const [largeImageSrc, setLargeImageSrc] = useState('img/product/details/product-details-1.jpg');
+    const relatedProducts = getRelatedProducts(parseInt(id));
+
+    const handleScrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
+    const baseURL = 'http://fruitify.test/storage/'
+
+    const [product, setProduct] = useState(null);
+    const [error, setError] = useState('');
+
+    const [largeImageSrc, setLargeImageSrc] = useState('default.jpg');
+
+    useEffect(() => {
+        if (product && product.images && product.images.length > 0) {
+            setLargeImageSrc(`${baseURL}${product.images[0].image_url}`);
+        }
+    }, [product]);
+
+    const handleImageClick = (src) => {
+        setLargeImageSrc(src);
+    };
+
 
     const options = {
         items: 1,
@@ -22,29 +55,36 @@ const ProductDetails = () => {
         smartSpeed: 1000,
         autoplaySpeed: 1000,
         responsive: {
-            0: { items: 1 },
-            600: { items: 3 },
-            1000: { items: 4 },
+            0: {items: 1},
+            600: {items: 3},
+            1000: {items: 4},
         },
     };
 
-    const handleImageClick = (src) => {
-        setLargeImageSrc(src);
-    };
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const response = await axios.get(`http://fruitify.test/product/${id}`);
+                setProduct(response.data);
+            } catch (error) {
+                setError('Product not found');
+            }
+        };
+
+        fetchProduct();
+    }, [id]);
+
+
+    if (!product) {
+        return <Spinner/>;
+    }
+
 
     return (
         <>
             <>
-
-                {/* Page Preloder */}
-                {/*<div id="preloder">*/}
-                {/*    <div className="loader" />*/}
-                {/*</div>*/}
-
                 <Hamburger/>
-
                 <Header/>
-
                 {/* Hero Section Begin */}
                 <section className="hero hero-normal">
                     <div className="container">
@@ -52,7 +92,7 @@ const ProductDetails = () => {
                             <div className="col-lg-3">
                                 <div className="hero__categories">
                                     <div className="hero__categories__all">
-                                        <i className="fa fa-bars" />
+                                        <i className="fa fa-bars"/>
                                         <span>All departments</span>
                                     </div>
                                     <ul>
@@ -98,9 +138,9 @@ const ProductDetails = () => {
                                         <form action="#">
                                             <div className="hero__search__categories">
                                                 All Categories
-                                                <span className="arrow_carrot-down" />
+                                                <span className="arrow_carrot-down"/>
                                             </div>
-                                            <input type="text" placeholder="What do yo u need?" />
+                                            <input type="text" placeholder="What do yo u need?"/>
                                             <button type="submit" className="site-btn">
                                                 SEARCH
                                             </button>
@@ -108,7 +148,7 @@ const ProductDetails = () => {
                                     </div>
                                     <div className="hero__search__phone">
                                         <div className="hero__search__phone__icon">
-                                            <i className="fa fa-phone" />
+                                            <i className="fa fa-phone"/>
                                         </div>
                                         <div className="hero__search__phone__text">
                                             <h5>+65 11.188.888</h5>
@@ -124,7 +164,7 @@ const ProductDetails = () => {
                 {/* Breadcrumb Section Begin */}
                 <section
                     className="breadcrumb-section set-bg"
-                    style={{backgroundImage: "url('img/breadcrumb.jpg')"}}
+                    style={{backgroundImage: "url('../img/breadcrumb.jpg')"}}
                 >
                     <div className="container">
                         <div className="row">
@@ -132,8 +172,8 @@ const ProductDetails = () => {
                                 <div className="breadcrumb__text">
                                     <h2>Vegetable’s Package</h2>
                                     <div className="breadcrumb__option">
-                                        <a href="./index.html">Home</a>
-                                        <a href="./index.html">Vegetables</a>
+                                        <a href="/">Home</a>
+                                        <a href="/">Vegetables</a>
                                         <span>Vegetable’s Package</span>
                                     </div>
                                 </div>
@@ -151,76 +191,66 @@ const ProductDetails = () => {
                                     <div className="product__details__pic__item">
                                         <img
                                             className="product__details__pic__item--large"
-                                            src={largeImageSrc}
+                                            src={largeImageSrc || `${baseURL}${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
                                             alt="Large Product"
                                         />
                                     </div>
-                                    <ReactOwlCarousel {...options} className="product__details__pic__slider owl-carousel">
-                                        <div className="item">
-                                            <img
-                                                onClick={() => handleImageClick('img/product/details/product-details-2.jpg')}
-                                                src="img/product/details/thumb-1.jpg"
-                                                alt="Product 1"
-                                            />
-                                        </div>
-                                        <div className="item">
-                                            <img
-                                                onClick={() => handleImageClick('img/product/details/product-details-3.jpg')}
-                                                src="img/product/details/thumb-2.jpg"
-                                                alt="Product 2"
-                                            />
-                                        </div>
-                                        <div className="item">
-                                            <img
-                                                onClick={() => handleImageClick('img/product/details/product-details-4.jpg')}
-                                                src="img/product/details/thumb-3.jpg"
-                                                alt="Product 3"
-                                            />
-                                        </div>
-                                        <div className="item">
-                                            <img
-                                                onClick={() => handleImageClick('img/product/details/product-details-4.jpg')}
-                                                src="img/product/details/thumb-4.jpg"
-                                                alt="Product 4"
-                                            />
-                                        </div>
-                                    </ReactOwlCarousel>
+                                    {product && product.images && product.images.length > 1 && (
+                                        <ReactOwlCarousel {...options}
+                                                          className="product__details__pic__slider owl-carousel">
+                                            {product.images.map((image, index) => {
+                                                if (index === 0) return null;
+                                                return (
+                                                    <div className="item" key={index}>
+                                                        <img
+                                                            onClick={() => handleImageClick(`${baseURL}${image.image_url}`)}
+                                                            src={`${baseURL}${image.image_url}`}
+                                                            alt={`Product ${index + 1}`}
+                                                        />
+                                                    </div>
+                                                );
+                                            })}
+                                        </ReactOwlCarousel>
+                                    )}
                                 </div>
                             </div>
                             <div className="col-lg-6 col-md-6">
                                 <div className="product__details__text">
-                                    <h3>Vetgetable’s Package</h3>
+                                    <h3>{product.name}</h3>
                                     <div className="product__details__rating">
-                                        <i className="fa fa-star" />
-                                        <i className="fa fa-star" />
-                                        <i className="fa fa-star" />
-                                        <i className="fa fa-star" />
-                                        <i className="fa fa-star-half-o" />
+                                        <i className="fa fa-star"/>
+                                        <i className="fa fa-star"/>
+                                        <i className="fa fa-star"/>
+                                        <i className="fa fa-star"/>
+                                        <i className="fa fa-star-half-o"/>
                                         <span>(18 reviews)</span>
                                     </div>
-                                    <div className="product__details__price">$50.00</div>
+                                    <div className="product__details__price">
+                                        {product.on_sale ? product.on_sale_price : product.price}$
+                                    </div>
                                     <p>
-                                        Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet
-                                        dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam
-                                        vehicula elementum sed sit amet dui. Proin eget tortor risus.
+                                        {product.description}
                                     </p>
                                     <div className="product__details__quantity">
                                         <div className="quantity">
                                             <div className="pro-qty">
-                                                <input type="text" defaultValue={1} />
+                                                <input type="text" defaultValue={1}/>
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="#" className="primary-btn">
+                                    <a href="#" className="primary-btn" onClick={(e) => {
+                                        e.preventDefault();
+                                        addToCart(product);
+                                    }}>
                                         ADD TO CARD
                                     </a>
+
                                     <a href="#" className="heart-icon">
-                                        <span className="icon_heart_alt" />
+                                        <span className="icon_heart_alt"/>
                                     </a>
                                     <ul>
                                         <li>
-                                            <b>Availability</b> <span>In Stock</span>
+                                            <b>Availability</b> <span>{product.quantity} In Stock</span>
                                         </li>
                                         <li>
                                             <b>Shipping</b>{" "}
@@ -235,16 +265,16 @@ const ProductDetails = () => {
                                             <b>Share on</b>
                                             <div className="share">
                                                 <a href="#">
-                                                    <i className="fa fa-facebook" />
+                                                    <i className="fa fa-facebook"/>
                                                 </a>
                                                 <a href="#">
-                                                    <i className="fa fa-twitter" />
+                                                    <i className="fa fa-twitter"/>
                                                 </a>
                                                 <a href="#">
-                                                    <i className="fa fa-instagram" />
+                                                    <i className="fa fa-instagram"/>
                                                 </a>
                                                 <a href="#">
-                                                    <i className="fa fa-pinterest" />
+                                                    <i className="fa fa-pinterest"/>
                                                 </a>
                                             </div>
                                         </li>
@@ -269,17 +299,6 @@ const ProductDetails = () => {
                                             <a
                                                 className="nav-link"
                                                 data-toggle="tab"
-                                                href="#tabs-2"
-                                                role="tab"
-                                                aria-selected="false"
-                                            >
-                                                Information
-                                            </a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a
-                                                className="nav-link"
-                                                data-toggle="tab"
                                                 href="#tabs-3"
                                                 role="tab"
                                                 aria-selected="false"
@@ -291,86 +310,8 @@ const ProductDetails = () => {
                                     <div className="tab-content">
                                         <div className="tab-pane active" id="tabs-1" role="tabpanel">
                                             <div className="product__details__tab__desc">
-                                                <h6>Products Infomation</h6>
-                                                <p>
-                                                    Vestibulum ac diam sit amet quam vehicula elementum sed sit
-                                                    amet dui. Pellentesque in ipsum id orci porta dapibus. Proin
-                                                    eget tortor risus. Vivamus suscipit tortor eget felis
-                                                    porttitor volutpat. Vestibulum ac diam sit amet quam
-                                                    vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                                    eget malesuada. Vivamus suscipit tortor eget felis porttitor
-                                                    volutpat. Curabitur arcu erat, accumsan id imperdiet et,
-                                                    porttitor at sem. Praesent sapien massa, convallis a
-                                                    pellentesque nec, egestas non nisi. Vestibulum ac diam sit
-                                                    amet quam vehicula elementum sed sit amet dui. Vestibulum
-                                                    ante ipsum primis in faucibus orci luctus et ultrices
-                                                    posuere cubilia Curae; Donec velit neque, auctor sit amet
-                                                    aliquam vel, ullamcorper sit amet ligula. Proin eget tortor
-                                                    risus.
-                                                </p>
-                                                <p>
-                                                    Praesent sapien massa, convallis a pellentesque nec, egestas
-                                                    non nisi. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit. Mauris blandit aliquet elit, eget tincidunt nibh
-                                                    pulvinar a. Cras ultricies ligula sed magna dictum porta.
-                                                    Cras ultricies ligula sed magna dictum porta. Sed porttitor
-                                                    lectus nibh. Mauris blandit aliquet elit, eget tincidunt
-                                                    nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula
-                                                    elementum sed sit amet dui. Sed porttitor lectus nibh.
-                                                    Vestibulum ac diam sit amet quam vehicula elementum sed sit
-                                                    amet dui. Proin eget tortor risus.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="tab-pane" id="tabs-2" role="tabpanel">
-                                            <div className="product__details__tab__desc">
-                                                <h6>Products Infomation</h6>
-                                                <p>
-                                                    Vestibulum ac diam sit amet quam vehicula elementum sed sit
-                                                    amet dui. Pellentesque in ipsum id orci porta dapibus. Proin
-                                                    eget tortor risus. Vivamus suscipit tortor eget felis
-                                                    porttitor volutpat. Vestibulum ac diam sit amet quam
-                                                    vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                                    eget malesuada. Vivamus suscipit tortor eget felis porttitor
-                                                    volutpat. Curabitur arcu erat, accumsan id imperdiet et,
-                                                    porttitor at sem. Praesent sapien massa, convallis a
-                                                    pellentesque nec, egestas non nisi. Vestibulum ac diam sit
-                                                    amet quam vehicula elementum sed sit amet dui. Vestibulum
-                                                    ante ipsum primis in faucibus orci luctus et ultrices
-                                                    posuere cubilia Curae; Donec velit neque, auctor sit amet
-                                                    aliquam vel, ullamcorper sit amet ligula. Proin eget tortor
-                                                    risus.
-                                                </p>
-                                                <p>
-                                                    Praesent sapien massa, convallis a pellentesque nec, egestas
-                                                    non nisi. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit. Mauris blandit aliquet elit, eget tincidunt nibh
-                                                    pulvinar a. Cras ultricies ligula sed magna dictum porta.
-                                                    Cras ultricies ligula sed magna dictum porta. Sed porttitor
-                                                    lectus nibh. Mauris blandit aliquet elit, eget tincidunt
-                                                    nibh pulvinar a.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="tab-pane" id="tabs-3" role="tabpanel">
-                                            <div className="product__details__tab__desc">
-                                                <h6>Products Infomation</h6>
-                                                <p>
-                                                    Vestibulum ac diam sit amet quam vehicula elementum sed sit
-                                                    amet dui. Pellentesque in ipsum id orci porta dapibus. Proin
-                                                    eget tortor risus. Vivamus suscipit tortor eget felis
-                                                    porttitor volutpat. Vestibulum ac diam sit amet quam
-                                                    vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                                    eget malesuada. Vivamus suscipit tortor eget felis porttitor
-                                                    volutpat. Curabitur arcu erat, accumsan id imperdiet et,
-                                                    porttitor at sem. Praesent sapien massa, convallis a
-                                                    pellentesque nec, egestas non nisi. Vestibulum ac diam sit
-                                                    amet quam vehicula elementum sed sit amet dui. Vestibulum
-                                                    ante ipsum primis in faucibus orci luctus et ultrices
-                                                    posuere cubilia Curae; Donec velit neque, auctor sit amet
-                                                    aliquam vel, ullamcorper sit amet ligula. Proin eget tortor
-                                                    risus.
-                                                </p>
+                                                <h6>Product Infomation</h6>
+                                                <p>{product.description}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -386,136 +327,56 @@ const ProductDetails = () => {
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="section-title related__product__title">
-                                    <h2>Related Product</h2>
+                                    <h2>Related Products</h2>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-lg-3 col-md-4 col-sm-6">
-                                <div className="product__item">
-                                    <div className="product__item__pic set-bg">
-                                        <img src="img/product/product-1.jpg" alt="Product 1"/>
-                                        <ul className="product__item__pic__hover">
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-heart"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-retweet"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-shopping-cart"/>
-                                                </a>
-                                            </li>
-                                        </ul>
+                            {relatedProducts.length > 0 ? (
+                                relatedProducts.map((product) => (
+                                    <div className="col-lg-3 col-md-4 col-sm-6" key={product.id}>
+                                        <div className="product__item">
+                                            <div className="product__item__pic set-bg">
+                                                <img src={`${baseURL}${product.images[0].image_url}`}
+                                                     alt={product.name}/>
+                                                <ul className="product__item__pic__hover">
+                                                    <li>
+                                                        <a href="#">
+                                                            <i className="fa fa-heart"/>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <i className="fa fa-retweet"/>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" onClick={(e) => {
+                                                            e.preventDefault();
+                                                            addToCart(product);
+                                                        }}>
+                                                            <i className="fa fa-shopping-cart"/>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div className="product__item__text">
+                                                <h6>
+                                                    <Link to={`/product-details/${product.id}`} onClick={handleScrollToTop}>{product.name} </Link>
+                                                </h6>
+                                                <h5>${product.on_sale_price || product.price}</h5>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="product__item__text">
-                                        <h6>
-                                            <a href="#">Crab Pool Security</a>
-                                        </h6>
-                                        <h5>$30.00</h5>
-                                    </div>
+                                ))
+                            ) : (
+                                <div className="col-lg-12">
+                                    <p>No related products found.</p>
                                 </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6">
-                                <div className="product__item">
-                                    <div className="product__item__pic set-bg">
-                                        <img src="img/product/product-2.jpg" alt="Product 1"/>
-                                        <ul className="product__item__pic__hover">
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-heart"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-retweet"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-shopping-cart"/>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="product__item__text">
-                                        <h6>
-                                        <a href="#">Crab Pool Security</a>
-                                        </h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6">
-                                <div className="product__item">
-                                    <div className="product__item__pic set-bg">
-                                        <img src="img/product/product-3.jpg" alt="Product 1"/>
-                                        <ul className="product__item__pic__hover">
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-heart"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-retweet"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-shopping-cart"/>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="product__item__text">
-                                        <h6>
-                                        <a href="#">Crab Pool Security</a>
-                                        </h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6">
-                                <div className="product__item">
-                                    <div className="product__item__pic set-bg">
-                                        <img src="img/product/product-7.jpg" alt="Product 1"/>
-                                        <ul className="product__item__pic__hover">
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-heart"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-retweet"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-shopping-cart"/>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="product__item__text">
-                                        <h6>
-                                        <a href="#">Crab Pool Security</a>
-                                        </h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </section>
-                {/* Related Product Section End */}
-
                 <Footer/>
             </>
 

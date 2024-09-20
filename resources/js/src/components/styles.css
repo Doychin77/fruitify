@@ -192,6 +192,19 @@
 }
 
 
+.plain-link {
+    color: inherit; /* Use the inherited color */
+    text-decoration: none; /* Remove underline */
+    /*cursor: default; !* Change cursor to default *!*/
+}
+
+.plain-link:hover,
+.plain-link:focus,
+.plain-link:active {
+    color: inherit; /* Keep the same color on hover, focus, and active */
+    outline: none; /* Remove focus outline if needed */
+}
+
 
 
 

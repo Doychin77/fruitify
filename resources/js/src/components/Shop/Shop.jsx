@@ -12,11 +12,13 @@ import useProducts from "@/src/hooks/useProducts.js";
 import { CartContext } from '../../context/CartContext';
 import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
+import {Link, useNavigate} from "react-router-dom";
 
 const Shop = () => {
 
     const { addToCart } = useContext(CartContext);
     const { products, error, isLoading } = useProducts();
+    const navigate = useNavigate();
 
     const carouselOptions = {
         loop: true,
@@ -348,8 +350,8 @@ const Shop = () => {
                                                 </ul>
                                             </div>
                                             <div className="product__item__text">
-                                            <h6>
-                                                    <a href="#">{product.name}</a>
+                                                <h6>
+                                                    <Link to={`/product-details/${product.id}`}>{product.name}</Link>
                                                 </h6>
                                                 <h5>
                                                     ${product.on_sale ? product.on_sale_price : product.price}

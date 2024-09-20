@@ -15,7 +15,7 @@ const ProductDetails = () => {
     const baseURL = 'http://fruitify.test/storage/'
     const {id} = useParams();
     const {addToCart} = useContext(CartContext);
-    const {getRelatedProducts, product, isLoading, error} = useProducts(parseInt(id));
+    const {getRelatedProducts, product, error} = useProducts(parseInt(id));
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
 
@@ -62,7 +62,7 @@ const ProductDetails = () => {
         },
     };
 
-    if (isLoading) return <Spinner />;
+    if (!product) return <Spinner />;
     if (error) return <div>{error}</div>;
 
     return (

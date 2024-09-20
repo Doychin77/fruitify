@@ -8,16 +8,15 @@ import '../styles.css';
 import useProducts from "@/src/hooks/useProducts.js";
 import {CartContext} from "@/src/context/cartContext.jsx";
 import {Link} from "react-router-dom";
+import Spinner from "@/src/components/Spinner/Spinner.jsx";
 
 
 const ProductDiscount = () => {
-    const { onSaleProducts, error } = useProducts();
+    const { onSaleProducts, isLoading } = useProducts();
     const { addToCart } = useContext(CartContext);
 
-    console.log(onSaleProducts);
-
-    if (error) {
-        return <div>Error: {error}</div>;
+    if (isLoading) {
+        return <Spinner />;
     }
 
     return (
@@ -32,6 +31,7 @@ const ProductDiscount = () => {
                     autoplay={{
                         delay: 2000,
                         disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
                     }}
                     slidesPerView={3}
                     centeredSlides={true}

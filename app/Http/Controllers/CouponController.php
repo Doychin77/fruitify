@@ -24,7 +24,7 @@ class CouponController extends Controller
 
         return response()->json([
             'valid' => true,
-            'percent' => $coupon->percent, 
+            'percent' => $coupon->percent,
         ]);
     }
 }

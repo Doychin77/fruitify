@@ -180,24 +180,23 @@ const ProductDetails = () => {
                                             alt="Large Product"
                                         />
                                     </div>
+
                                     {product && product.images && product.images.length > 1 && (
                                         <ReactOwlCarousel
                                             {...options}
                                             className="product__details__pic__slider owl-carousel"
-                                            initialItem={currentIndex}
+                                            key={largeImageSrc} // Ensure this line doesn't have extra spaces or characters
                                         >
-                                            {/* Display the larger image first */}
-                                            <div className="item">
-                                                <img src={largeImageSrc} alt="Large product" />
-                                            </div>
-                                            {/* Map through the images and display thumbnails */}
+                                            {/* Map through the images and display thumbnails excluding the large image */}
                                             {product.images.map((image, index) => {
-                                                if (index === 0) return null; // Skip the first image if necessary
+                                                const imageUrl = `${baseURL}${image.image_url}`;
+                                                // Don't show the current large image in the slider
+                                                if (imageUrl === largeImageSrc) return null;
                                                 return (
                                                     <div className="item" key={index}>
                                                         <img
-                                                            onClick={() => handleImageClick(`${baseURL}${image.image_url}`, index)}
-                                                            src={`${baseURL}${image.image_url}`}
+                                                            onClick={() => handleImageClick(imageUrl, index)}
+                                                            src={imageUrl}
                                                             alt={`Product ${index + 1}`}
                                                         />
                                                     </div>
@@ -205,6 +204,8 @@ const ProductDetails = () => {
                                             })}
                                         </ReactOwlCarousel>
                                     )}
+
+
 
                                 </div>
                             </div>

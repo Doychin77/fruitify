@@ -80,39 +80,11 @@ const Home = () => {
                                     <span>All categories</span>
                                 </div>
                                 <ul>
-                                    <li>
-                                        <a href="#">Fresh Meat</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Vegetables</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fruit &amp; Nut Gifts</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Berries</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Ocean Foods</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Butter &amp; Eggs</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fastfood</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Onion</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Papayaya &amp; Crisps</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Oatmeal</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Bananas</a>
-                                    </li>
+                                    {categories.length > 0 && categories.map((category) => (
+                                        <li key={category.id}>
+                                            <a href="#">{category.name}</a>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
@@ -135,7 +107,7 @@ const Home = () => {
                                         <i className="fa fa-phone"/>
                                     </div>
                                     <div className="hero__search__phone__text">
-                                        <h5>+65 11.188.888</h5>
+                                        <h5>0895454654</h5>
                                         <span>support 24/7 time</span>
                                     </div>
                                 </div>

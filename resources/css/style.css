@@ -1679,10 +1679,14 @@ ol {
 
 .product__details__pic__item {
 	margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .product__details__pic__item img {
-	min-width: 100%;
+    width: 450px;
+    margin-bottom: 40px;
+    align-items: center;
 }
 
 .product__details__pic__slider img {

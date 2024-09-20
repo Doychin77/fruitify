@@ -27,4 +27,21 @@ export const getProducts = async () => {
     }
 };
 
+export const getSingleProduct = async (id) => {
+    try {
+        const response = await fetch(`${baseUrl}/product/${id}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const productData = await response.json();
+
+        return productData;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 

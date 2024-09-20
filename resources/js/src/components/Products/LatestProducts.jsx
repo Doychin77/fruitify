@@ -1,5 +1,6 @@
 import React from 'react';
 import OwlCarousel from 'react-owl-carousel';
+import {Link} from "react-router-dom";
 
 const LatestProducts = ({ products, carouselOptions }) => {
 
@@ -30,7 +31,9 @@ const LatestProducts = ({ products, carouselOptions }) => {
                                 />
                             </div>
                             <div className="latest-product__item__text">
-                                <h6>{product.name}</h6>
+                                <h6>
+                                    <Link to={`/product-details/${product.id}`} className="plain-link">{product.name} </Link>
+                                </h6>
                                 <span>
                                     ${product.on_sale ? product.on_sale_price : product.price}
                                 </span>

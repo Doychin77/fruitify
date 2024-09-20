@@ -11,6 +11,7 @@ import useCategories from "@/src/hooks/useCategories.js";
 import {CartContext} from "@/src/context/cartContext.jsx";
 import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
+import {Link} from "react-router-dom";
 
 
 
@@ -257,7 +258,9 @@ const Home = () => {
                                         </ul>
                                     </div>
                                     <div className="featured__item__text">
-                                    <h6><a href="#">{product.name}</a></h6>
+                                    <h6>
+                                        <Link to={`/product-details/${product.id}`} className="plain-link">{product.name} </Link>
+                                    </h6>
                                         <h5>${product.price}</h5>
                                     </div>
                                 </div>

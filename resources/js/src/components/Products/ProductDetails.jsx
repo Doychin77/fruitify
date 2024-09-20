@@ -1,7 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import {useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import axios from 'axios';
 import ReactOwlCarousel from 'react-owl-carousel';
 import Footer from "@/src/components/Footer.jsx";
 import Header from "@/src/components/Header.jsx";
@@ -13,34 +12,36 @@ import useProducts from "@/src/hooks/useProducts.js";
 import {CartContext} from "@/src/context/cartContext.jsx";
 
 const ProductDetails = () => {
+    const baseURL = 'http://fruitify.test/storage/'
     const {id} = useParams();
     const {addToCart} = useContext(CartContext);
-    const {getRelatedProducts} = useProducts();
+    const {getRelatedProducts, product, isLoading, error} = useProducts(parseInt(id));
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [images, setImages] = useState([]);
 
     const relatedProducts = getRelatedProducts(parseInt(id));
+
+    const [largeImageSrc, setLargeImageSrc] = useState('default.jpg');
+
+
+    useEffect(() => {
+        if (product && product.images && product.images.length > 0) {
+            setLargeImageSrc(`${baseURL}${product.images[0].image_url}`);
+            setImages(product.images.slice(1)); // Exclude the first image from thumbnails
+        }
+    }, [product]);
+
+    const handleImageClick = (src, index) => {
+        setLargeImageSrc(src);
+        setCurrentIndex(index);
+        setImages(images.filter((_, i) => i !== index)); // Remove clicked image from thumbnails
+    }
 
     const handleScrollToTop = () => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
-    };
-
-    const baseURL = 'http://fruitify.test/storage/'
-
-    const [product, setProduct] = useState(null);
-    const [error, setError] = useState('');
-
-    const [largeImageSrc, setLargeImageSrc] = useState('default.jpg');
-
-    useEffect(() => {
-        if (product && product.images && product.images.length > 0) {
-            setLargeImageSrc(`${baseURL}${product.images[0].image_url}`);
-        }
-    }, [product]);
-
-    const handleImageClick = (src) => {
-        setLargeImageSrc(src);
     };
 
 
@@ -61,24 +62,8 @@ const ProductDetails = () => {
         },
     };
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await axios.get(`http://fruitify.test/product/${id}`);
-                setProduct(response.data);
-            } catch (error) {
-                setError('Product not found');
-            }
-        };
-
-        fetchProduct();
-    }, [id]);
-
-
-    if (!product) {
-        return <Spinner/>;
-    }
-
+    if (isLoading) return <Spinner />;
+    if (error) return <div>{error}</div>;
 
     return (
         <>
@@ -196,14 +181,22 @@ const ProductDetails = () => {
                                         />
                                     </div>
                                     {product && product.images && product.images.length > 1 && (
-                                        <ReactOwlCarousel {...options}
-                                                          className="product__details__pic__slider owl-carousel">
+                                        <ReactOwlCarousel
+                                            {...options}
+                                            className="product__details__pic__slider owl-carousel"
+                                            initialItem={currentIndex}
+                                        >
+                                            {/* Display the larger image first */}
+                                            <div className="item">
+                                                <img src={largeImageSrc} alt="Large product" />
+                                            </div>
+                                            {/* Map through the images and display thumbnails */}
                                             {product.images.map((image, index) => {
-                                                if (index === 0) return null;
+                                                if (index === 0) return null; // Skip the first image if necessary
                                                 return (
                                                     <div className="item" key={index}>
                                                         <img
-                                                            onClick={() => handleImageClick(`${baseURL}${image.image_url}`)}
+                                                            onClick={() => handleImageClick(`${baseURL}${image.image_url}`, index)}
                                                             src={`${baseURL}${image.image_url}`}
                                                             alt={`Product ${index + 1}`}
                                                         />
@@ -212,6 +205,7 @@ const ProductDetails = () => {
                                             })}
                                         </ReactOwlCarousel>
                                     )}
+
                                 </div>
                             </div>
                             <div className="col-lg-6 col-md-6">

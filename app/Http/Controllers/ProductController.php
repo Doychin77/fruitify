@@ -12,14 +12,12 @@ class ProductController extends Controller
     {
         $products = Product::with(['images', 'category'])->get();
 
-        Log::info($products);
 
         return response()->json($products);
     }
 
     public function show($id)
     {
-
         $product = Product::with('images')->find($id);
 
         if (!$product) {

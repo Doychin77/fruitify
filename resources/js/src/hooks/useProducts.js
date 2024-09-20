@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { getProducts } from '../services/baseService';
+import { getProducts, getSingleProduct} from '../services/baseService';
 
-const useProducts = () => {
+const useProducts = (id) => {
     const [products, setProducts] = useState([]);
+    const [product, setProduct] = useState(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -10,18 +11,31 @@ const useProducts = () => {
         const fetchProducts = async () => {
             try {
                 const data = await getProducts();
-                console.log('Fetched products:', data);
                 setProducts(data);
             } catch (error) {
-                console.error('There was an error fetching products:', error);
                 setError('Error fetching products');
             } finally {
-                setIsLoading(false); // Ensure loading is turned off in both success and error cases
+                setIsLoading(false);
             }
         };
 
         fetchProducts();
     }, []);
+
+    useEffect(() => {
+        if (id) {
+            const fetchProduct = async () => {
+                try {
+                    const productData = await getSingleProduct(id);
+                    setProduct(productData);
+                } catch (error) {
+                    setError('Product not found');
+                }
+            };
+
+            fetchProduct();
+        }
+    }, [id]);
 
     const onSaleProducts = products.filter(product => product.on_sale);
 
@@ -31,7 +45,7 @@ const useProducts = () => {
             .slice(0, 4);
     };
 
-    return { products, onSaleProducts, error, isLoading, getRelatedProducts };
+    return { products, product, onSaleProducts, error, isLoading, getRelatedProducts };
 };
 
 export default useProducts;

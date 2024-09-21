@@ -18,6 +18,7 @@ const ProductDetails = () => {
     const {getRelatedProducts, product, error} = useProducts(parseInt(id));
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const relatedProducts = getRelatedProducts(parseInt(id));
 
@@ -25,16 +26,20 @@ const ProductDetails = () => {
 
 
     useEffect(() => {
+        setLoading(true);
+
         if (product && product.images && product.images.length > 0) {
             setLargeImageSrc(`${baseURL}${product.images[0].image_url}`);
             setImages(product.images.slice(1)); // Exclude the first image from thumbnails
         }
+
+        setLoading(false);
     }, [product]);
 
     const handleImageClick = (src, index) => {
         setLargeImageSrc(src);
         setCurrentIndex(index);
-        setImages(images.filter((_, i) => i !== index)); // Remove clicked image from thumbnails
+        setImages(images.filter((_, i) => i !== index));
     }
 
     const handleScrollToTop = () => {
@@ -43,6 +48,10 @@ const ProductDetails = () => {
             behavior: 'smooth'
         });
     };
+
+    const handleProductClick = () => {
+        setLoading(true);
+    }
 
 
     const options = {
@@ -61,6 +70,8 @@ const ProductDetails = () => {
             1000: {items: 4},
         },
     };
+
+    if (loading) return <Spinner />;
 
     if (!product) return <Spinner />;
     if (error) return <div>{error}</div>;
@@ -328,12 +339,12 @@ const ProductDetails = () => {
                         </div>
                         <div className="row">
                             {relatedProducts.length > 0 ? (
-                                relatedProducts.map((product) => (
-                                    <div className="col-lg-3 col-md-4 col-sm-6" key={product.id}>
+                                relatedProducts.map((relatedProduct) => (
+                                    <div className="col-lg-3 col-md-4 col-sm-6" key={relatedProduct.id}>
                                         <div className="product__item">
                                             <div className="product__item__pic set-bg">
-                                                <img src={`${baseURL}${product.images[0].image_url}`}
-                                                     alt={product.name}/>
+                                                <img src={`${baseURL}${relatedProduct.images[0].image_url}`}
+                                                     alt={relatedProduct.name}/>
                                                 <ul className="product__item__pic__hover">
                                                     <li>
                                                         <a href="#">
@@ -348,7 +359,7 @@ const ProductDetails = () => {
                                                     <li>
                                                         <a href="#" onClick={(e) => {
                                                             e.preventDefault();
-                                                            addToCart(product);
+                                                            addToCart(relatedProduct);
                                                         }}>
                                                             <i className="fa fa-shopping-cart"/>
                                                         </a>
@@ -357,9 +368,16 @@ const ProductDetails = () => {
                                             </div>
                                             <div className="product__item__text">
                                                 <h6>
-                                                    <Link to={`/product-details/${product.id}`} onClick={handleScrollToTop}>{product.name} </Link>
+                                                    <Link to={`/product-details/${relatedProduct.id}`}
+                                                          onClick={() => {
+                                                              handleScrollToTop();
+                                                              handleProductClick(); // Trigger loading state when clicked
+                                                          }}
+                                                    >
+                                                        {relatedProduct.name}
+                                                    </Link>
                                                 </h6>
-                                                <h5>${product.on_sale_price || product.price}</h5>
+                                                <h5>${relatedProduct.on_sale_price || relatedProduct.price}</h5>
                                             </div>
                                         </div>
                                     </div>

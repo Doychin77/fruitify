@@ -30,45 +30,54 @@ class ProductResource extends Resource
             ->schema([
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name')
+                    ->label('Категория') // Label translated to Bulgarian
                     ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->label('Име')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
+                    ->label('Описание')
                     ->required(),
                 Forms\Components\TextInput::make('price')
+                    ->label('Цена')
                     ->required()
                     ->lazy()
                     ->numeric()
-                    ->live(onBlur: True)
+                    ->live(onBlur: true)
                     ->afterStateUpdated(function ($state, callable $set) {
                         self::updateSalePrice($set);
                     }),
                 Forms\Components\TextInput::make('quantity')
+                    ->label('Количество')
                     ->required()
                     ->numeric(),
                 Forms\Components\Toggle::make('on_sale')
-                    ->label('On Sale')
-                    ->live(onBlur: True)
+                    ->label('На разпродажба')
+                    ->live(onBlur: true)
                     ->afterStateUpdated(function ($state, callable $set) {
                         self::updateSalePrice($set);
                     }),
                 Forms\Components\TextInput::make('on_sale_percent')
-                    ->label('Sale Percentage')
+                    ->label('Процент намаление')
+                    ->visible(fn ($get) => $get('on_sale'))
                     ->numeric()
                     ->nullable()
                     ->lazy()
-                    ->live(onBlur: True)
+                    ->live(onBlur: true)
                     ->afterStateUpdated(function ($state, callable $set) {
                         self::updateSalePrice($set);
                     }),
                 Forms\Components\TextInput::make('on_sale_price')
-                    ->label('Sale Price')
+                    ->label('Цена в промоция')
+                    ->visible(fn ($get) => $get('on_sale'))
                     ->numeric()
-                    ->live(onBlur: True)
-                    ->hint('Automatically calculated based on price and sale percentage.'),
-            ]);
+                    ->live(onBlur: true)
+                    ->hint('Изчислява се автоматично'),
+
+            ])->columns(3);
     }
+
 
 
     public static function table(Table $table): Table
@@ -104,7 +113,7 @@ class ProductResource extends Resource
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+//                Tables\Actions\CreateAction::make()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

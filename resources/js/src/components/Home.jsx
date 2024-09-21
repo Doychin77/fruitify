@@ -192,7 +192,7 @@ const Home = () => {
                                     >
                                         All
                                     </li>
-                                    {categories.map(category => (
+                                    {categories.slice(0, 6).map(category => (
                                         <li
                                             key={category.id}
                                             className={selectedCategory === category.name.toLowerCase() ? 'active' : ''}

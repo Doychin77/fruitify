@@ -524,6 +524,11 @@ ol {
 .header__cart ul li a i {
 	font-size: 18px;
 	color: #1c1c1c;
+    transition: color 0.3s ease;
+}
+
+.header__cart ul li a i:hover {
+    color: #7fad39;
 }
 
 .header__cart ul li a span {

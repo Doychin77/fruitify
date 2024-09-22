@@ -9,6 +9,7 @@ import Checkout from './components/Checkout.jsx';
 import BlogDetails from './components/Blog/BlogDetails.jsx';
 import ProductDetails from './components/Products/ProductDetails.jsx';
 import { CartProvider } from '@/src/context/cartContext.jsx';
+import Register from "@/src/components/Register.jsx";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/shop" element={<Shop />} />
                     <Route path="/product-details/:id" element={<ProductDetails />} />
                     <Route path="/cart" element={<Cart />} />

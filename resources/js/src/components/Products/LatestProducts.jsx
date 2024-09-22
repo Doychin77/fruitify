@@ -1,6 +1,6 @@
 import React from 'react';
 import OwlCarousel from 'react-owl-carousel';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const LatestProducts = ({ products, carouselOptions }) => {
 
@@ -12,11 +12,13 @@ const LatestProducts = ({ products, carouselOptions }) => {
         return groups;
     };
 
-    const groupedProducts = groupProducts(products, 3);
+    // Slice the last 6 products
+    const lastSixProducts = products.slice(-6);
+    const groupedProducts = groupProducts(lastSixProducts, 3);
 
     return (
         <OwlCarousel
-            key={products.map(product => product.id).join('-')}
+            key={lastSixProducts.map(product => product.id).join('-')}
             className='latest-product__slider owl-carousel'
             {...carouselOptions}
         >

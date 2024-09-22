@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
@@ -11,13 +11,40 @@ import useProducts from "@/src/hooks/useProducts.js";
 import { CartContext } from '../../context/CartContext';
 import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useCategories from "@/src/hooks/useCategories.js";
+import '../styles.css'
 
 const Shop = () => {
-
     const { addToCart } = useContext(CartContext);
     const { products, error, isLoading } = useProducts();
+    const { categories } = useCategories();
     const navigate = useNavigate();
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 9;
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(100);
+
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = products
+        .filter(product => product.price >= minPrice && product.price <= maxPrice)
+        .slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const totalPages = Math.ceil(products.length / productsPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const scrollToProducts = () => {
+        const productSection = document.getElementById('product-section');
+        if (productSection) {
+            window.scrollTo({
+                top: productSection.offsetTop + 350,
+                behavior: 'smooth',
+            });
+        }
+    };
 
     const carouselOptions = {
         loop: true,
@@ -43,9 +70,8 @@ const Shop = () => {
 
     return (
         <>
-            <Hamburger/>
-
-            <Header/>
+            <Hamburger />
+            <Header />
 
             {/* Hero Section Begin */}
             <section className="hero hero-normal">
@@ -58,39 +84,11 @@ const Shop = () => {
                                     <span>All departments</span>
                                 </div>
                                 <ul>
-                                    <li>
-                                        <a href="#">Fresh Meat</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Vegetables</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fruit &amp; Nut Gifts</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Berries</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Ocean Foods</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Butter &amp; Eggs</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fastfood</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Onion</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Papayaya &amp; Crisps</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Oatmeal</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Bananas</a>
-                                    </li>
+                                    {categories.length > 0 && categories.map((category) => (
+                                        <li key={category.id}>
+                                            <a href="#">{category.name}</a>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
@@ -102,10 +100,8 @@ const Shop = () => {
                                             All Categories
                                             <span className="arrow_carrot-down" />
                                         </div>
-                                        <input type="text" placeholder="What do yo u need?" />
-                                        <button type="submit" className="site-btn">
-                                            SEARCH
-                                        </button>
+                                        <input type="text" placeholder="What do you need?" />
+                                        <button type="submit" className="site-btn">SEARCH</button>
                                     </form>
                                 </div>
                                 <div className="hero__search__phone">
@@ -123,11 +119,9 @@ const Shop = () => {
                 </div>
             </section>
             {/* Hero Section End */}
+
             {/* Breadcrumb Section Begin */}
-            <section
-                className="breadcrumb-section set-bg"
-                style={{backgroundImage: "url('img/breadcrumb.jpg')"}}
-            >
+            <section className="breadcrumb-section set-bg" style={{ backgroundImage: "url('img/breadcrumb.jpg')" }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
@@ -143,73 +137,53 @@ const Shop = () => {
                 </div>
             </section>
             {/* Breadcrumb Section End */}
+
             {/* Product Section Begin */}
             <section className="product spad">
-            <div className="container">
+                <div className="container">
                     <div className="row">
                         <div className="col-lg-3 col-md-5">
                             <div className="sidebar">
                                 <div className="sidebar__item">
                                     <h4>Department</h4>
                                     <ul>
-                                        <li>
-                                            <a href="#">Fresh Meat</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Vegetables</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Fruit &amp; Nut Gifts</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Fresh Berries</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Ocean Foods</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Butter &amp; Eggs</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Fastfood</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Fresh Onion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Papayaya &amp; Crisps</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Oatmeal</a>
-                                        </li>
+                                        {categories.length > 0 && categories.map((category) => (
+                                            <li key={category.id}>
+                                                <a href="#">{category.name}</a>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
+
                                 <div className="sidebar__item">
                                     <h4>Price</h4>
                                     <div className="price-range-wrap">
-                                        <div
-                                            className="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                            data-min={10}
-                                            data-max={540}
-                                        >
-                                            <div className="ui-slider-range ui-corner-all ui-widget-header" />
-                                            <span
-                                                tabIndex={0}
-                                                className="ui-slider-handle ui-corner-all ui-state-default"
-                                            />
-                                            <span
-                                                tabIndex={0}
-                                                className="ui-slider-handle ui-corner-all ui-state-default"
-                                            />
-                                        </div>
                                         <div className="range-slider">
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="100"
+                                                value={minPrice}
+                                                onChange={(e) => setMinPrice(Number(e.target.value))}
+                                            />
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="100"
+                                                value={maxPrice}
+                                                onChange={(e) => setMaxPrice(Number(e.target.value))}
+                                            />
                                             <div className="price-input">
-                                                <input type="text" id="minamount" />
-                                                <input type="text" id="maxamount" />
+                                                <input type="text" className="price-input__field" value={minPrice}
+                                                       readOnly/>
+                                                <input type="text" className="price-input__field" value={maxPrice}
+                                                       readOnly/>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="sidebar__item sidebar__item__color--option">
                                     <h4>Colors</h4>
                                     <div className="sidebar__item__color sidebar__item__color--white">
@@ -249,33 +223,7 @@ const Shop = () => {
                                         </label>
                                     </div>
                                 </div>
-                                <div className="sidebar__item">
-                                    <h4>Popular Size</h4>
-                                    <div className="sidebar__item__size">
-                                        <label htmlFor="large">
-                                            Large
-                                            <input type="radio" id="large" />
-                                        </label>
-                                    </div>
-                                    <div className="sidebar__item__size">
-                                        <label htmlFor="medium">
-                                            Medium
-                                            <input type="radio" id="medium" />
-                                        </label>
-                                    </div>
-                                    <div className="sidebar__item__size">
-                                        <label htmlFor="small">
-                                            Small
-                                            <input type="radio" id="small" />
-                                        </label>
-                                    </div>
-                                    <div className="sidebar__item__size">
-                                        <label htmlFor="tiny">
-                                            Tiny
-                                            <input type="radio" id="tiny" />
-                                        </label>
-                                    </div>
-                                </div>
+
                                 <div className="sidebar__item">
                                     <div className="latest-product__text">
                                         <h4>Latest Products</h4>
@@ -300,76 +248,78 @@ const Shop = () => {
                                     <div className="col-lg-4 col-md-4">
                                         <div className="filter__found">
                                             <h6>
-                                                <span>{products.length}</span> Products found
+                                                <span>{currentProducts.length}</span> Products found
                                             </h6>
                                         </div>
                                     </div>
                                     <div className="col-lg-4 col-md-3">
                                         <div className="filter__option">
-                                        <span className="icon_grid-2x2" />
+                                            <span className="icon_grid-2x2" />
                                             <span className="icon_ul" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
+                            <div className="row" id="product-section">
+                                {isLoading && <Spinner />}
                                 {error && <div className="col-lg-12"><p>{error}</p></div>}
-                                {products.map(product => (
+                                {currentProducts.map(product => (
                                     <div key={product.id} className="col-lg-4 col-md-6 col-sm-6">
                                         <div className="product__item">
                                             <div className="product__item__pic">
-                                                {/* Replace with the product image URL */}
                                                 <img
                                                     src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
                                                     alt={product.name}
                                                 />
                                                 <ul className="product__item__pic__hover">
-                                                    <li>
-                                                        <a href="#">
-                                                            <i className="fa fa-heart"/>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i className="fa fa-retweet"/>
-                                                        </a>
-                                                    </li>
+                                                    <li><a href="#"><i className="fa fa-heart" /></a></li>
+                                                    <li><a href="#"><i className="fa fa-retweet" /></a></li>
                                                     <li>
                                                         <a href="#" onClick={(e) => {
                                                             e.preventDefault();
                                                             addToCart(product);
                                                         }}>
-                                                            <i className="fa fa-shopping-cart"/>
+                                                            <i className="fa fa-shopping-cart" />
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div className="product__item__text">
-                                                <h6>
-                                                    <Link to={`/product-details/${product.id}`}>{product.name}</Link>
-                                                </h6>
-                                                <h5>
-                                                    ${product.on_sale ? product.on_sale_price : product.price}
-                                                </h5>
+                                                <h6><Link to={`/product-details/${product.id}`}>{product.name}</Link></h6>
+                                                <h5>${product.on_sale ? product.on_sale_price : product.price}</h5>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                             <div className="product__pagination">
-                            <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#">
-                                    <i className="fa fa-long-arrow-right"/>
+                                {Array.from({ length: totalPages }, (_, i) => (
+                                    <a
+                                        key={i + 1}
+                                        href="#"
+                                        className={currentPage === i + 1 ? 'active' : ''}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            paginate(i + 1);
+                                            scrollToProducts();
+                                        }}
+                                    >
+                                        {i + 1}
+                                    </a>
+                                ))}
+                                <a href="#" onClick={(e) => {
+                                    e.preventDefault();
+                                    paginate(currentPage + 1);
+                                    scrollToProducts();
+                                }}>
+                                    <i className="fa fa-long-arrow-right" />
                                 </a>
                             </div>
                         </div>
                     </div>
-            </div>
+                </div>
             </section>
-            {/* Product Section End */}
-            <Footer/>
+            <Footer />
         </>
     );
 };

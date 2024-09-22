@@ -42,7 +42,7 @@ const ProductDiscount = () => {
                             slidesPerView: 3,
                         },
                         600: {
-                            slidesPerView: 1,
+                            slidesPerView: 2,
                         }
                     }}
                 >

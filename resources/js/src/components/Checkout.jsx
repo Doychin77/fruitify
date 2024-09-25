@@ -6,21 +6,20 @@ import {CartContext} from "@/src/context/cartContext.jsx";
 
 const Checkout = () => {
 
-    const { cartItems } = useContext(CartContext);
+    const {cartItems} = useContext(CartContext);
 
     // Calculate subtotal and total
-    const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity || 1), 0);
-    const total = subtotal;
+    const subtotal = cartItems.reduce((total, item) => {
+        const price = item.on_sale ? parseFloat(item.on_sale_price) : parseFloat(item.price);
+        const itemTotal = price * item.quantity;
+        return total + itemTotal;
+    }, 0);
+    const discountAmount = parseFloat(localStorage.getItem('discountAmount')) || 0;
+    const totalAfterDiscount = parseFloat(localStorage.getItem('totalAfterDiscount')) || 0;
 
 
     return (
         <>
-
-            {/* Page Preloder */}
-            {/*<div id="preloder">*/}
-            {/*    <div className="loader" />*/}
-            {/*</div>*/}
-
             <Hamburger/>
 
             <Header/>
@@ -32,7 +31,7 @@ const Checkout = () => {
                         <div className="col-lg-3">
                             <div className="hero__categories">
                                 <div className="hero__categories__all">
-                                    <i className="fa fa-bars" />
+                                    <i className="fa fa-bars"/>
                                     <span>All departments</span>
                                 </div>
                                 <ul>
@@ -78,9 +77,9 @@ const Checkout = () => {
                                     <form action="#">
                                         <div className="hero__search__categories">
                                             All Categories
-                                            <span className="arrow_carrot-down" />
+                                            <span className="arrow_carrot-down"/>
                                         </div>
-                                        <input type="text" placeholder="What do yo u need?" />
+                                        <input type="text" placeholder="What do yo u need?"/>
                                         <button type="submit" className="site-btn">
                                             SEARCH
                                         </button>
@@ -88,7 +87,7 @@ const Checkout = () => {
                                 </div>
                                 <div className="hero__search__phone">
                                     <div className="hero__search__phone__icon">
-                                        <i className="fa fa-phone" />
+                                        <i className="fa fa-phone"/>
                                     </div>
                                     <div className="hero__search__phone__text">
                                         <h5>+65 11.188.888</h5>
@@ -127,7 +126,7 @@ const Checkout = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <h6>
-                                <span className="icon_tag_alt" /> Have a coupon?{" "}
+                                <span className="icon_tag_alt"/> Have a coupon?{" "}
                                 <a href="#">Click here</a> to enter your code
                             </h6>
                         </div>
@@ -143,7 +142,7 @@ const Checkout = () => {
                                                 <p>
                                                     Fist Name<span>*</span>
                                                 </p>
-                                                <input type="text" />
+                                                <input type="text"/>
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
@@ -151,7 +150,7 @@ const Checkout = () => {
                                                 <p>
                                                     Last Name<span>*</span>
                                                 </p>
-                                                <input type="text" />
+                                                <input type="text"/>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +158,7 @@ const Checkout = () => {
                                         <p>
                                             Country<span>*</span>
                                         </p>
-                                        <input type="text" />
+                                        <input type="text"/>
                                     </div>
                                     <div className="checkout__input">
                                         <p>
@@ -179,19 +178,19 @@ const Checkout = () => {
                                         <p>
                                             Town/City<span>*</span>
                                         </p>
-                                        <input type="text" />
+                                        <input type="text"/>
                                     </div>
                                     <div className="checkout__input">
                                         <p>
                                             Country/State<span>*</span>
                                         </p>
-                                        <input type="text" />
+                                        <input type="text"/>
                                     </div>
                                     <div className="checkout__input">
                                         <p>
                                             Postcode / ZIP<span>*</span>
                                         </p>
-                                        <input type="text" />
+                                        <input type="text"/>
                                     </div>
                                     <div className="row">
                                         <div className="col-lg-6">
@@ -199,7 +198,7 @@ const Checkout = () => {
                                                 <p>
                                                     Phone<span>*</span>
                                                 </p>
-                                                <input type="text" />
+                                                <input type="text"/>
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
@@ -207,15 +206,15 @@ const Checkout = () => {
                                                 <p>
                                                     Email<span>*</span>
                                                 </p>
-                                                <input type="text" />
+                                                <input type="text"/>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="checkout__input__checkbox">
                                         <label htmlFor="acc">
                                             Create an account?
-                                            <input type="checkbox" id="acc" />
-                                            <span className="checkmark" />
+                                            <input type="checkbox" id="acc"/>
+                                            <span className="checkmark"/>
                                         </label>
                                     </div>
                                     <p>
@@ -226,13 +225,13 @@ const Checkout = () => {
                                         <p>
                                             Account Password<span>*</span>
                                         </p>
-                                        <input type="text" />
+                                        <input type="text"/>
                                     </div>
                                     <div className="checkout__input__checkbox">
                                         <label htmlFor="diff-acc">
                                             Ship to a different address?
-                                            <input type="checkbox" id="diff-acc" />
-                                            <span className="checkmark" />
+                                            <input type="checkbox" id="diff-acc"/>
+                                            <span className="checkmark"/>
                                         </label>
                                     </div>
                                     <div className="checkout__input">
@@ -255,15 +254,23 @@ const Checkout = () => {
                                             {cartItems.map((item, index) => (
                                                 <li key={index}>
                                                     {item.name}
-                                                    <span>${(item.price * item.quantity || 1).toFixed(2)}</span>
+                                                    <span>
+                                                        ${(
+                                                            (item.on_sale ? item.on_sale_price : item.price) * (item.quantity || 1)
+                                                        ).toFixed(2)}
+                                                    </span>
                                                 </li>
                                             ))}
                                         </ul>
+
                                         <div className="checkout__order__subtotal">
                                             Subtotal <span>${subtotal.toFixed(2)}</span>
                                         </div>
                                         <div className="checkout__order__total">
-                                            Total <span>${total.toFixed(2)}</span>
+                                            Discount <span>${discountAmount.toFixed(2)}</span>
+                                        </div>
+                                        <div className="checkout__order__total">
+                                            Total <span>${totalAfterDiscount.toFixed(2)}</span>
                                         </div>
                                         <div className="checkout__input__checkbox">
                                             <label htmlFor="acc-or">

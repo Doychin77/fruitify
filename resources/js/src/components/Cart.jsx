@@ -53,6 +53,9 @@ const Cart = () => {
     const discountAmount = (subtotal * discountPercent) / 100;
     const totalAfterDiscount = (subtotal - discountAmount).toFixed(2);
 
+    localStorage.setItem('discountAmount', discountAmount);
+    localStorage.setItem('totalAfterDiscount', totalAfterDiscount);
+
     return (
         <>
             <Hamburger />

@@ -1165,6 +1165,8 @@ ol {
 	display: inline-block;
 }
 
+
+
 .price-range-wrap .price-range {
 	border-radius: 0;
 }
@@ -1454,9 +1456,58 @@ ol {
 
 .filter__sort span {
 	font-size: 16px;
-	color: #6f6f6f;
+    margin-right: 2px;
+    font-weight: bold;
+	color: #040101;
 	display: inline-block;
 }
+
+.filter__sort {
+    position: relative;
+    display: inline-block;
+}
+
+.filter__sort span {
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 10px;
+    color: #333;
+}
+
+.filter__sort select {
+    width: 155px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.filter__sort select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.filter__sort select:hover {
+    border-color: #ccc;
+}
+
+.filter__sort::after {
+    content: '▼';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 12px;
+    color: #777;
+}
+
 
 .filter__sort .nice-select {
 	background-color: #fff;

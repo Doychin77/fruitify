@@ -20,6 +20,7 @@ const Shop = () => {
     const { products, error, isLoading } = useProducts();
     const { categories } = useCategories();
     const navigate = useNavigate();
+    const [sortOption, setSortOption] = useState('default');
 
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 9;
@@ -28,7 +29,22 @@ const Shop = () => {
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = products
+
+    const sortedProducts = [...products].sort((a, b) => {
+        const priceA = a.on_sale ? a.on_sale_price : a.price;
+        const priceB = b.on_sale ? b.on_sale_price : b.price;
+
+        if (sortOption === 'price-asc') {
+            return priceA - priceB;
+        } else if (sortOption === 'price-desc') {
+            return priceB - priceA;
+        }
+
+        return 0;
+    });
+
+
+    const currentProducts = sortedProducts
         .filter(product => product.price >= minPrice && product.price <= maxPrice)
         .slice(indexOfFirstProduct, indexOfLastProduct);
 
@@ -178,6 +194,7 @@ const Shop = () => {
                                                        readOnly/>
                                                 <input type="text" className="price-input__field" value={maxPrice}
                                                        readOnly/>
+                                                <span className="price-input__currency">$</span>
                                             </div>
 
                                         </div>
@@ -239,9 +256,10 @@ const Shop = () => {
                                     <div className="col-lg-4 col-md-5">
                                         <div className="filter__sort">
                                             <span>Sort By</span>
-                                            <select>
-                                                <option value={0}>Default</option>
-                                                <option value={0}>Default</option>
+                                            <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                                                <option value="default">Default</option>
+                                                <option value="price-asc">Price: Low to High</option>
+                                                <option value="price-desc">Price: High to Low</option>
                                             </select>
                                         </div>
                                     </div>

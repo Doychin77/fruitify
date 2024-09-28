@@ -73,11 +73,10 @@ class BlogArticleResource extends Resource
                     ->label('Категория'),
                 Tables\Columns\BooleanColumn::make('is_published')
                     ->label('Публикувана'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Изображение'),
                 Tables\Columns\TextColumn::make('published_at')
                     ->label('Дата на публикуване')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Създадено на')
                     ->dateTime(),
             ])
             ->filters([

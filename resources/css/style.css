@@ -2533,12 +2533,19 @@ ol {
 	margin-right: 20px;
 }
 
+.blog__sidebar__recent__item__pic img {
+    height: 70px;
+    width: 100px;
+    object-fit: cover;
+}
+
 .blog__sidebar__recent__item__text {
 	overflow: hidden;
 }
 
 .blog__sidebar__recent__item__text h6 {
 	font-weight: 700;
+    max-width: 220px;
 	color: #333333;
 	line-height: 20px;
 	margin-bottom: 5px;

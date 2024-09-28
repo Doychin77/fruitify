@@ -3,11 +3,13 @@ import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
 import {useBlogCategories} from "@/src/hooks/useCategories.js";
+import useArticles from "@/src/hooks/useArticles.js";
 
 const Blog = () => {
     const { blogCategories, error } = useBlogCategories();
+    const { articles } = useArticles();
 
-    console.log(blogCategories);
+    console.log(articles);
 
     return (
         <>
@@ -141,42 +143,30 @@ const Blog = () => {
                                 <div className="blog__sidebar__item">
                                     <h4>Recent News</h4>
                                     <div className="blog__sidebar__recent">
-                                        <a href="#" className="blog__sidebar__recent__item">
-                                            <div className="blog__sidebar__recent__item__pic">
-                                                <img src="img/blog/sidebar/sr-1.jpg" alt="" />
-                                            </div>
-                                            <div className="blog__sidebar__recent__item__text">
-                                                <h6>
-                                                    09 Kinds Of Vegetables
-                                                    <br /> Protect The Liver
-                                                </h6>
-                                                <span>MAR 05, 2019</span>
-                                            </div>
-                                        </a>
-                                        <a href="#" className="blog__sidebar__recent__item">
-                                            <div className="blog__sidebar__recent__item__pic">
-                                                <img src="img/blog/sidebar/sr-2.jpg" alt="" />
-                                            </div>
-                                            <div className="blog__sidebar__recent__item__text">
-                                                <h6>
-                                                    Tips You To Balance
-                                                    <br /> Nutrition Meal Day
-                                                </h6>
-                                                <span>MAR 05, 2019</span>
-                                            </div>
-                                        </a>
-                                        <a href="#" className="blog__sidebar__recent__item">
-                                            <div className="blog__sidebar__recent__item__pic">
-                                                <img src="img/blog/sidebar/sr-3.jpg" alt="" />
-                                            </div>
-                                            <div className="blog__sidebar__recent__item__text">
-                                                <h6>
-                                                    4 Principles Help You Lose <br />
-                                                    Weight With Vegetables
-                                                </h6>
-                                                <span>MAR 05, 2019</span>
-                                            </div>
-                                        </a>
+                                        {articles.length > 0 ? (
+                                            articles.map((article) => (
+                                                <a
+                                                    href="#"
+                                                    className="blog__sidebar__recent__item"
+                                                    key={article.id} // Use a unique key, such as article ID
+                                                >
+                                                    <div className="blog__sidebar__recent__item__pic">
+                                                        <img
+                                                            src={`http://fruitify.test/storage/${article.image}`}
+                                                            alt={article.title || 'Article Image'}
+                                                        />
+                                                    </div>
+                                                    <div className="blog__sidebar__recent__item__text">
+                                                        <h6>
+                                                            {article.title}
+                                                        </h6>
+                                                        <span>{new Date(article.created_at).toLocaleDateString()}</span> {/* Format the article date */}
+                                                    </div>
+                                                </a>
+                                            ))
+                                        ) : (
+                                            <p>No recent news available.</p>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="blog__sidebar__item">
@@ -197,7 +187,7 @@ const Blog = () => {
                                 <div className="col-lg-6 col-md-6 col-sm-6">
                                     <div className="blog__item">
                                         <div className="blog__item__pic">
-                                            <img src="img/blog/blog-2.jpg" alt="" />
+                                            <img src="img/blog/blog-2.jpg" alt=""/>
                                         </div>
                                         <div className="blog__item__text">
                                             <ul>

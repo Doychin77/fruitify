@@ -26,6 +26,18 @@ export const getBlogCategories = async (endpoint) => {
     }
 };
 
+export const getAllArticles = async (endpoint) => {
+    try {
+        const response = await fetch(`${baseUrl}/articles`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('GET request failed', error);
+        throw error;
+    }
+};
 
 export const getProducts = async () => {
     try {

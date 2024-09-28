@@ -12,6 +12,7 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/product/{id}', [ProductController::class, 'show']);
 Route::post('/apply-coupon', [CouponController::class, 'applyCoupon']);
 Route::get('/blog-categories', [BlogController::class, 'allCategories']);
+Route::get('/articles', [BlogController::class, 'allArticles']);
 
 
 Route::get('/', function () {

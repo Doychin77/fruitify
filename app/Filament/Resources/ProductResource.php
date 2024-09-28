@@ -19,6 +19,7 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Продукти';
     protected static ?string $navigationLabel = 'Продукти';
     protected static ?string $pluralLabel = 'Продукти';
 

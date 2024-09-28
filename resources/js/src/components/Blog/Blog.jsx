@@ -4,12 +4,17 @@ import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
 import {useBlogCategories} from "@/src/hooks/useCategories.js";
 import useArticles from "@/src/hooks/useArticles.js";
+import Spinner from "@/src/components/Spinner/Spinner.jsx";
 
 const Blog = () => {
-    const { blogCategories, error } = useBlogCategories();
-    const { articles } = useArticles();
+    const { blogCategories, error, loading: blogLoading } = useBlogCategories();
+    const { articles, loading: articleLoading } = useArticles();
 
     console.log(articles);
+
+    if (blogLoading || articleLoading) {
+        return <Spinner />; 
+    }
 
     return (
         <>

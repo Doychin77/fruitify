@@ -25,22 +25,26 @@ const useCategories = () => {
 const useBlogCategories = () => {
     const [blogCategories, setBlogCategories] = useState([]);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchCategories = async () => {
+            setLoading(true);
             try {
                 const data = await getBlogCategories();
                 setBlogCategories(data);
             } catch (error) {
                 console.error('There was an error fetching blog categories:', error);
                 setError('Error fetching blog categories');
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchCategories();
     }, []);
 
-    return { blogCategories, error };
+    return { blogCategories, error, loading };
 };
 
 // Export both hooks

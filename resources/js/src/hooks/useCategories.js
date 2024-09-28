@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import { getCategories } from '../services/baseService';
+import { getBlogCategories, getCategories } from '../services/baseService';
 
 const useCategories = () => {
     const [categories, setCategories] = useState([]);
@@ -10,7 +9,6 @@ const useCategories = () => {
         const fetchCategories = async () => {
             try {
                 const data = await getCategories();
-                console.log('Fetched categories:', data);
                 setCategories(data);
             } catch (error) {
                 console.error('There was an error fetching categories:', error);
@@ -24,4 +22,26 @@ const useCategories = () => {
     return { categories, error };
 };
 
-export default useCategories;
+const useBlogCategories = () => {
+    const [blogCategories, setBlogCategories] = useState([]);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const data = await getBlogCategories();
+                setBlogCategories(data);
+            } catch (error) {
+                console.error('There was an error fetching blog categories:', error);
+                setError('Error fetching blog categories');
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    return { blogCategories, error };
+};
+
+// Export both hooks
+export { useCategories, useBlogCategories };

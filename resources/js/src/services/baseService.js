@@ -13,6 +13,19 @@ export const getCategories = async (endpoint) => {
     }
 };
 
+export const getBlogCategories = async (endpoint) => {
+    try {
+        const response = await fetch(`${baseUrl}/blog-categories`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('GET request failed', error);
+        throw error;
+    }
+};
+
 
 export const getProducts = async () => {
     try {

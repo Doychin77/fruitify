@@ -12,8 +12,8 @@ import { CartContext } from '../../context/CartContext';
 import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
 import { Link, useNavigate } from "react-router-dom";
-import useCategories from "@/src/hooks/useCategories.js";
 import '../styles.css'
+import {useCategories} from "@/src/hooks/useCategories.js";
 
 const Shop = () => {
     const { addToCart } = useContext(CartContext);

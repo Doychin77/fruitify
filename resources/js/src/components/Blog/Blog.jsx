@@ -2,15 +2,15 @@ import React from 'react';
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
+import {useBlogCategories} from "@/src/hooks/useCategories.js";
 
 const Blog = () => {
+    const { blogCategories, error } = useBlogCategories();
+
+    console.log(blogCategories);
+
     return (
         <>
-
-        {/* Page Preloder */}
-        {/*<div id="preloder">*/}
-        {/*    <div className="loader" />*/}
-        {/*</div>*/}
 
         <Hamburger/>
 
@@ -131,21 +131,11 @@ const Blog = () => {
                                 <div className="blog__sidebar__item">
                                     <h4>Categories</h4>
                                     <ul>
-                                        <li>
-                                            <a href="#">All</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Beauty (20)</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Food (5)</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Life Style (9)</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Travel (10)</a>
-                                        </li>
+                                        {blogCategories.map((category) => (
+                                            <li key={category.id}>
+                                                <a href="#">{category.name}</a>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                                 <div className="blog__sidebar__item">
@@ -386,12 +376,7 @@ const Blog = () => {
             {/* Blog Section End */}
 
             <Footer/>
-
-            {/* Js Plugins */}
         </>
-
-
-
     );
 };
 

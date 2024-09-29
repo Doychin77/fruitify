@@ -13,6 +13,7 @@ Route::get('/product/{id}', [ProductController::class, 'show']);
 Route::post('/apply-coupon', [CouponController::class, 'applyCoupon']);
 Route::get('/blog-categories', [BlogController::class, 'allCategories']);
 Route::get('/articles', [BlogController::class, 'allArticles']);
+Route::get('/article/{id}', [BlogController::class, 'getArticle']);
 
 
 Route::get('/', function () {

@@ -40,7 +40,7 @@ class BlogArticleResource extends Resource
                 TextInput::make('slug')
                     ->label('Слъг')
                     ->required(),
-                RichEditor::make('content')
+                Forms\Components\Textarea::make('content')
                     ->label('Съдържание')
                     ->required(),
                 FileUpload::make('image')

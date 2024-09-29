@@ -19,4 +19,13 @@ class BlogController extends Controller
         $articles = BlogArticle::all();
         return response()->json($articles);
     }
+
+    public function getArticle($id)
+    {
+        $article = BlogArticle::find($id);
+        if ($article) {
+            return response()->json($article);
+        }
+        return response()->json(['message' => 'Article not found'], 404);
+    }
 }

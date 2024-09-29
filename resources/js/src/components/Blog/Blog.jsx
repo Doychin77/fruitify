@@ -13,7 +13,7 @@ const Blog = () => {
     console.log(articles);
 
     if (blogLoading || articleLoading) {
-        return <Spinner />; 
+        return <Spinner />;
     }
 
     return (
@@ -149,9 +149,9 @@ const Blog = () => {
                                     <h4>Recent News</h4>
                                     <div className="blog__sidebar__recent">
                                         {articles.length > 0 ? (
-                                            articles.map((article) => (
+                                            articles.slice(-3).reverse().map((article) => (
                                                 <a
-                                                    href="#"
+                                                    href={`/blog/${article.id}`}
                                                     className="blog__sidebar__recent__item"
                                                     key={article.id} // Use a unique key, such as article ID
                                                 >
@@ -173,6 +173,7 @@ const Blog = () => {
                                             <p>No recent news available.</p>
                                         )}
                                     </div>
+
                                 </div>
                                 <div className="blog__sidebar__item">
                                     <h4>Search By</h4>

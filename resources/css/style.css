@@ -2645,6 +2645,9 @@ ol {
 
 .blog__details__text img {
     margin-bottom: 30px;
+    width: 769px;
+    max-height: 600px;
+    object-fit: fill;
 }
 
 .blog__details__text p {

@@ -1,12 +1,30 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
 import {CartContext} from "@/src/context/cartContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 const Checkout = () => {
 
-    const {cartItems} = useContext(CartContext);
+    const {cartItems, clearCart} = useContext(CartContext);
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        first_name: '',
+        last_name: '',
+        country: '',
+        address: '',
+        city: '',
+        state: '',
+        postcode: '',
+        phone: '',
+        email: '',
+        order_notes: '',
+    });
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     // Calculate subtotal and total
     const subtotal = cartItems.reduce((total, item) => {
@@ -17,11 +35,77 @@ const Checkout = () => {
     const discountAmount = parseFloat(localStorage.getItem('discountAmount')) || 0;
     const totalAfterDiscount = parseFloat(localStorage.getItem('totalAfterDiscount')) || 0;
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+        setSuccess('');
+
+        // Use the cartItems directly from context
+        const items = Array.isArray(cartItems) ? cartItems : []; // Ensure items is an array
+
+        console.log(items);
+
+        try {
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const response = await fetch('http://fruitify.test/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token,
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    items, // Include items in the body
+                    subtotal,
+                    discount: discountAmount,
+                    total: totalAfterDiscount,
+                }),
+                credentials: 'same-origin'
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setSuccess(data.message);
+                // Clear form and cart on successful order
+                setFormData({
+                    first_name: '',
+                    last_name: '',
+                    country: '',
+                    address: '',
+                    city: '',
+                    state: '',
+                    postcode: '',
+                    phone: '',
+                    email: '',
+                    order_notes: '',
+                });
+
+                clearCart();
+                navigate('/');
+            } else {
+                const errorData = await response.json();
+                setError(errorData.message || 'Failed to place the order.');
+            }
+        } catch (error) {
+            setError('An error occurred. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <>
             <Hamburger/>
-
             <Header/>
 
             {/* Hero Section Begin */}
@@ -35,39 +119,17 @@ const Checkout = () => {
                                     <span>All departments</span>
                                 </div>
                                 <ul>
-                                    <li>
-                                        <a href="#">Fresh Meat</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Vegetables</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fruit &amp; Nut Gifts</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Berries</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Ocean Foods</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Butter &amp; Eggs</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fastfood</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Onion</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Papayaya &amp; Crisps</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Oatmeal</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Bananas</a>
-                                    </li>
+                                    <li><a href="#">Fresh Meat</a></li>
+                                    <li><a href="#">Vegetables</a></li>
+                                    <li><a href="#">Fruit & Nut Gifts</a></li>
+                                    <li><a href="#">Fresh Berries</a></li>
+                                    <li><a href="#">Ocean Foods</a></li>
+                                    <li><a href="#">Butter & Eggs</a></li>
+                                    <li><a href="#">Fastfood</a></li>
+                                    <li><a href="#">Fresh Onion</a></li>
+                                    <li><a href="#">Papayaya & Crisps</a></li>
+                                    <li><a href="#">Oatmeal</a></li>
+                                    <li><a href="#">Fresh Bananas</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -80,9 +142,7 @@ const Checkout = () => {
                                             <span className="arrow_carrot-down"/>
                                         </div>
                                         <input type="text" placeholder="What do yo u need?"/>
-                                        <button type="submit" className="site-btn">
-                                            SEARCH
-                                        </button>
+                                        <button type="submit" className="site-btn">SEARCH</button>
                                     </form>
                                 </div>
                                 <div className="hero__search__phone">
@@ -100,11 +160,9 @@ const Checkout = () => {
                 </div>
             </section>
             {/* Hero Section End */}
+
             {/* Breadcrumb Section Begin */}
-            <section
-                className="breadcrumb-section set-bg"
-                style={{backgroundImage: "url('img/breadcrumb.jpg')"}}
-            >
+            <section className="breadcrumb-section set-bg" style={{backgroundImage: "url('img/breadcrumb.jpg')"}}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
@@ -120,186 +178,88 @@ const Checkout = () => {
                 </div>
             </section>
             {/* Breadcrumb Section End */}
+
             {/* Checkout Section Begin */}
             <section className="checkout spad">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h6>
-                                <span className="icon_tag_alt"/> Have a coupon?{" "}
-                                <a href="#">Click here</a> to enter your code
-                            </h6>
+                            <h6><span className="icon_tag_alt"/> Have a coupon? <a href="#">Click here</a> to enter your code</h6>
                         </div>
                     </div>
                     <div className="checkout__form">
                         <h4>Billing Details</h4>
-                        <form action="#">
+                        <form onSubmit={handleSubmit}>
                             <div className="row">
                                 <div className="col-lg-8 col-md-6">
                                     <div className="row">
                                         <div className="col-lg-6">
                                             <div className="checkout__input">
-                                                <p>
-                                                    Fist Name<span>*</span>
-                                                </p>
-                                                <input type="text"/>
+                                                <p>First Name<span>*</span></p>
+                                                <input type="text" name="first_name" value={formData.first_name} onChange={handleInputChange} required/>
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
                                             <div className="checkout__input">
-                                                <p>
-                                                    Last Name<span>*</span>
-                                                </p>
-                                                <input type="text"/>
+                                                <p>Last Name<span>*</span></p>
+                                                <input type="text" name="last_name" value={formData.last_name} onChange={handleInputChange} required/>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="checkout__input">
-                                        <p>
-                                            Country<span>*</span>
-                                        </p>
-                                        <input type="text"/>
+                                        <p>Country<span>*</span></p>
+                                        <input type="text" name="country" value={formData.country} onChange={handleInputChange} required/>
                                     </div>
                                     <div className="checkout__input">
-                                        <p>
-                                            Address<span>*</span>
-                                        </p>
-                                        <input
-                                            type="text"
-                                            placeholder="Street Address"
-                                            className="checkout__input__add"
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder="Apartment, suite, unite ect (optinal)"
-                                        />
+                                        <p>Address<span>*</span></p>
+                                        <input type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Street Address" className="checkout__input__add" required/>
+                                        <input type="text" placeholder="Apartment, suite, etc. (optional)"/>
                                     </div>
                                     <div className="checkout__input">
-                                        <p>
-                                            Town/City<span>*</span>
-                                        </p>
-                                        <input type="text"/>
+                                        <p>Town/City<span>*</span></p>
+                                        <input type="text" name="city" value={formData.city} onChange={handleInputChange} required/>
                                     </div>
                                     <div className="checkout__input">
-                                        <p>
-                                            Country/State<span>*</span>
-                                        </p>
-                                        <input type="text"/>
+                                        <p>Country/State<span>*</span></p>
+                                        <input type="text" name="state" value={formData.state} onChange={handleInputChange} required/>
                                     </div>
                                     <div className="checkout__input">
-                                        <p>
-                                            Postcode / ZIP<span>*</span>
-                                        </p>
-                                        <input type="text"/>
+                                        <p>Postcode / ZIP<span>*</span></p>
+                                        <input type="text" name="postcode" value={formData.postcode} onChange={handleInputChange} required/>
                                     </div>
                                     <div className="row">
                                         <div className="col-lg-6">
                                             <div className="checkout__input">
-                                                <p>
-                                                    Phone<span>*</span>
-                                                </p>
-                                                <input type="text"/>
+                                                <p>Phone<span>*</span></p>
+                                                <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} required/>
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
                                             <div className="checkout__input">
-                                                <p>
-                                                    Email<span>*</span>
-                                                </p>
-                                                <input type="text"/>
+                                                <p>Email<span>*</span></p>
+                                                <input type="email" name="email" value={formData.email} onChange={handleInputChange} required/>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="checkout__input__checkbox">
-                                        <label htmlFor="acc">
-                                            Create an account?
-                                            <input type="checkbox" id="acc"/>
-                                            <span className="checkmark"/>
-                                        </label>
-                                    </div>
-                                    <p>
-                                        Create an account by entering the information below. If you are
-                                        a returning customer please login at the top of the page
-                                    </p>
                                     <div className="checkout__input">
-                                        <p>
-                                            Account Password<span>*</span>
-                                        </p>
-                                        <input type="text"/>
-                                    </div>
-                                    <div className="checkout__input__checkbox">
-                                        <label htmlFor="diff-acc">
-                                            Ship to a different address?
-                                            <input type="checkbox" id="diff-acc"/>
-                                            <span className="checkmark"/>
-                                        </label>
-                                    </div>
-                                    <div className="checkout__input">
-                                        <p>
-                                            Order notes<span>*</span>
-                                        </p>
-                                        <input
-                                            type="text"
-                                            placeholder="Notes about your order, e.g. special notes for delivery."
-                                        />
+                                        <p>Order notes</p>
+                                        <input type="text" name="order_notes" value={formData.order_notes} onChange={handleInputChange} placeholder="Notes about your order, e.g. special notes for delivery."/>
                                     </div>
                                 </div>
                                 <div className="col-lg-4 col-md-6">
                                     <div className="checkout__order">
                                         <h4>Your Order</h4>
-                                        <div className="checkout__order__products">
-                                            Products <span>Total</span>
-                                        </div>
+                                        <div className="checkout__order__products">Products <span>Total</span></div>
                                         <ul>
                                             {cartItems.map((item, index) => (
-                                                <li key={index}>
-                                                    {item.name}
-                                                    <span>
-                                                        ${(
-                                                            (item.on_sale ? item.on_sale_price : item.price) * (item.quantity || 1)
-                                                        ).toFixed(2)}
-                                                    </span>
-                                                </li>
+                                                <li key={index}>{item.name} <span>${item.on_sale ? item.on_sale_price : item.price}</span></li>
                                             ))}
                                         </ul>
-
-                                        <div className="checkout__order__subtotal">
-                                            Subtotal <span>${subtotal.toFixed(2)}</span>
-                                        </div>
-                                        <div className="checkout__order__total">
-                                            Discount <span>${discountAmount.toFixed(2)}</span>
-                                        </div>
-                                        <div className="checkout__order__total">
-                                            Total <span>${totalAfterDiscount.toFixed(2)}</span>
-                                        </div>
-                                        <div className="checkout__input__checkbox">
-                                            <label htmlFor="acc-or">
-                                                Create an account?
-                                                <input type="checkbox" id="acc-or"/>
-                                                <span className="checkmark"/>
-                                            </label>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adip elit, sed do
-                                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        </p>
-                                        <div className="checkout__input__checkbox">
-                                            <label htmlFor="payment">
-                                                Check Payment
-                                                <input type="checkbox" id="payment"/>
-                                                <span className="checkmark"/>
-                                            </label>
-                                        </div>
-                                        <div className="checkout__input__checkbox">
-                                            <label htmlFor="paypal">
-                                                Paypal
-                                                <input type="checkbox" id="paypal"/>
-                                                <span className="checkmark"/>
-                                            </label>
-                                        </div>
-                                        <button type="submit" className="site-btn">
-                                            PLACE ORDER
-                                        </button>
+                                        <div className="checkout__order__subtotal">Subtotal <span>${subtotal.toFixed(2)}</span></div>
+                                        <div className="checkout__order__total">Total <span>${totalAfterDiscount.toFixed(2)}</span></div>
+                                        <button type="submit" className="site-btn" disabled={loading}>{loading ? 'Placing Order...' : 'PLACE ORDER'}</button>
+                                        {error && <p style={{color: 'red'}}>{error}</p>}
+                                        {success && <p style={{color: 'green'}}>{success}</p>}
                                     </div>
                                 </div>
                             </div>
@@ -310,11 +270,7 @@ const Checkout = () => {
             {/* Checkout Section End */}
 
             <Footer/>
-
-            {/* Js Plugins */}
         </>
-
-
     );
 };
 

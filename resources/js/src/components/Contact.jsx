@@ -43,10 +43,6 @@ const Contact = () => {
 
     return (
         <>
-            {/* Page Preloader */}
-            {/*<div id="preloder">*/}
-            {/*    <div className="loader" />*/}
-            {/*</div>*/}
 
             <Hamburger />
 

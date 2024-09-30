@@ -184,7 +184,14 @@ ol {
     display: inline-block;
     padding: 13px 30px 12px;
     background: #7fad39;
+    border-radius: 0px;
     border: none;
+    transition: background 0.3s ease;
+}
+
+.site-btn:hover {
+    background: #a3d754;
+
 }
 
 /* Preloder */

@@ -19,7 +19,7 @@ class ContactController extends Controller
 
         try {
             // Create the email message
-            Mail::to('doychinyanev@mail.bg')->send(new ContactMail($validatedData));
+            Mail::to(['hdskhrystal@gmail.com'])->send(new ContactMail($validatedData));
 
             return response()->json(['message' => 'Message sent successfully!'], 200);
         } catch (\Exception $e) {

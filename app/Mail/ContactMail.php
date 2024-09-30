@@ -17,11 +17,12 @@ class ContactMail extends Mailable
         $this->data = $data;
     }
 
+
+
     public function build()
     {
         return $this
-            ->subject('New Contact Message')
-            ->view('emails.contact') // Create an email view file at resources/views/emails/contact.blade.php
+            ->view('emails.contact')
             ->with(['data' => $this->data]);
     }
 }

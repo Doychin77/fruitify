@@ -5,6 +5,7 @@ import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
 import useArticles from "@/src/hooks/useArticles.js";
 import {useBlogCategories} from "@/src/hooks/useCategories.js";
+import Spinner from "@/src/components/Spinner/Spinner.jsx";
 
 const BlogDetails = () => {
     const { articles, loading: articleLoading } = useArticles();
@@ -35,7 +36,7 @@ const BlogDetails = () => {
 
     console.log(article);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Spinner/>;
     if (error) return <div>Error: {error}</div>;
     if (!article) return <div>No article found</div>;
 
@@ -110,7 +111,11 @@ const BlogDetails = () => {
                                 <h2>{article.title}</h2>
                                 <ul>
                                     <li>Yanev</li>
-                                    <li>{article.published_at}</li>
+                                    <li>{new Date(article.published_at).toLocaleDateString('bg-BG', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric'
+                                    })}</li>
                                     <li>8 Comments</li>
                                 </ul>
                             </div>
@@ -218,8 +223,8 @@ const BlogDetails = () => {
                                     <div className="col-lg-6">
                                         <div className="blog__details__widget">
                                             <ul>
-                                                <li><span>Categories:</span> Food</li>
-                                                <li><span>Tags:</span> Apple, Fresh, Fruits</li>
+                                                <li><span>Categories:</span> {article.category.name}</li>
+                                                {/*<li><span>Tags:</span> Apple, Fresh, Fruits</li>*/}
                                             </ul>
                                         </div>
                                     </div>

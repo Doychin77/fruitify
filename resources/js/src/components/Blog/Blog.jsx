@@ -200,13 +200,17 @@ const Blog = () => {
                                                     style={{
                                                         width: '100%',
                                                         height: 'auto'
-                                                    }} // Ensures the image displays fully
+                                                    }}
                                                 />
                                             </div>
                                             <div className="blog__item__text">
                                                 <ul>
                                                     <li>
-                                                        <i className="fa fa-calendar-o"/> {new Date(article.created_at).toLocaleDateString()}
+                                                        <i className="fa fa-calendar-o"/> {new Date(article.created_at).toLocaleDateString('en-GB', {
+                                                        day: '2-digit',
+                                                        month: '2-digit',
+                                                        year: 'numeric'
+                                                    })}
                                                     </li>
                                                     <li>
                                                         <i className="fa fa-comment-o"/> {'9' || 0}
@@ -216,15 +220,15 @@ const Blog = () => {
                                                     <a href="#">{article.title}</a>
                                                 </h5>
                                                 <p>
-                                                    {article.content.substring(0, 100)}... {/* Displaying a truncated version of the content */}
+                                                    {article.content.substring(0, 100)}...
                                                 </p>
-                                                <a href="#" className="blog__btn">
+                                                <a href={`/blog/${article.id}`} className="blog__btn">
                                                     READ MORE <span className="arrow_right"/>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                ))}
+                                    ))}
                                 {/* Placeholder for empty spaces to maintain grid layout */}
                                 {articles.length % 2 !== 0 && (
                                     <div className="col-lg-6 col-md-6 col-sm-6" style={{visibility: 'hidden'}}></div>

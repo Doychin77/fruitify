@@ -22,10 +22,13 @@ class BlogController extends Controller
 
     public function getArticle($id)
     {
-        $article = BlogArticle::find($id);
+        // Eager load the 'category' relationship
+        $article = BlogArticle::with('category')->find($id);
+
         if ($article) {
             return response()->json($article);
         }
+
         return response()->json(['message' => 'Article not found'], 404);
     }
 }

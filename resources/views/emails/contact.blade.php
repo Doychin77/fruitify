@@ -37,20 +37,20 @@
                 <tr>
                     <td>
                         <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
-                               style="max-width:670px;background:#fff; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+                               style="max-width:670px;background:#665e5e; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
                             <tr>
                                 <td style="height:40px;">&nbsp;</td>
                             </tr>
                             <tr>
                                 <td style="padding:0 35px;">
                                     <h1 class="header">Контактна форма</h1>
-                                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0; text-align: center">
+                                    <p style="color:#ffffff; font-size:15px;line-height:24px; margin:0; text-align: center">
                                         <strong>Име</strong><br> {{ $data['name']}}<br>
                                     </p>
-                                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0; text-align: center">
+                                    <p style="color:#ffffff; font-size:15px;line-height:24px; margin:0; text-align: center">
                                         <strong>Имейл адрес</strong><br> {{ $data['email']}}<br>
                                     </p>
-                                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0; text-align: center">
+                                    <p style="color:#ffffff; font-size:15px;line-height:24px; margin:0; text-align: center">
                                         <strong>Съобщение</strong><br> {{ $data['message']}}
                                     </p>
                                 </td>

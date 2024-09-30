@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Make sure you have react-router-dom installed
+import { useParams } from 'react-router-dom';
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
@@ -10,7 +10,7 @@ import Spinner from "@/src/components/Spinner/Spinner.jsx";
 const BlogDetails = () => {
     const { articles, loading: articleLoading } = useArticles();
     const { blogCategories, loading: blogLoading } = useBlogCategories();
-    const { id } = useParams(); // Get the article ID from the URL
+    const { id } = useParams();
     const [article, setArticle] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

@@ -2228,6 +2228,11 @@ ol {
     font-size: 16px;
     color: #b2b2b2;
     border-radius: 4px;
+    transition: border 0.3s ease;
+}
+
+.checkout__input input:focus {
+    border: 1px solid #7fad39;
 }
 
 .checkout__input input.checkout__input__add {
@@ -2994,7 +2999,15 @@ ol {
     margin-bottom: 30px;
     border: 1px solid #ebebeb;
     border-radius: 4px;
+    transition: border 0.3s ease;
 }
+
+
+.contact-form form input:focus {
+    border: 1px solid #7FAD39;
+    outline: none;
+}
+
 
 .contact-form form input::placeholder {
     color: #6f6f6f;
@@ -3011,6 +3024,11 @@ ol {
     border-radius: 4px;
     padding-top: 12px;
     resize: none;
+    transition: border 0.3s ease;
+}
+
+.contact-form form textarea:focus {
+    border-color: #7fad39;
 }
 
 .contact-form form textarea::placeholder {

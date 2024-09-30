@@ -23,14 +23,21 @@ class OrderItemsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('product_id')
-                    ->label('ID')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('product.name')
-                    ->label('ID')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('product_id')
+                    ->label('ID на продукт')
+                    ->relationship('product', 'name')
+                    ->required(),
+                Forms\Components\TextInput::make('product_name')
+                    ->label('Име на продукта')
+                    ->required(),
+                Forms\Components\TextInput::make('quantity')
+                    ->label('Брой')
+                    ->numeric()
+                    ->required(),
+                Forms\Components\TextInput::make('single_price')
+                    ->label('Единична цена')
+                    ->numeric()
+                    ->required(),
             ]);
     }
 

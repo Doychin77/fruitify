@@ -98,7 +98,7 @@ const Hamburger = () => {
                 <div className="humberger__menu__contact">
                     <ul>
                         <li>
-                            <i className="fa fa-envelope"/> hello@colorlib.com
+                            <i className="fa fa-envelope"/>
                         </li>
                         <li>Free Shipping for all Order of $99</li>
                     </ul>

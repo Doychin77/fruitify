@@ -14,6 +14,7 @@ const Cart = () => {
     const [discountPercent, setDiscountPercent] = useState(0);
 
     const handleRemove = (productId) => {
+        console.log('Removing product with ID:', productId);
         removeFromCart(productId);
     };
 

@@ -184,7 +184,7 @@ const Checkout = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h6><span className="icon_tag_alt"/> Have a coupon? <a href="#">Click here</a> to enter your code</h6>
+                            <h6><span className="icon_tag_alt"/> Have a coupon? <a href="/cart">Click here</a> to enter your code</h6>
                         </div>
                     </div>
                     <div className="checkout__form">
@@ -249,15 +249,27 @@ const Checkout = () => {
                                 <div className="col-lg-4 col-md-6">
                                     <div className="checkout__order">
                                         <h4>Your Order</h4>
-                                        <div className="checkout__order__products">Products <span>Total</span></div>
+                                        <div className="checkout__order__products">Products</div>
                                         <ul>
                                             {cartItems.map((item, index) => (
-                                                <li key={index}>{item.name} <span>${item.on_sale ? item.on_sale_price : item.price}</span></li>
+                                                <li key={index}>{item.name}
+                                                    <span>${item.on_sale ? item.on_sale_price : item.price}</span></li>
                                             ))}
                                         </ul>
-                                        <div className="checkout__order__subtotal">Subtotal <span>${subtotal.toFixed(2)}</span></div>
-                                        <div className="checkout__order__total">Total <span>${totalAfterDiscount.toFixed(2)}</span></div>
-                                        <button type="submit" className="site-btn" disabled={loading}>{loading ? 'Placing Order...' : 'PLACE ORDER'}</button>
+                                        <div
+                                            className="checkout__order__subtotal">Subtotal <span>${subtotal.toFixed(2)}</span>
+                                        </div>
+                                        {discountAmount > 0 && (
+                                            <div className="checkout__order__total">
+                                                Discount <span>${discountAmount.toFixed(2)}</span>
+                                            </div>
+                                        )}
+
+                                        <div
+                                            className="checkout__order__total">Total <span>${totalAfterDiscount.toFixed(2)}</span>
+                                        </div>
+                                        <button type="submit" className="site-btn"
+                                                disabled={loading}>{loading ? 'Placing Order...' : 'PLACE ORDER'}</button>
                                         {error && <p style={{color: 'red'}}>{error}</p>}
                                         {success && <p style={{color: 'green'}}>{success}</p>}
                                     </div>

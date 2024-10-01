@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\DB;
 
 class OrderResource extends Resource
 {
@@ -64,8 +65,16 @@ class OrderResource extends Resource
                             ->label('Пощенски код')
                             ->required(),
                     ])->columns(2),
+                Forms\Components\TextInput::make('subtotal')
+                    ->label('Сума без отстъпка')
+                    ->numeric()
+                    ->required(),
 
-
+                Forms\Components\TextInput::make('total')
+                    ->label('Сума')
+                    ->numeric()
+                    ->live()
+                    ->required(),
                 Forms\Components\Textarea::make('order_notes')
                     ->label('Забележки за поръчката')
                     ->columnSpan('full'),
@@ -117,4 +126,5 @@ class OrderResource extends Resource
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
+
 }

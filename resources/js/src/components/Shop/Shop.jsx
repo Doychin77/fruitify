@@ -142,7 +142,7 @@ const Shop = () => {
                     <div className="row">
                         <div className="col-lg-12 text-center">
                             <div className="breadcrumb__text">
-                                <h2>Organi Shop</h2>
+                                <h2>Fruitify Shop</h2>
                                 <div className="breadcrumb__option">
                                     <a href="/public">Home</a>
                                     <span>Shop</span>

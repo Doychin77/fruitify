@@ -59,6 +59,8 @@ return [
     |
     */
 
+    'favicon' => 'favicon.png',
+
     'assets_path' => null,
 
     /*

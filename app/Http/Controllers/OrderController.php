@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderConfirmation;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -67,6 +69,17 @@ class OrderController extends Controller
                 }
             }
         });
+
+        $deliveryInfo = [
+            'name' => $request->first_name . ' ' . $request->last_name,
+            'address' => $request->address . ', ' . $request->city . ', ' . $request->state . ', ' . $request->postcode . ', ' . $request->country,
+            'phone' => $request->phone,
+            'email' => $request->email,
+        ];
+
+        $products = $request->input('items');
+
+        Mail::to($request->email)->send(new OrderConfirmation($deliveryInfo, $products));
 
         return response()->json(['message' => 'Order placed successfully!', 'order' => $order], 201);
     }

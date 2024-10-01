@@ -41,10 +41,13 @@ class OrderItemsRelationManager extends RelationManager
                         $product = Product::find($state);
                         if ($product) {
                             $set('product_name', $product->name);
-                            $set('single_price', $product->price);
+                            if ($product->on_sale) {
+                                $set('single_price', $product->on_sale_price);
+                            } else {
+                                $set('single_price', $product->price);
+                            }
                         }
 
-                        // Trigger total update when product is selected
                         $this->updateOrderTotal($get);
                     })
                     ->searchable()
@@ -59,7 +62,6 @@ class OrderItemsRelationManager extends RelationManager
                     ->numeric()
                     ->reactive()
                     ->afterStateUpdated(function (callable $get) {
-                        // Trigger total update when quantity changes
                         $this->updateOrderTotal($get);
                     })
                     ->required(),
@@ -69,7 +71,6 @@ class OrderItemsRelationManager extends RelationManager
                     ->numeric()
                     ->reactive()
                     ->afterStateUpdated(function (callable $get) {
-                        // Trigger total update when price changes
                         $this->updateOrderTotal($get);
                     })
                     ->required(),

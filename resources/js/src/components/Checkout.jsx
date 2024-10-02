@@ -68,6 +68,8 @@ const Checkout = () => {
         setError('');
         setSuccess('');
 
+        console.log(formData);
+
         const items = Array.isArray(cartItems) ? cartItems : [];
 
         try {
@@ -88,6 +90,8 @@ const Checkout = () => {
                 }),
                 credentials: 'same-origin'
             });
+
+            console.log('Response:', response);
 
             if (response.ok) {
                 const data = await response.json();
@@ -163,7 +167,6 @@ const Checkout = () => {
             });
     };
 
-    console.log(cities);
 
     const getStreets = () => {
         econtService
@@ -194,8 +197,6 @@ const Checkout = () => {
                 console.log(error);
             });
     };
-
-    console.log(offices);
 
 
     return (
@@ -285,7 +286,7 @@ const Checkout = () => {
                     </div>
                     <div className="checkout__form">
                         <h4>Billing Details</h4>
-                        <form onSubmit={handleSubmit}>
+                        <form>
                             <div className="row">
                                 <div className="col-lg-8 col-md-6">
                                     <div className="row">
@@ -380,14 +381,16 @@ const Checkout = () => {
                                                 {offices.length > 0 && (
                                                     <ul>
                                                         {offices.map(office => (
-                                                            <li key={office.id} onClick={() => {
-                                                                setFormData(prev => ({
-                                                                    ...prev,
-                                                                    econt_office: office.name,
-                                                                    econt_office_id: office.id
-                                                                }));
-                                                                setOffices([]);
-                                                            }}>
+                                                            <li
+                                                                key={office.econt_office_id}
+                                                                onClick={() =>
+                                                                    handleEcontStates({
+                                                                        econt_office_id:
+                                                                        office.econt_office_id,
+                                                                        econt_office: office.name,
+                                                                    })
+                                                                }
+                                                            >
                                                                 {office.name}
                                                             </li>
                                                         ))}
@@ -411,14 +414,16 @@ const Checkout = () => {
                                                 {streets.length > 0 && (
                                                     <ul>
                                                         {streets.map(street => (
-                                                            <li key={street.id} onClick={() => {
-                                                                setFormData(prev => ({
-                                                                    ...prev,
-                                                                    econt_street: street.name,
-                                                                    econt_street_id: street.id
-                                                                }));
-                                                                setStreets([]);
-                                                            }}>
+                                                            <li
+                                                                key={street.econt_street_id}
+                                                                onClick={() =>
+                                                                    handleEcontStates({
+                                                                        econt_street_id:
+                                                                        street.econt_street_id,
+                                                                        econt_street: street.name,
+                                                                    })
+                                                                }
+                                                            >
                                                                 {street.name}
                                                             </li>
                                                         ))}
@@ -456,7 +461,8 @@ const Checkout = () => {
                                         <div className="checkout__order__total">
                                             <h5>Total <span>${totalAfterDiscount.toFixed(2)}</span></h5>
                                         </div>
-                                        <button type="submit" className="site-btn" disabled={loading}>
+                                        <button type="submit" className="site-btn" disabled={loading}
+                                                onClick={handleSubmit}>
                                             {loading ? 'Processing...' : 'Place Order'}
                                         </button>
                                     </div>

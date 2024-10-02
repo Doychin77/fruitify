@@ -32,13 +32,9 @@ class OrderResource extends Resource
                 Forms\Components\Section::make('Данни за клиента')
                     ->collapsed()
                     ->schema([
-                        Forms\Components\TextInput::make('first_name')
+                        Forms\Components\TextInput::make('full_name')
                             ->label('Име')
                             ->required(),
-                        Forms\Components\TextInput::make('last_name')
-                            ->label('Фамилия')
-                            ->required(),
-
                         Forms\Components\TextInput::make('phone')
                             ->label('Телефон')
                             ->required(),
@@ -85,10 +81,8 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('first_name')
+                Tables\Columns\TextColumn::make('full_name')
                     ->label('Име'),
-                Tables\Columns\TextColumn::make('last_name')
-                    ->label('Фамилия'),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Имейл'),
                 Tables\Columns\TextColumn::make('phone')

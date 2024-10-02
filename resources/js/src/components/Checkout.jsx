@@ -1,30 +1,49 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
 import {CartContext} from "@/src/context/cartContext.jsx";
 import {useNavigate} from "react-router-dom";
 
+
+import deliveryIcon from "../assets/bus-icon.png";
+import econtIcon from "../assets/econt-icon.png";
+import useDebounce from "@/src/hooks/useDebounce.jsx";
+
+import econtService from "@/src/services/econtService.js";
+
+
 const Checkout = () => {
+    const [deliveryType, setDeliveryType] = useState("econt_office");
+    const [cities, setCities] = useState([]);
+    const [streets, setStreets] = useState([]);
+    const [offices, setOffices] = useState([]);
 
     const {cartItems, clearCart} = useContext(CartContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        first_name: '',
-        last_name: '',
-        country: '',
-        address: '',
-        city: '',
-        state: '',
-        postcode: '',
-        phone: '',
-        email: '',
-        order_notes: '',
+        buyer_name: '',
+        buyer_email: '',
+        buyer_phone: '',
+        order_info: '',
+        econt_city: "",
+        econt_street: "",
+        econt_street_number: "",
+        econt_street_id: "",
+        econt_city_id: "",
+        econt_office_id: "",
+        econt_office: "",
+        delivery_type: deliveryType,
     });
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+
+    // Debounced values for inputs
+    const econtCity = useDebounce(formData.econt_city, 500);
+    const econtStreet = useDebounce(formData.econt_street, 500);
+    const econtOffice = useDebounce(formData.econt_office, 500);
 
     // Calculate subtotal and total
     const subtotal = cartItems.reduce((total, item) => {
@@ -36,7 +55,7 @@ const Checkout = () => {
     const totalAfterDiscount = parseFloat(localStorage.getItem('totalAfterDiscount')) || 0;
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData({
             ...formData,
             [name]: value
@@ -49,10 +68,7 @@ const Checkout = () => {
         setError('');
         setSuccess('');
 
-        // Use the cartItems directly from context
-        const items = Array.isArray(cartItems) ? cartItems : []; // Ensure items is an array
-
-        console.log(items);
+        const items = Array.isArray(cartItems) ? cartItems : [];
 
         try {
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -65,7 +81,7 @@ const Checkout = () => {
                 },
                 body: JSON.stringify({
                     ...formData,
-                    items, // Include items in the body
+                    items,
                     subtotal,
                     discount: discountAmount,
                     total: totalAfterDiscount,
@@ -76,18 +92,19 @@ const Checkout = () => {
             if (response.ok) {
                 const data = await response.json();
                 setSuccess(data.message);
-                // Clear form and cart on successful order
                 setFormData({
-                    first_name: '',
-                    last_name: '',
-                    country: '',
-                    address: '',
-                    city: '',
-                    state: '',
-                    postcode: '',
-                    phone: '',
-                    email: '',
-                    order_notes: '',
+                    buyer_name: '',
+                    buyer_email: '',
+                    buyer_phone: '',
+                    order_info: '',
+                    econt_city: "",
+                    econt_street: "",
+                    econt_street_number: "",
+                    econt_street_id: "",
+                    econt_city_id: "",
+                    econt_office_id: "",
+                    econt_office: "",
+                    delivery_type: deliveryType,
                 });
 
                 clearCart();
@@ -102,6 +119,74 @@ const Checkout = () => {
             setLoading(false);
         }
     };
+
+    const handleDeliveryType = (type) => {
+        setDeliveryType(type);
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            delivery_type: type,
+        }));
+    };
+
+    // Get cities
+    useEffect(() => {
+        if (econtCity) {
+            getCities();
+            if (deliveryType === "econt_office" && formData.econt_city_id) {
+                getOffices();
+            }
+        }
+    }, [econtCity]);
+
+    // Get streets based on city selection
+    useEffect(() => {
+        if (formData.econt_city_id) {
+            getStreets();
+        }
+    }, [formData.econt_city_id]);
+
+    // Get offices based on street selection
+    useEffect(() => {
+        if (deliveryType === "econt_office" && formData.econt_city_id) {
+            getOffices();
+        }
+    }, [econtOffice]);
+
+    const getCities = () => {
+        econtService
+            .getCities(econtCity)
+            .then((res) => {
+                setCities(res);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    console.log(cities);
+
+    const getStreets = () => {
+        econtService
+            .getStreets(formData.econt_city_id)
+            .then((res) => {
+                setStreets(res);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const getOffices = () => {
+        econtService
+            .getOffices(formData.econt_city_id)
+            .then((res) => {
+                setOffices(res);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+    
 
     return (
         <>
@@ -141,7 +226,7 @@ const Checkout = () => {
                                             All Categories
                                             <span className="arrow_carrot-down"/>
                                         </div>
-                                        <input type="text" placeholder="What do yo u need?"/>
+                                        <input type="text" placeholder="What do you need?"/>
                                         <button type="submit" className="site-btn">SEARCH</button>
                                     </form>
                                 </div>
@@ -184,7 +269,8 @@ const Checkout = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h6><span className="icon_tag_alt"/> Have a coupon? <a href="/cart">Click here</a> to enter your code</h6>
+                            <h6><span className="icon_tag_alt"/> Have a coupon? <a href="#">Click here to enter your
+                                code</a></h6>
                         </div>
                     </div>
                     <div className="checkout__form">
@@ -193,90 +279,181 @@ const Checkout = () => {
                             <div className="row">
                                 <div className="col-lg-8 col-md-6">
                                     <div className="row">
-                                        <div className="col-lg-6">
+                                        <div className="col-lg-6 col-md-6">
                                             <div className="checkout__input">
-                                                <p>First Name<span>*</span></p>
-                                                <input type="text" name="first_name" value={formData.first_name} onChange={handleInputChange} required/>
+                                                <p>Name<span>*</span></p>
+                                                <input type="text" name="buyer_name" value={formData.buyer_name}
+                                                       onChange={handleInputChange}/>
                                             </div>
                                         </div>
-                                        <div className="col-lg-6">
-                                            <div className="checkout__input">
-                                                <p>Last Name<span>*</span></p>
-                                                <input type="text" name="last_name" value={formData.last_name} onChange={handleInputChange} required/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="checkout__input">
-                                        <p>Country<span>*</span></p>
-                                        <input type="text" name="country" value={formData.country} onChange={handleInputChange} required/>
-                                    </div>
-                                    <div className="checkout__input">
-                                        <p>Address<span>*</span></p>
-                                        <input type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Street Address" className="checkout__input__add" required/>
-                                        <input type="text" placeholder="Apartment, suite, etc. (optional)"/>
-                                    </div>
-                                    <div className="checkout__input">
-                                        <p>Town/City<span>*</span></p>
-                                        <input type="text" name="city" value={formData.city} onChange={handleInputChange} required/>
-                                    </div>
-                                    <div className="checkout__input">
-                                        <p>Country/State<span>*</span></p>
-                                        <input type="text" name="state" value={formData.state} onChange={handleInputChange} required/>
-                                    </div>
-                                    <div className="checkout__input">
-                                        <p>Postcode / ZIP<span>*</span></p>
-                                        <input type="text" name="postcode" value={formData.postcode} onChange={handleInputChange} required/>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-lg-6">
-                                            <div className="checkout__input">
-                                                <p>Phone<span>*</span></p>
-                                                <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} required/>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
+                                        <div className="col-lg-6 col-md-6">
                                             <div className="checkout__input">
                                                 <p>Email<span>*</span></p>
-                                                <input type="email" name="email" value={formData.email} onChange={handleInputChange} required/>
+                                                <input type="email" name="buyer_email" value={formData.buyer_email}
+                                                       onChange={handleInputChange}/>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="checkout__input">
-                                        <p>Order notes</p>
-                                        <input type="text" name="order_notes" value={formData.order_notes} onChange={handleInputChange} placeholder="Notes about your order, e.g. special notes for delivery."/>
+                                        <p>Phone<span>*</span></p>
+                                        <input type="text" name="buyer_phone" value={formData.buyer_phone}
+                                               onChange={handleInputChange}/>
                                     </div>
+                                    <div className="checkout__input">
+                                        <p>Order Info<span>*</span></p>
+                                        <input type="text" name="order_info" value={formData.order_info}
+                                               onChange={handleInputChange}/>
+                                    </div>
+
+                                    {/* Econt Delivery Options */}
+                                    <div className="checkout__input">
+                                        <p>Delivery Type<span>*</span></p>
+                                        <div
+                                            className={`type_item ${deliveryType === "econt_office" ? "checked" : ""}`}
+                                            style={{display: 'inline-block', width: '48%', cursor: 'pointer'}}
+                                            onClick={() => handleDeliveryType("econt_office")}
+                                        >
+                                            <img src={econtIcon} alt="" style={{maxWidth: '50%', height: 'auto'}}/>
+                                            <p>Econt Office</p>
+                                        </div>
+                                        <div
+                                            className={`type_item ${deliveryType === "courier" ? "checked" : ""}`}
+                                            style={{display: 'inline-block', width: '48%', cursor: 'pointer'}}
+                                            onClick={() => handleDeliveryType("courier")}
+                                        >
+                                            <img src={deliveryIcon} alt="" style={{maxWidth: '50%', height: 'auto'}}/>
+                                            <p>Courier</p>
+                                        </div>
+                                    </div>
+
+                                    {/* City Selection */}
+                                    <div className="checkout__input">
+                                        <p>City<span>*</span></p>
+                                        <input
+                                            type="text"
+                                            name="econt_city"
+                                            value={formData.econt_city}
+                                            onChange={handleInputChange}
+                                        />
+                                        {cities.length > 0 && (
+                                            <ul>
+                                                {cities.map(city => (
+                                                    <li key={city.id} onClick={() => {
+                                                        setFormData(prev => ({
+                                                            ...prev,
+                                                            econt_city: city.name,
+                                                            econt_city_id: city.id
+                                                        }));
+                                                        setCities([]);
+                                                    }}>
+                                                        {city.name}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </div>
+
+                                    {/* Conditional Rendering */}
+                                    {deliveryType === "econt_office" && (
+                                        <>
+                                            {/* Econt Office Selection */}
+                                            <div className="checkout__input">
+                                                <p>Econt Office<span>*</span></p>
+                                                <input
+                                                    type="text"
+                                                    name="econt_office"
+                                                    value={formData.econt_office}
+                                                    onChange={handleInputChange}
+                                                />
+                                                {offices.length > 0 && (
+                                                    <ul>
+                                                        {offices.map(office => (
+                                                            <li key={office.id} onClick={() => {
+                                                                setFormData(prev => ({
+                                                                    ...prev,
+                                                                    econt_office: office.name,
+                                                                    econt_office_id: office.id
+                                                                }));
+                                                                setOffices([]);
+                                                            }}>
+                                                                {office.name}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {deliveryType === "courier" && (
+                                        <>
+                                            {/* Street Selection */}
+                                            <div className="checkout__input">
+                                                <p>Street<span>*</span></p>
+                                                <input
+                                                    type="text"
+                                                    name="econt_street"
+                                                    value={formData.econt_street}
+                                                    onChange={handleInputChange}
+                                                />
+                                                {streets.length > 0 && (
+                                                    <ul>
+                                                        {streets.map(street => (
+                                                            <li key={street.id} onClick={() => {
+                                                                setFormData(prev => ({
+                                                                    ...prev,
+                                                                    econt_street: street.name,
+                                                                    econt_street_id: street.id
+                                                                }));
+                                                                setStreets([]);
+                                                            }}>
+                                                                {street.name}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            </div>
+
+                                            {/* Street Number */}
+                                            <div className="checkout__input">
+                                                <p>Street Number<span>*</span></p>
+                                                <input
+                                                    type="text"
+                                                    name="econt_street_number"
+                                                    value={formData.econt_street_number}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Enter street number"
+                                                />
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                                 <div className="col-lg-4 col-md-6">
                                     <div className="checkout__order">
                                         <h4>Your Order</h4>
-                                        <div className="checkout__order__products">Products</div>
-                                        <ul>
-                                            {cartItems.map((item, index) => (
-                                                <li key={index}>{item.name}
-                                                    <span>${item.on_sale ? item.on_sale_price : item.price}</span></li>
-                                            ))}
-                                        </ul>
-                                        <div
-                                            className="checkout__order__subtotal">Subtotal <span>${subtotal.toFixed(2)}</span>
+                                        <div className="checkout__order__products">
+                                            <ul>
+                                                {cartItems.map((item, index) => (
+                                                    <li key={index}>{item.name} <span>${item.price}</span></li>
+                                                ))}
+                                            </ul>
                                         </div>
-                                        {discountAmount > 0 && (
-                                            <div className="checkout__order__total">
-                                                Discount <span>${discountAmount.toFixed(2)}</span>
-                                            </div>
-                                        )}
-
-                                        <div
-                                            className="checkout__order__total">Total <span>${totalAfterDiscount.toFixed(2)}</span>
+                                        <div className="checkout__order__subtotal">
+                                            <h5>Subtotal <span>${subtotal.toFixed(2)}</span></h5>
                                         </div>
-                                        <button type="submit" className="site-btn"
-                                                disabled={loading}>{loading ? 'Placing Order...' : 'PLACE ORDER'}</button>
-                                        {error && <p style={{color: 'red'}}>{error}</p>}
-                                        {success && <p style={{color: 'green'}}>{success}</p>}
+                                        <div className="checkout__order__total">
+                                            <h5>Total <span>${totalAfterDiscount.toFixed(2)}</span></h5>
+                                        </div>
+                                        <button type="submit" className="site-btn" disabled={loading}>
+                                            {loading ? 'Processing...' : 'Place Order'}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
+                    {error && <p className="error-message">{error}</p>}
+                    {success && <p className="success-message">{success}</p>}
                 </div>
             </section>
             {/* Checkout Section End */}

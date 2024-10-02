@@ -341,6 +341,28 @@ button {
     margin-top: 10px;
 }
 
+.delivery-icons {
+    display: flex;
+    justify-content: space-around; /* Space the icons evenly */
+    margin-bottom: 20px; /* Adjust spacing as needed */
+}
+
+.type_item {
+    cursor: pointer; /* Change cursor to indicate clickability */
+    text-align: center; /* Center text below icons */
+}
+
+.type_item img {
+    width: 50px; /* Set your preferred size */
+    height: auto;
+}
+
+.type_item.checked {
+    border: 2px solid blue; /* Add some indication for the selected item */
+    border-radius: 10px; /* Optional: round corners */
+}
+
+
 
 
 

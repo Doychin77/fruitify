@@ -1,4 +1,4 @@
-import { getCsrfToken } from "../utils";
+// import { getCsrfToken } from "../utils";
 
 const baseUrl = process.env.APP_URL;
 
@@ -32,4 +32,10 @@ export const getStreets = async (city_id,search) => {
     } catch (error) {
         throw error;
     }
+};
+
+export default {
+    getCities,
+    getOffices,
+    getStreets,
 };

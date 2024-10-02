@@ -167,7 +167,7 @@ const Checkout = () => {
 
     const getStreets = () => {
         econtService
-            .getStreets(formData.econt_city_id)
+            .getStreets(formData.econt_city_id, econtStreet)
             .then((res) => {
                 setStreets(res);
             })
@@ -176,9 +176,17 @@ const Checkout = () => {
             });
     };
 
+
+    const handleEcontStates = (updates) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            ...updates,
+        }));
+    };
+
     const getOffices = () => {
         econtService
-            .getOffices(formData.econt_city_id)
+            .getOffices(formData.econt_city_id, econtOffice)
             .then((res) => {
                 setOffices(res);
             })
@@ -186,7 +194,9 @@ const Checkout = () => {
                 console.log(error);
             });
     };
-    
+
+    console.log(offices);
+
 
     return (
         <>
@@ -338,14 +348,16 @@ const Checkout = () => {
                                         {cities.length > 0 && (
                                             <ul>
                                                 {cities.map(city => (
-                                                    <li key={city.id} onClick={() => {
-                                                        setFormData(prev => ({
-                                                            ...prev,
-                                                            econt_city: city.name,
-                                                            econt_city_id: city.id
-                                                        }));
-                                                        setCities([]);
-                                                    }}>
+                                                    <li
+                                                        key={city.econt_city_id}
+                                                        onClick={() =>
+                                                            handleEcontStates({
+                                                                econt_city: city.name,
+                                                                econt_city_id:
+                                                                city.econt_city_id,
+                                                            })
+                                                        }
+                                                    >
                                                         {city.name}
                                                     </li>
                                                 ))}

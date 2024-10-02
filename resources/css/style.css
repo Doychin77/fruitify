@@ -2213,7 +2213,18 @@ ol {
 
 .checkout__input p {
     color: #1c1c1c;
+    font-weight: bold;
     margin-bottom: 20px;
+}
+
+.econt_input_labels p {
+    color: #1c1c1c;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.econt_input_labels  {
+    margin-bottom: 24px;
 }
 
 .checkout__input p span {

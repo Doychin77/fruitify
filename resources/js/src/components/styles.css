@@ -358,8 +358,8 @@ button {
 }
 
 .type_item.checked {
-    border: 2px solid blue; /* Add some indication for the selected item */
-    border-radius: 10px; /* Optional: round corners */
+    border: 2px solid blue;
+    border-radius: 8px;
 }
 
 

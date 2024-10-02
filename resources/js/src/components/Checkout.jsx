@@ -1,68 +1,69 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
-import {CartContext} from "@/src/context/cartContext.jsx";
-import {useNavigate} from "react-router-dom";
-
+import { CartContext } from "@/src/context/cartContext.jsx";
+import useDebounce from "@/src/hooks/useDebounce.jsx";
+import econtService from "@/src/services/econtService.js";
 
 import deliveryIcon from "../assets/bus-icon.png";
 import econtIcon from "../assets/econt-icon.png";
-import useDebounce from "@/src/hooks/useDebounce.jsx";
-
-import econtService from "@/src/services/econtService.js";
-
 
 const Checkout = () => {
-    const [deliveryType, setDeliveryType] = useState("econt_office");
-    const [cities, setCities] = useState([]);
-    const [streets, setStreets] = useState([]);
-    const [offices, setOffices] = useState([]);
-
-    const {cartItems, clearCart} = useContext(CartContext);
+    const { cartItems, clearCart } = useContext(CartContext);
     const navigate = useNavigate();
-    const [isOfficeDropdownOpen, setOfficeDropdownOpen] = useState(false);
-    const [isStreetDropdownOpen, setStreetDropdownOpen] = useState(false);
 
     const [formData, setFormData] = useState({
         buyer_name: '',
         buyer_email: '',
         buyer_phone: '',
         order_info: '',
-        econt_city: "",
-        econt_street: "",
-        econt_street_number: "",
-        econt_street_id: "",
-        econt_city_id: "",
-        econt_office_id: "",
-        econt_office: "",
-        delivery_type: deliveryType,
+        econt_city: '',
+        econt_street: '',
+        econt_street_number: '',
+        econt_street_id: '',
+        econt_city_id: '',
+        econt_office_id: '',
+        econt_office: '',
+        delivery_type: 'econt_office',
     });
-
+    const [deliveryType, setDeliveryType] = useState('econt_office');
+    const [cities, setCities] = useState([]);
+    const [streets, setStreets] = useState([]);
+    const [offices, setOffices] = useState([]);
+    const [isOfficeDropdownOpen, setOfficeDropdownOpen] = useState(false);
+    const [isStreetDropdownOpen, setStreetDropdownOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    // Debounced values for inputs
     const econtCity = useDebounce(formData.econt_city, 500);
     const econtStreet = useDebounce(formData.econt_street, 500);
     const econtOffice = useDebounce(formData.econt_office, 500);
 
-    // Calculate subtotal and total
     const subtotal = cartItems.reduce((total, item) => {
         const price = item.on_sale ? parseFloat(item.on_sale_price) : parseFloat(item.price);
-        const itemTotal = price * item.quantity;
-        return total + itemTotal;
+        return total + price * item.quantity;
     }, 0);
+
     const discountAmount = parseFloat(localStorage.getItem('discountAmount')) || 0;
     const totalAfterDiscount = parseFloat(localStorage.getItem('totalAfterDiscount')) || 0;
 
     const handleInputChange = (e) => {
-        const {name, value} = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        const { name, value } = e.target;
+        setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    };
+
+    const handleDeliveryType = (type) => {
+        setDeliveryType(type);
+        setFormData((prevFormData) => ({ ...prevFormData, delivery_type: type }));
+    };
+
+    const handleEcontStates = (updates) => {
+        setFormData((prevFormData) => ({ ...prevFormData, ...updates }));
+        if (updates.econt_office_id) setOfficeDropdownOpen(false);
+        if (updates.econt_street_id) setStreetDropdownOpen(false);
     };
 
     const handleSubmit = async (e) => {
@@ -71,49 +72,28 @@ const Checkout = () => {
         setError('');
         setSuccess('');
 
-        console.log(formData);
-
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const items = Array.isArray(cartItems) ? cartItems : [];
 
         try {
-            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
             const response = await fetch('http://fruitify.test/orders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': token,
                 },
-                body: JSON.stringify({
-                    ...formData,
-                    items,
-                    subtotal,
-                    discount: discountAmount,
-                    total: totalAfterDiscount,
-                }),
-                credentials: 'same-origin'
+                body: JSON.stringify({ ...formData, items, subtotal, discount: discountAmount, total: totalAfterDiscount }),
+                credentials: 'same-origin',
             });
-
-            console.log('Response:', response);
 
             if (response.ok) {
                 const data = await response.json();
                 setSuccess(data.message);
                 setFormData({
-                    buyer_name: '',
-                    buyer_email: '',
-                    buyer_phone: '',
-                    order_info: '',
-                    econt_city: "",
-                    econt_street: "",
-                    econt_street_number: "",
-                    econt_street_id: "",
-                    econt_city_id: "",
-                    econt_office_id: "",
-                    econt_office: "",
-                    delivery_type: deliveryType,
+                    buyer_name: '', buyer_email: '', buyer_phone: '', order_info: '', econt_city: '',
+                    econt_street: '', econt_street_number: '', econt_street_id: '', econt_city_id: '',
+                    econt_office_id: '', econt_office: '', delivery_type: deliveryType,
                 });
-
                 clearCart();
                 navigate('/');
             } else {
@@ -127,87 +107,49 @@ const Checkout = () => {
         }
     };
 
-    const handleDeliveryType = (type) => {
-        setDeliveryType(type);
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            delivery_type: type,
-        }));
+    const fetchCities = async () => {
+        try {
+            const citiesData = await econtService.getCities(econtCity);
+            setCities(citiesData);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    // Get cities
+    const fetchStreets = async () => {
+        try {
+            const streetsData = await econtService.getStreets(formData.econt_city_id, econtStreet);
+            setStreets(streetsData);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const fetchOffices = async () => {
+        try {
+            const officesData = await econtService.getOffices(formData.econt_city_id, econtOffice);
+            setOffices(officesData);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         if (econtCity) {
-            getCities();
+            fetchCities();
             if (deliveryType === "econt_office" && formData.econt_city_id) {
-                getOffices();
+                fetchOffices();
             }
         }
     }, [econtCity]);
 
-    // Get streets based on city selection
     useEffect(() => {
-        if (formData.econt_city_id) {
-            getStreets();
-        }
+        if (formData.econt_city_id) fetchStreets();
     }, [formData.econt_city_id]);
 
-    // Get offices based on street selection
     useEffect(() => {
-        if (deliveryType === "econt_office" && formData.econt_city_id) {
-            getOffices();
-        }
+        if (deliveryType === "econt_office" && formData.econt_city_id) fetchOffices();
     }, [econtOffice]);
-
-    const getCities = () => {
-        econtService
-            .getCities(econtCity)
-            .then((res) => {
-                setCities(res);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-
-    const getStreets = () => {
-        econtService
-            .getStreets(formData.econt_city_id, econtStreet)
-            .then((res) => {
-                setStreets(res);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-
-    const handleEcontStates = (updates) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            ...updates,
-        }));
-        if (updates.econt_office_id) {
-            setOfficeDropdownOpen(false);
-        }
-
-        if (updates.econt_street_id) {
-            setStreetDropdownOpen(false);
-        }
-    };
-
-    const getOffices = () => {
-        econtService
-            .getOffices(formData.econt_city_id, econtOffice)
-            .then((res) => {
-                setOffices(res);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
 
     return (
         <>
@@ -290,7 +232,7 @@ const Checkout = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h6><span className="icon_tag_alt"/> Have a coupon? <a href="#">Click here to enter your
+                            <h6><span className="icon_tag_alt"/> Have a coupon? <a href="/cart">Click here to enter your
                                 code</a></h6>
                         </div>
                     </div>
@@ -327,25 +269,42 @@ const Checkout = () => {
                                     </div>
 
                                     {/* Econt Delivery Options */}
-                                    <div className="checkout__input">
+                                    <div className="econt_input_labels">
                                         <p>Delivery Type<span>*</span></p>
-                                        <div
-                                            className={`type_item ${deliveryType === "econt_office" ? "checked" : ""}`}
-                                            style={{display: 'inline-block', width: '48%', cursor: 'pointer'}}
-                                            onClick={() => handleDeliveryType("econt_office")}
-                                        >
-                                            <img src={econtIcon} alt="" style={{maxWidth: '50%', height: 'auto'}}/>
-                                            <p>Econt Office</p>
-                                        </div>
-                                        <div
-                                            className={`type_item ${deliveryType === "courier" ? "checked" : ""}`}
-                                            style={{display: 'inline-block', width: '48%', cursor: 'pointer'}}
-                                            onClick={() => handleDeliveryType("courier")}
-                                        >
-                                            <img src={deliveryIcon} alt="" style={{maxWidth: '50%', height: 'auto'}}/>
-                                            <p>Courier</p>
+                                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                            <div
+                                                className={`type_item ${deliveryType === "econt_office" ? "checked" : ""}`}
+                                                style={{
+                                                    flex: '0 0 48%',
+                                                    cursor: 'pointer',
+                                                    border: deliveryType === "econt_office" ? '2px solid blue' : '2px solid transparent',
+                                                    padding: '10px',
+                                                    textAlign: 'center'
+                                                }}
+                                                onClick={() => handleDeliveryType("econt_office")}
+                                            >
+                                                <img src={econtIcon} alt="Econt Office"
+                                                     style={{width: '100px', height: '70px', objectFit: 'contain'}}/>
+                                                <p>Econt Office</p>
+                                            </div>
+                                            <div
+                                                className={`type_item ${deliveryType === "courier" ? "checked" : ""}`}
+                                                style={{
+                                                    flex: '0 0 48%',
+                                                    cursor: 'pointer',
+                                                    border: deliveryType === "courier" ? '2px solid blue' : '2px solid transparent',
+                                                    padding: '10px',
+                                                    textAlign: 'center'
+                                                }}
+                                                onClick={() => handleDeliveryType("courier")}
+                                            >
+                                                <img src={deliveryIcon} alt="Courier"
+                                                     style={{width: '100px', height: '70px', objectFit: 'contain'}}/>
+                                                <p>Courier</p>
+                                            </div>
                                         </div>
                                     </div>
+
 
                                     {/* City Selection */}
                                     <div className="checkout__input">

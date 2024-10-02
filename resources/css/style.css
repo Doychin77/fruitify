@@ -2336,7 +2336,7 @@ ol {
     float: right;
 }
 
-.checkout__order .checkout__order__subtotal {
+.checkout__order .checkout__order__subtotal h5{
     font-size: 18px;
     color: #1c1c1c;
     font-weight: 700;
@@ -2355,7 +2355,7 @@ ol {
     padding-left: 20px;
 }
 
-.checkout__order .checkout__order__total {
+.checkout__order .checkout__order__total h5{
     font-size: 18px;
     color: #1c1c1c;
     font-weight: 700;

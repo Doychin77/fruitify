@@ -21,6 +21,9 @@ const Checkout = () => {
 
     const {cartItems, clearCart} = useContext(CartContext);
     const navigate = useNavigate();
+    const [isOfficeDropdownOpen, setOfficeDropdownOpen] = useState(false);
+    const [isStreetDropdownOpen, setStreetDropdownOpen] = useState(false);
+
     const [formData, setFormData] = useState({
         buyer_name: '',
         buyer_email: '',
@@ -185,6 +188,13 @@ const Checkout = () => {
             ...prevFormData,
             ...updates,
         }));
+        if (updates.econt_office_id) {
+            setOfficeDropdownOpen(false);
+        }
+
+        if (updates.econt_street_id) {
+            setStreetDropdownOpen(false);
+        }
     };
 
     const getOffices = () => {
@@ -347,15 +357,14 @@ const Checkout = () => {
                                             onChange={handleInputChange}
                                         />
                                         {cities.length > 0 && (
-                                            <ul>
+                                            <ul className="scrollable-list">
                                                 {cities.map(city => (
                                                     <li
                                                         key={city.econt_city_id}
                                                         onClick={() =>
                                                             handleEcontStates({
                                                                 econt_city: city.name,
-                                                                econt_city_id:
-                                                                city.econt_city_id,
+                                                                econt_city_id: city.econt_city_id,
                                                             })
                                                         }
                                                     >
@@ -377,16 +386,16 @@ const Checkout = () => {
                                                     name="econt_office"
                                                     value={formData.econt_office}
                                                     onChange={handleInputChange}
+                                                    onFocus={() => setOfficeDropdownOpen(true)} // Open dropdown on focus
                                                 />
-                                                {offices.length > 0 && (
-                                                    <ul>
+                                                {isOfficeDropdownOpen && offices.length > 0 && (
+                                                    <ul className="scrollable-list">
                                                         {offices.map(office => (
                                                             <li
                                                                 key={office.econt_office_id}
                                                                 onClick={() =>
                                                                     handleEcontStates({
-                                                                        econt_office_id:
-                                                                        office.econt_office_id,
+                                                                        econt_office_id: office.econt_office_id,
                                                                         econt_office: office.name,
                                                                     })
                                                                 }
@@ -410,19 +419,20 @@ const Checkout = () => {
                                                     name="econt_street"
                                                     value={formData.econt_street}
                                                     onChange={handleInputChange}
+                                                    onFocus={() => setStreetDropdownOpen(true)} // Open dropdown on focus
                                                 />
-                                                {streets.length > 0 && (
-                                                    <ul>
+                                                {isStreetDropdownOpen && streets.length > 0 && ( // Ensure to check isStreetDropdownOpen
+                                                    <ul className="scrollable-list">
                                                         {streets.map(street => (
                                                             <li
                                                                 key={street.econt_street_id}
-                                                                onClick={() =>
+                                                                onClick={() => {
                                                                     handleEcontStates({
-                                                                        econt_street_id:
-                                                                        street.econt_street_id,
+                                                                        econt_street_id: street.econt_street_id,
                                                                         econt_street: street.name,
-                                                                    })
-                                                                }
+                                                                    });
+                                                                    setStreetDropdownOpen(false); // Close the dropdown here
+                                                                }}
                                                             >
                                                                 {street.name}
                                                             </li>
@@ -444,6 +454,7 @@ const Checkout = () => {
                                             </div>
                                         </>
                                     )}
+
                                 </div>
                                 <div className="col-lg-4 col-md-6">
                                     <div className="checkout__order">
@@ -457,6 +468,9 @@ const Checkout = () => {
                                         </div>
                                         <div className="checkout__order__subtotal">
                                             <h5>Subtotal <span>${subtotal.toFixed(2)}</span></h5>
+                                        </div>
+                                        <div className="checkout__order__total">
+                                            <h5>Discount <span>${discountAmount.toFixed(2)}</span></h5>
                                         </div>
                                         <div className="checkout__order__total">
                                             <h5>Total <span>${totalAfterDiscount.toFixed(2)}</span></h5>

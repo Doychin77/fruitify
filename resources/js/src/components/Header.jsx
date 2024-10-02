@@ -145,7 +145,7 @@ const Header = () => {
                                     onMouseEnter={handleMouseEnter}
                                     onMouseLeave={handleMouseLeave}
                                 >
-                                    <a href="#">
+                                    <a href="/cart">
                                         <i className="fa fa-shopping-bag" /> <span>{totalQuantity}</span>
                                     </a>
                                 </li>

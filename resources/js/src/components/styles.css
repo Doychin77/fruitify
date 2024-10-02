@@ -363,6 +363,27 @@ button {
 }
 
 
+.scrollable-list {
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #f0f3f5;
+    font-family: 'Times New Roman', Times, serif;
+    list-style-type: none;
+    padding: 0;
+}
+
+.scrollable-list li{
+    margin-left: 19px;
+    transition: color 0.3s ease;
+}
+
+
+.scrollable-list li:hover{
+    color: #7fad39;
+    cursor: pointer;
+}
+
+
 
 
 

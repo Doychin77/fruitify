@@ -31,7 +31,7 @@ class ProductResource extends Resource
             ->schema([
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name')
-                    ->label('Категория') // Label translated to Bulgarian
+                    ->label('Категория')
                     ->required(),
                 Forms\Components\TextInput::make('name')
                     ->label('Име')

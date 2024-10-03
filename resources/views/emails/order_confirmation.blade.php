@@ -143,6 +143,10 @@
             </tbody>
             <tfoot>
             <tr>
+                <td colspan="2" class="total-price">Discount:</td>
+                <td class="total-price">${{ $deliveryInfo['discount'] }}</td>
+            </tr>
+            <tr>
                 <td colspan="2" class="total-price">Total Price:</td>
                 <td class="total-price">${{ $totalPrice }}</td>
             </tr>

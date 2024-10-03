@@ -7,10 +7,13 @@ use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderItemsRelationManager;
 use App\Models\Order;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Gdinko\Econt\Models\CarrierEcontCity;
+use Gdinko\Econt\Models\CarrierEcontStreet;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\DB;
@@ -45,22 +48,28 @@ class OrderResource extends Resource
                 Forms\Components\Section::make('Адрес')
                     ->collapsed()
                     ->schema([
-                        Forms\Components\TextInput::make('country')
-                            ->label('Държава')
-                            ->required(),
-                        Forms\Components\TextInput::make('address')
-                            ->label('Адрес')
-                            ->required(),
-                        Forms\Components\TextInput::make('city')
+                        Select::make('econt_city_id')
                             ->label('Град')
-                            ->required(),
-                        Forms\Components\TextInput::make('state')
-                            ->label('Област')
-                            ->required(),
-                        Forms\Components\TextInput::make('postcode')
-                            ->label('Пощенски код')
-                            ->required(),
-                    ])->columns(2),
+                            ->required()
+                            ->options(CarrierEcontCity::pluck('name', 'id'))
+                            ->live()
+                            ->searchable(),
+                        Select::make('econt_street_id')
+                            ->label('Улица')
+                            ->required()
+                            ->live()
+                            ->options(function (callable $get) {
+                                $cityId = $get('econt_city_id');
+
+                                return $cityId
+                                    ? CarrierEcontStreet::where('econt_city_id', $cityId)->pluck('name', 'id')
+                                    : [];
+                            })
+                            ->searchable(),
+                         Forms\Components\TextInput::make('econt_street_number')
+                             ->label('Номер на улица')
+                             ->required(),
+                    ])->columns(3),
                 Forms\Components\TextInput::make('subtotal')
                     ->label('Сума без отстъпка')
                     ->numeric()

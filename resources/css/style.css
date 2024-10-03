@@ -2195,6 +2195,10 @@ ol {
     color: #999999;
 }
 
+.checkout h6 a:hover {
+    color: #6AB963
+}
+
 .checkout__form h4 {
     color: #1c1c1c;
     font-weight: 700;

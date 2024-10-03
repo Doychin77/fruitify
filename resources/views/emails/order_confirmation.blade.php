@@ -108,7 +108,11 @@
     <div class="content">
         <p>Dear <strong>{{ $deliveryInfo['name'] }}</strong>,</p>
         <p>Your order has been successfully placed!</p>
-        <p><strong>Address:</strong> {{ $deliveryInfo['address'] }}</p>
+        @if ($deliveryInfo['delivery_type'] === 'econt_office')
+            <p><strong>Delivery to Econt Office:</strong> {{ $deliveryInfo['econt_office'] }}</p>
+        @else
+            <p><strong>Delivery to Address:</strong> {{ $deliveryInfo['address'] }}</p>
+        @endif
         <p><strong>Phone:</strong> {{ $deliveryInfo['phone'] }}</p>
         <div class="centered-text">
             <h2>Purchased Products</h2>
@@ -129,7 +133,7 @@
                     <td>
                         @if(isset($product['on_sale']) && $product['on_sale'])
                             <span class="price-on-sale">${{ $product['price'] }}</span>
-                            <span>${{ $product['on_sale_price'] }}</span> <!-- Assuming 'sale_price' is provided -->
+                            <span>${{ $product['on_sale_price'] }}</span>
                         @else
                             ${{ $product['price'] }}
                         @endif

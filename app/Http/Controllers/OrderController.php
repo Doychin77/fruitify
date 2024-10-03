@@ -103,7 +103,9 @@ class OrderController extends Controller
 
         $deliveryInfo = [
             'name' => $request->buyer_name,
-            'address' => $request->econt_street . ', ' . $request->econt_city . ', ' . $request->econt_street_number . ', ' . ($request->econt_street_id ?? ''),
+            'delivery_type' => $request->delivery_type,
+            'econt_office' => $request->econt_office,
+            'address' => $request->econt_street . ', ' . $request->econt_street_number . ', ' . $request->econt_city,
             'phone' => $request->buyer_phone,
             'email' => $request->buyer_email,
         ];

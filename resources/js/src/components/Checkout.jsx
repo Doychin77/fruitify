@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, {useContext, useState, useEffect} from 'react';
+import {useNavigate} from "react-router-dom";
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
-import { CartContext } from "@/src/context/cartContext.jsx";
+import {CartContext} from "@/src/context/cartContext.jsx";
 import useDebounce from "@/src/hooks/useDebounce.jsx";
 import econtService from "@/src/services/econtService.js";
 
@@ -11,7 +11,7 @@ import deliveryIcon from "../assets/bus-icon.png";
 import econtIcon from "../assets/econt-icon.png";
 
 const Checkout = () => {
-    const { cartItems, clearCart } = useContext(CartContext);
+    const {cartItems, clearCart} = useContext(CartContext);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -51,17 +51,17 @@ const Checkout = () => {
     const totalAfterDiscount = parseFloat(localStorage.getItem('totalAfterDiscount')) || 0;
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+        const {name, value} = e.target;
+        setFormData((prevFormData) => ({...prevFormData, [name]: value}));
     };
 
     const handleDeliveryType = (type) => {
         setDeliveryType(type);
-        setFormData((prevFormData) => ({ ...prevFormData, delivery_type: type }));
+        setFormData((prevFormData) => ({...prevFormData, delivery_type: type}));
     };
 
     const handleEcontStates = (updates) => {
-        setFormData((prevFormData) => ({ ...prevFormData, ...updates }));
+        setFormData((prevFormData) => ({...prevFormData, ...updates}));
         if (updates.econt_office_id) setOfficeDropdownOpen(false);
         if (updates.econt_street_id) setStreetDropdownOpen(false);
     };
@@ -82,7 +82,13 @@ const Checkout = () => {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': token,
                 },
-                body: JSON.stringify({ ...formData, items, subtotal, discount: discountAmount, total: totalAfterDiscount }),
+                body: JSON.stringify({
+                    ...formData,
+                    items,
+                    subtotal,
+                    discount: discountAmount,
+                    total: totalAfterDiscount
+                }),
                 credentials: 'same-origin',
             });
 
@@ -421,16 +427,23 @@ const Checkout = () => {
                                         <div className="checkout__order__products">
                                             <ul>
                                                 {cartItems.map((item, index) => (
-                                                    <li key={index}>{item.name} <span>${item.price}</span></li>
+                                                    <li key={index}>
+                                                        {item.name} x {item.quantity}
+                                                        <span>
+                                                            ${item.on_sale ? (item.on_sale_price * item.quantity).toFixed(2) : (item.price * item.quantity).toFixed(2)}
+                                                        </span>
+                                                    </li>
                                                 ))}
                                             </ul>
                                         </div>
                                         <div className="checkout__order__subtotal">
                                             <h5>Subtotal <span>${subtotal.toFixed(2)}</span></h5>
                                         </div>
-                                        <div className="checkout__order__total">
-                                            <h5>Discount <span>${discountAmount.toFixed(2)}</span></h5>
-                                        </div>
+                                        {discountAmount > 0 && (
+                                            <div className="checkout__order__total">
+                                                <h5>Discount <span>${discountAmount.toFixed(2)}</span></h5>
+                                            </div>
+                                        )}
                                         <div className="checkout__order__total">
                                             <h5>Total <span>${totalAfterDiscount.toFixed(2)}</span></h5>
                                         </div>

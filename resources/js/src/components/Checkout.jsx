@@ -6,6 +6,7 @@ import Hamburger from "@/src/components/Hamburger.jsx";
 import {CartContext} from "@/src/context/cartContext.jsx";
 import useDebounce from "@/src/hooks/useDebounce.jsx";
 import econtService from "@/src/services/econtService.js";
+import { toast } from "react-toastify";
 
 import deliveryIcon from "../assets/bus-icon.png";
 import econtIcon from "../assets/econt-icon.png";

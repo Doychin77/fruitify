@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Mail\OrderConfirmation;
+use App\Services\EcontService;
+use App\Services\MapServices;
+use Gdinko\Econt\Models\CarrierEcontCity;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
@@ -126,5 +129,118 @@ class OrderController extends Controller
             'order' => $order,
             'items' => $order->orderItems,
         ], 201);
+    }
+
+    public function getPostCode(Request $request)
+    {
+        if (session()->has('econt_city_id')) {
+            return collect([
+                "econt_city_id" => session()->get('econt_city_id'),
+                "name"  => session()->get('econt_city_name'),
+            ])->toJson();
+        }
+        $mapServices = new MapServices();
+        $postal_code = $mapServices->getPostalCode($request->lat, $request->lon);
+
+        if (strlen($postal_code) == 4) {
+            $max_tries = 4;
+            $try = 1;
+            $found = false;
+            while (!$found && $try <= $max_tries) {
+                $city = CarrierEcontCity::query()
+                    ->where('country_code3', '=', 'BGR')
+                    ->where('post_code', 'LIKE', $postal_code . '%')
+                    ->first();
+                if ($city) {
+                    session(['econt_city_id' => $city->econt_city_id]);
+                    session(['econt_city_name' => $city->name]);
+                    return $city->toJson();
+                }
+                $try++;
+                $postal_code = substr_replace($postal_code, "0", -1);
+            }
+        }
+
+        return response()->json(["error" => true]);
+    }
+
+
+    public function deliveryType(Request $request)
+    {
+
+
+
+        $delivery_types = array(
+            'econt_address', 'econt_office', 'store_transport', 'store_pickup'
+        );
+        if (!in_array($request["delivery_type"], $delivery_types)) {
+            return json_encode([
+                "success" => false,
+                "messsage" => trans("Invalid Delivery Type")
+            ]);
+        }
+        $data = $request->input('delivery_data');
+        if ($data['delivery_type'] == "store_pickup") {
+            return json_encode([
+                "canFinish" => true,
+                "deliveryFee" => 0,
+            ]);
+        }
+
+        if ($data['delivery_type'] == 'store_transport') {
+
+            if (empty($data['store_transport_city'])) {
+                return json_encode([
+                    "success" => false,
+                    "messsage" => trans("Select city!")
+                ]);
+            }
+
+            $endPoint = CarrierEcontCity::query()
+                ->where('econt_city_id', $data["store_transport_city"])
+                ->first();
+
+            if (!$endPoint) {
+                return [
+                    "success" => false,
+                    "messsage" => trans("Invalid city.")
+                ];
+            }
+
+
+
+            $mapServices = new MapServices();
+            $distance = $mapServices->calcDistance($endPoint->name . ', ' . $data['store_transport_address']);
+            $totalPrice = ($distance * 2) * 1.5;
+
+            return [
+                "canFinish" => true,
+                "deliveryFee" => $totalPrice,
+            ];
+        }
+
+
+        $econt = new EcontService();
+
+        $result = $econt->calculateDeliveryFee($data);
+
+        Log::info("Request Data: ", $request->all());
+
+        if (!isset($result["label"]["totalPrice"])) {
+            Log::error("Econt API Error: " . json_encode($result));
+            return [
+                "canFinish" => false,
+                "message" => $result["message"] ?? ""
+            ];
+        }
+        return response()->json([
+            "success" => true,
+            "canFinish" => true,
+            "deliveryFee" => $result["label"]["totalPrice"],
+        ]);
+        // return [
+        //     "canFinish" => true,
+        //     "deliveryFee" => $result["label"]["totalPrice"],
+        // ];
     }
 }

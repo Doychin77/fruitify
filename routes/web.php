@@ -19,10 +19,14 @@ Route::get('/articles', [BlogController::class, 'allArticles']);
 Route::get('/article/{id}', [BlogController::class, 'getArticle']);
 Route::post('/contact', [ContactController::class, 'sendContactForm']);
 Route::post('/orders', [OrderController::class, 'store']);
+Route::post('/order/delivery_type', [OrderController::class, 'deliveryType'])->name('order.delivery.type');
+Route::post('/order/postal_code', [OrderController::class, 'getPostCode'])->name('order.postal_code');
 
 Route::get('/econt/get_cities', [EcontController::class, 'getCities'])->name('econt.get.cities');
 Route::get('/econt/get_offices', [EcontController::class, 'getOffices'])->name('econt.get.offices');
 Route::get('/econt/get_streets', [EcontController::class, 'getStreets'])->name('econt.get.streets');
+Route::get('/econt/validate_address', [EcontController::class, 'validateAddress'])->name('econt.validate.address');
+
 
 
 Route::get('/', function () {

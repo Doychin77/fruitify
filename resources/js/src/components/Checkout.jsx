@@ -9,6 +9,7 @@ import econtService from "@/src/services/econtService.js";
 
 import deliveryIcon from "../assets/bus-icon.png";
 import econtIcon from "../assets/econt-icon.png";
+import * as baseService from "../services/baseService";
 
 const Checkout = () => {
     const {cartItems, clearCart} = useContext(CartContext);
@@ -27,6 +28,7 @@ const Checkout = () => {
         econt_office_id: '',
         econt_office: '',
         delivery_type: 'econt_office',
+        payment_method: "at_delivery",
     });
     const [deliveryType, setDeliveryType] = useState('econt_office');
     const [cities, setCities] = useState([]);
@@ -37,6 +39,7 @@ const Checkout = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [deliveryPrice, setDeliveryPrice] = useState(0);
 
     const econtCity = useDebounce(formData.econt_city, 500);
     const econtStreet = useDebounce(formData.econt_street, 500);
@@ -156,6 +159,63 @@ const Checkout = () => {
     useEffect(() => {
         if (deliveryType === "econt_office" && formData.econt_city_id) fetchOffices();
     }, [econtOffice]);
+
+    useEffect(() => {
+        const data = {
+            delivery_type: deliveryType,
+            delivery_data: {
+                econt_city_id: formData.econt_city_id,
+                econt_street_id: formData.econt_street_id,
+                econt_office_id: formData.econt_office_id,
+                econt_street_number: formData.econt_street_number,
+                delivery_type: deliveryType,
+            },
+        };
+        if (deliveryType === "econt_address") {
+            if (
+                formData.econt_city_id != "" &&
+                formData.econt_street_id != ""
+            ) {
+                baseService
+                    .calculateDelivery(data)
+                    .then((res) => {
+                        if (res.success) {
+                            setDeliveryPrice(res.deliveryFee);
+                        } else {
+                            toast.error(res.message);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
+        } else if (deliveryType === "econt_office") {
+            if (
+                formData.econt_city_id != "" &&
+                formData.econt_office_id != ""
+            ) {
+                baseService
+                    .calculateDelivery(data)
+                    .then((res) => {
+                        if (res.success) {
+                            setDeliveryPrice(res.deliveryFee.toFixed(2));
+                        } else {
+                            toast.error(res.message);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
+        }
+    }, [
+        formData.econt_office_id,
+        formData.econt_city_id,
+        formData.econt_street_id,
+    ]);
+
+
+    console.log(deliveryPrice);
 
     return (
         <>

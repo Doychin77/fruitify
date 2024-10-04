@@ -81,13 +81,13 @@ class EcontController extends Controller
     }
 
 
-//    public function validateAddress(Request $request)
-//    {
-//        $data = $request->all();
-//
-//        $econtService = new EcontService();
-//        return json_encode($econtService->validateAddress($data));
-//    }
+    public function validateAddress(Request $request)
+    {
+        $data = $request->all();
+
+        $econtService = new EcontService();
+        return json_encode($econtService->validateAddress($data));
+    }
 
     public function createLabel(Order $order)
     {

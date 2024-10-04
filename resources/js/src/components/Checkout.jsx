@@ -311,117 +311,168 @@ const Checkout = () => {
                                         </div>
                                     </div>
 
+                                    <div className="row">
+                                        {/* Conditional Rendering for Econt Office */}
+                                        {deliveryType === "econt_office" && (
+                                            <div className="col-lg-12 col-md-12">
+                                                <div className="row">
+                                                    {/* City Selection */}
+                                                    <div className="col-lg-6 col-md-6">
+                                                        <div className="checkout__input">
+                                                            <p>City<span>*</span></p>
+                                                            <input
+                                                                type="text"
+                                                                name="econt_city"
+                                                                value={formData.econt_city}
+                                                                onChange={handleInputChange}
+                                                                className="input-econt"
+                                                            />
+                                                            {cities.length > 0 && (
+                                                                <ul className="scrollable-list">
+                                                                    {cities.map(city => (
+                                                                        <li
+                                                                            key={city.econt_city_id}
+                                                                            onClick={() =>
+                                                                                handleEcontStates({
+                                                                                    econt_city: city.name,
+                                                                                    econt_city_id: city.econt_city_id,
+                                                                                })
+                                                                            }
+                                                                        >
+                                                                            {city.name}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                        </div>
+                                                    </div>
 
-                                    {/* City Selection */}
-                                    <div className="checkout__input">
-                                        <p>City<span>*</span></p>
-                                        <input
-                                            type="text"
-                                            name="econt_city"
-                                            value={formData.econt_city}
-                                            onChange={handleInputChange}
-                                        />
-                                        {cities.length > 0 && (
-                                            <ul className="scrollable-list">
-                                                {cities.map(city => (
-                                                    <li
-                                                        key={city.econt_city_id}
-                                                        onClick={() =>
-                                                            handleEcontStates({
-                                                                econt_city: city.name,
-                                                                econt_city_id: city.econt_city_id,
-                                                            })
-                                                        }
-                                                    >
-                                                        {city.name}
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                                    {/* Econt Office Selection */}
+                                                    <div className="col-lg-6 col-md-6">
+                                                        <div className="checkout__input">
+                                                            <p>Econt Office<span>*</span></p>
+                                                            <input
+                                                                type="text"
+                                                                name="econt_office"
+                                                                value={formData.econt_office}
+                                                                onChange={handleInputChange}
+                                                                className="input-econt"
+                                                                onFocus={() => setOfficeDropdownOpen(true)}
+                                                            />
+                                                            {isOfficeDropdownOpen && offices.length > 0 && (
+                                                                <ul className="scrollable-list">
+                                                                    {offices.map(office => (
+                                                                        <li
+                                                                            key={office.econt_office_id}
+                                                                            onClick={() =>
+                                                                                handleEcontStates({
+                                                                                    econt_office_id: office.econt_office_id,
+                                                                                    econt_office: office.name,
+                                                                                })
+                                                                            }
+                                                                        >
+                                                                            {office.name}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Conditional Rendering for Courier */}
+                                        {deliveryType === "courier" && (
+                                            <div className="col-lg-12 col-md-12">
+                                                <div className="row">
+                                                    {/* City Selection */}
+                                                    <div className="col-lg-4 col-md-4">
+                                                        <div className="checkout__input">
+                                                            <p>City<span>*</span></p>
+                                                            <input
+                                                                type="text"
+                                                                name="econt_city"
+                                                                className="input-econt"
+                                                                value={formData.econt_city}
+                                                                onChange={handleInputChange}
+                                                            />
+                                                            {cities.length > 0 && (
+                                                                <ul className="scrollable-list">
+                                                                    {cities.map(city => (
+                                                                        <li
+                                                                            key={city.econt_city_id}
+                                                                            onClick={() =>
+                                                                                handleEcontStates({
+                                                                                    econt_city: city.name,
+                                                                                    econt_city_id: city.econt_city_id,
+                                                                                })
+                                                                            }
+                                                                        >
+                                                                            {city.name}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Street Selection */}
+                                                    <div className="col-lg-4 col-md-4">
+                                                        <div className="checkout__input">
+                                                            <p>Street<span>*</span></p>
+                                                            <input
+                                                                type="text"
+                                                                name="econt_street"
+                                                                className="input-econt"
+                                                                value={formData.econt_street}
+                                                                onChange={handleInputChange}
+                                                                onFocus={() => setStreetDropdownOpen(true)}
+                                                            />
+                                                            {isStreetDropdownOpen && streets.length > 0 && (
+                                                                <ul className="scrollable-list">
+                                                                    {streets.map(street => (
+                                                                        <li
+                                                                            key={street.econt_street_id}
+                                                                            onClick={() => {
+                                                                                handleEcontStates({
+                                                                                    econt_street_id: street.econt_street_id,
+                                                                                    econt_street: street.name,
+                                                                                });
+                                                                                setStreetDropdownOpen(false);
+                                                                            }}
+                                                                        >
+                                                                            {street.name}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Street Number */}
+                                                    <div className="col-lg-4 col-md-4">
+                                                        <div className="checkout__input">
+                                                            <p>Street Number<span>*</span></p>
+                                                            <input
+                                                                type="text"
+                                                                className="input-econt"
+                                                                name="econt_street_number"
+                                                                value={formData.econt_street_number}
+                                                                onChange={handleInputChange}
+                                                                placeholder="Enter street number"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         )}
                                     </div>
-
-                                    {/* Conditional Rendering */}
-                                    {deliveryType === "econt_office" && (
-                                        <>
-                                            {/* Econt Office Selection */}
-                                            <div className="checkout__input">
-                                                <p>Econt Office<span>*</span></p>
-                                                <input
-                                                    type="text"
-                                                    name="econt_office"
-                                                    value={formData.econt_office}
-                                                    onChange={handleInputChange}
-                                                    onFocus={() => setOfficeDropdownOpen(true)} // Open dropdown on focus
-                                                />
-                                                {isOfficeDropdownOpen && offices.length > 0 && (
-                                                    <ul className="scrollable-list">
-                                                        {offices.map(office => (
-                                                            <li
-                                                                key={office.econt_office_id}
-                                                                onClick={() =>
-                                                                    handleEcontStates({
-                                                                        econt_office_id: office.econt_office_id,
-                                                                        econt_office: office.name,
-                                                                    })
-                                                                }
-                                                            >
-                                                                {office.name}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                        </>
-                                    )}
-
-                                    {deliveryType === "courier" && (
-                                        <>
-                                            {/* Street Selection */}
-                                            <div className="checkout__input">
-                                                <p>Street<span>*</span></p>
-                                                <input
-                                                    type="text"
-                                                    name="econt_street"
-                                                    value={formData.econt_street}
-                                                    onChange={handleInputChange}
-                                                    onFocus={() => setStreetDropdownOpen(true)} // Open dropdown on focus
-                                                />
-                                                {isStreetDropdownOpen && streets.length > 0 && ( // Ensure to check isStreetDropdownOpen
-                                                    <ul className="scrollable-list">
-                                                        {streets.map(street => (
-                                                            <li
-                                                                key={street.econt_street_id}
-                                                                onClick={() => {
-                                                                    handleEcontStates({
-                                                                        econt_street_id: street.econt_street_id,
-                                                                        econt_street: street.name,
-                                                                    });
-                                                                    setStreetDropdownOpen(false); // Close the dropdown here
-                                                                }}
-                                                            >
-                                                                {street.name}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-
-                                            {/* Street Number */}
-                                            <div className="checkout__input">
-                                                <p>Street Number<span>*</span></p>
-                                                <input
-                                                    type="text"
-                                                    name="econt_street_number"
-                                                    value={formData.econt_street_number}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Enter street number"
-                                                />
-                                            </div>
-                                        </>
-                                    )}
-
                                 </div>
-                                <div className="col-lg-4 col-md-6">
+
+
+
+                                    <div className="col-lg-4 col-md-6">
                                     <div className="checkout__order">
                                         <h4>Your Order</h4>
                                         <div className="checkout__order__products">

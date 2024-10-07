@@ -135,7 +135,8 @@
                             <span class="price-on-sale">${{ $product['price'] }}</span>
                             <span>${{ $product['on_sale_price'] }}</span>
                         @else
-                            ${{ $product['price'] }}
+                            ${{ $product['price'] * $product['quantity'] }}
+
                         @endif
                     </td>
                 </tr>
@@ -148,7 +149,7 @@
             </tr>
             <tr>
                 <td colspan="2" class="total-price">Total Price:</td>
-                <td class="total-price">${{ $totalPrice }}</td>
+                <td class="total-price">${{ $totalPrice - $deliveryInfo['discount'] }}</td>
             </tr>
             </tfoot>
         </table>

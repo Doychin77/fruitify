@@ -408,6 +408,46 @@ button {
     font-size: 14px !important;
 }
 
+.quantity {
+    display: flex;  /* Use flexbox to align items */
+    align-items: center;  /* Center align items vertically */
+    margin-left: 100px;
+    /*border: 1px solid #ccc; !* Add a border around the entire quantity container *!*/
+    border-radius: 4px; /* Add slight rounding to the corners */
+    overflow: hidden; /* Ensure no overflow */
+}
+
+.quantity-btn {
+    background-color: #fffefe;
+    color: #00bb00;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+}
+
+.quantity-btn:hover {
+    color: #23d923;
+}
+
+
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    border: none;
+    padding: 0.5rem;
+    margin: 0;
+    outline: none;
+}
+
+.quantity-input:focus {
+    outline: none;
+}
+
+
+
 
 
 

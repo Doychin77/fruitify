@@ -30,7 +30,7 @@ class EcontController extends Controller
                 ->where('name', 'LIKE', "%{$search}%")
                 ->orWhere('name_en', 'LIKE', "%{$search}%")
                 ->orWhere('post_code', 'LIKE', "%{$search}%")
-                ->limit('10')
+//                ->limit('10')
                 ->get();
         }
 
@@ -70,8 +70,7 @@ class EcontController extends Controller
                 $query
                     ->where('name', 'LIKE', "%{$search}%")
                     ->orWhere('name_en', 'LIKE', "%{$search}%")
-                    ->where('econt_city_id', '=', $cityId)
-                    ->limit('10');
+                    ->where('econt_city_id', '=', $cityId);
             }
 
             $streets = $query->get();

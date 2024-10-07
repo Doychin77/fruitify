@@ -264,7 +264,9 @@ const Home = () => {
                                             <Link to={`/product-details/${product.id}`}
                                                   className="plain-link">{product.name} </Link>
                                         </h6>
-                                        <h5>${product.price}</h5>
+                                        <h5 style={{color: product.on_sale ? 'red' : 'inherit'}}>
+                                            ${product.on_sale ? product.on_sale_price : product.price}
+                                        </h5>
                                     </div>
                                 </div>
                             </div>

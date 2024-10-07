@@ -44,7 +44,7 @@ class OrderResource extends Resource
                         Forms\Components\TextInput::make('email')
                             ->label('Имейл')
                             ->required()->email(),
-                    ])->columns(2),
+                    ])->columns(3),
                 Forms\Components\Section::make('Адрес')
                     ->collapsed()
                     ->schema([

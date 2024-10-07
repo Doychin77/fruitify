@@ -27,12 +27,15 @@ const Cart = () => {
         }
     }, [cartItems]);
 
-    const subtotal = cartItems.reduce((total, item) => {
-        const price = item.on_sale ? parseFloat(item.on_sale_price) : parseFloat(item.price);
-        const itemTotal = price * item.quantity;
-        return total + itemTotal;
-    }, 0);
+    const calculateSubtotal = () => {
+        return items.reduce((total, item) => {
+            const price = item.on_sale ? parseFloat(item.on_sale_price) : parseFloat(item.price);
+            const itemTotal = price * item.quantity;
+            return total + itemTotal;
+        }, 0);
+    };
 
+    const subtotal = calculateSubtotal();
     const formattedSubtotal = subtotal.toFixed(2);
 
     const handleApplyCoupon = async (e) => {
@@ -50,6 +53,17 @@ const Cart = () => {
         }
     };
 
+    const handleQuantityChange = (productId, newQuantity) => {
+        if (newQuantity < 1) return;
+        const updatedItems = items.map(item => {
+            if (item.id === productId) {
+                return { ...item, quantity: newQuantity };
+            }
+            return item;
+        });
+        setItems(updatedItems);
+        localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+    };
 
     const discountAmount = (subtotal * discountPercent) / 100;
     const totalAfterDiscount = (subtotal - discountAmount).toFixed(2);
@@ -136,31 +150,43 @@ const Cart = () => {
                                         <tr>
                                             <th className="shoping__product">Products</th>
                                             <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th />
+                                            <th className="quantity">Quantity</th>
+                                            <th className="total">Total</th>
+                                            <th/>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {items.map((item, index) => (
                                             <tr key={index}>
                                                 <td className="shoping__cart__item">
-                                                    <img src={`http://fruitify.test/storage/${item.images ? item.images[0].image_url : 'default.jpg'}`} alt={item.name} style={{ width: '100px', height: 'auto' }} />
+                                                    <img
+                                                        src={`http://fruitify.test/storage/${item.images ? item.images[0].image_url : 'default.jpg'}`}
+                                                        alt={item.name} style={{width: '100px', height: 'auto'}}/>
                                                     <h5>{item.name}</h5>
                                                 </td>
                                                 <td className="shoping__cart__price">${item.on_sale ? item.on_sale_price : item.price}</td>
                                                 <td className="shoping__cart__quantity">
                                                     <div className="quantity">
-                                                        <div className="pro-qty">
-                                                            <input type="text" value={item.quantity || 1} readOnly />
-                                                        </div>
+                                                        <button
+                                                            className="quantity-btn"
+                                                            onClick={() => handleQuantityChange(item.id, item.quantity - 1)}>-</button>
+                                                        <input
+                                                            type="text"
+                                                            value={item.quantity || 1}
+                                                            readOnly
+                                                            className="quantity-input"
+                                                        />
+                                                        <button
+                                                            className="quantity-btn"
+                                                            onClick={() => handleQuantityChange(item.id, item.quantity + 1)}>+</button>
                                                     </div>
                                                 </td>
+
                                                 <td className="shoping__cart__total">
                                                     ${item.on_sale ? (item.on_sale_price * item.quantity).toFixed(2) : (item.price * item.quantity).toFixed(2)}
                                                 </td>
                                                 <td className="shoping__cart__item__close">
-                                                    <span className="icon_close" onClick={() => handleRemove(item.id)} />
+                                                    <span className="icon_close" onClick={() => handleRemove(item.id)}/>
                                                 </td>
                                             </tr>
                                         ))}
@@ -173,8 +199,9 @@ const Cart = () => {
                             <div className="col-lg-12">
                                 <div className="shoping__cart__btns">
                                     <a href="/shop" className="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                                    <a href="#" className="primary-btn cart-btn cart-btn-right" onClick={() => clearCart()}>
-                                        <i className="fa fa-trash" /> Clear Cart
+                                    <a href="#" className="primary-btn cart-btn cart-btn-right"
+                                       onClick={() => clearCart()}>
+                                        <i className="fa fa-trash"/> Clear Cart
                                     </a>
                                 </div>
                             </div>
@@ -201,7 +228,7 @@ const Cart = () => {
                                     <ul>
                                         <li>Subtotal <span>${formattedSubtotal}</span></li>
                                         {discountPercent > 0 && <li>Discount <span>-{discountPercent}%</span></li>}
-                                        <li>Total <span>${totalAfterDiscount}</span></li> {/* Total after applying discount */}
+                                        <li>Total <span>${totalAfterDiscount}</span></li>
                                     </ul>
                                     <a href="/checkout" className="primary-btn">PROCEED TO CHECKOUT</a>
                                 </div>
@@ -212,7 +239,6 @@ const Cart = () => {
             ) : (
                 <div className="empty-cart-message">
                     <h2>Your cart is empty</h2>
-                    <a href="/shop" className="primary-btn">GO SHOPPING</a>
                 </div>
             )}
 

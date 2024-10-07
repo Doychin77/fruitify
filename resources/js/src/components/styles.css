@@ -150,14 +150,14 @@
 .product-item-price .current-price {
     font-weight: bold;
     font-size: 17px;
-    color: #000000;
+    color: red;
 }
 
 .product-item-price .original-price {
     position: relative;
     display: inline-block;
     font-size: 16px;
-    color: #3f3b3b;
+    color: #111111;
 }
 
 .product-item-price .original-price::after {
@@ -305,9 +305,10 @@ button {
 .primary-btn-cart-view {
     display: inline-block;
     font-size: 16px;
-    padding: 10px 10px;
+    padding: 8px 8px;
     color: #ffffff;
     margin-bottom: 8px;
+    margin-right: 8px;
     text-transform: uppercase;
     font-weight: 700;
     background: #7fad39;
@@ -320,6 +321,26 @@ button {
 
 .primary-btn-cart-view:hover {
     background: #a2da4c;
+}
+
+.primary-btn-cart-clear {
+    display: inline-block;
+    font-size: 16px;
+    padding: 6px;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: #e50000;
+    letter-spacing: 2px;
+    border-radius: 10px;
+    transition: background 0.6s ease, transform 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.primary-btn-cart-clear:hover {
+    background: #f85c5c;
 }
 
 .cart-dropdown {

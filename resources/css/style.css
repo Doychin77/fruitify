@@ -1619,7 +1619,7 @@ ol {
 }
 
 .product__item__pic {
-    height: 270px;
+    height: 260px;
     position: relative;
     overflow: hidden;
 }
@@ -3744,4 +3744,14 @@ ol {
     .blog__details__hero__text h2 {
         font-size: 24px;
     }
+}
+
+@media only screen and (max-width: 500px) {
+    .featured__item__pic {
+        width: 100%;
+        height: auto;
+        max-width: 220px;
+        margin: 0 auto;
+    }
+
 }

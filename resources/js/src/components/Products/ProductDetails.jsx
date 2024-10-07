@@ -196,9 +196,8 @@ const ProductDetails = () => {
                                         <ReactOwlCarousel
                                             {...options}
                                             className="product__details__pic__slider owl-carousel"
-                                            key={largeImageSrc} // Ensure this line doesn't have extra spaces or characters
+                                            key={largeImageSrc}
                                         >
-                                            {/* Map through the images and display thumbnails excluding the large image */}
                                             {product.images.map((image, index) => {
                                                 const imageUrl = `${baseURL}${image.image_url}`;
                                                 // Don't show the current large image in the slider

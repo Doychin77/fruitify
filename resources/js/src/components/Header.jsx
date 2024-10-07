@@ -108,23 +108,6 @@ const Header = () => {
                                     <a href="/shop">Shop</a>
                                 </li>
                                 <li>
-                                    <a href="#">Pages</a>
-                                    <ul className="header__menu__dropdown">
-                                        <li>
-                                            <a href="/shop-details">Shop Details</a>
-                                        </li>
-                                        <li>
-                                            <a href="/cart">Shopping Cart</a>
-                                        </li>
-                                        <li>
-                                            <a href="/checkout">Check Out</a>
-                                        </li>
-                                        <li>
-                                            <a href="/blog-details">Blog Details</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
                                     <a href="/blog">Blog</a>
                                 </li>
                                 <li>

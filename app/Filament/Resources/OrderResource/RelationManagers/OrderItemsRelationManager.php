@@ -19,6 +19,8 @@ class OrderItemsRelationManager extends RelationManager
     protected static string $relationship = 'orderItems';
 
     protected static ?string $recordTitleAttribute = 'Продукти';
+
+    protected static ?string $title = 'Продукти';
     protected static ?string $pluralLabel = 'Продукти';
 
     protected static ?string $label = 'Продукт';

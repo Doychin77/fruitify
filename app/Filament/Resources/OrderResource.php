@@ -25,6 +25,8 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
     protected static ?string $navigationLabel = 'Поръчки';
+
+
     protected static ?string $pluralLabel = 'Поръчки';
 
     protected static ?string $label = 'Поръчка';

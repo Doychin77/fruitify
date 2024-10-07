@@ -17,6 +17,8 @@ class ImagesRelationManager extends RelationManager
     protected static ?string $recordTitleAttribute = 'Изображения';
     protected static ?string $pluralLabel = 'Изображения';
 
+    protected static ?string $title = 'Изображения';
+
     protected static ?string $label = 'Изображение';
 
     public function form(Form $form): Form

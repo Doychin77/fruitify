@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Gdinko\Econt\Models\CarrierEcontCity;
+use Gdinko\Econt\Models\CarrierEcontOffice;
 use Gdinko\Econt\Models\CarrierEcontStreet;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -48,12 +49,34 @@ class OrderResource extends Resource
                 Forms\Components\Section::make('Адрес')
                     ->collapsed()
                     ->schema([
+                        Forms\Components\Select::make('delivery_type')
+                            ->label('Доставка до офис/адрес')
+                            ->options([
+                                'econt_office' => 'Офис на еконт',
+                                'courier' => 'Доставка с куриер',
+                            ])
+                            ->required(),
+
                         Select::make('econt_city_id')
                             ->label('Град')
                             ->required()
                             ->options(CarrierEcontCity::pluck('name', 'id'))
                             ->live()
                             ->searchable(),
+
+                        Select::make('econt_office_id')
+                            ->label('Офис')
+                            ->required()
+                            ->options(function (callable $get) {
+                                $cityId = $get('econt_city_id');
+
+                                return $cityId
+                                    ? CarrierEcontOffice::where('econt_city_id', $cityId)->pluck('name', 'id')
+                                    : [];
+                            })
+                            ->live()
+                            ->visible(fn (callable $get) => $get('delivery_type') === 'econt_office'),
+
                         Select::make('econt_street_id')
                             ->label('Улица')
                             ->required()
@@ -65,11 +88,16 @@ class OrderResource extends Resource
                                     ? CarrierEcontStreet::where('econt_city_id', $cityId)->pluck('name', 'id')
                                     : [];
                             })
-                            ->searchable(),
-                         Forms\Components\TextInput::make('econt_street_number')
-                             ->label('Номер на улица')
-                             ->required(),
-                    ])->columns(3),
+                            ->searchable()
+                            ->visible(fn (callable $get) => $get('delivery_type') === 'courier'),
+
+                        Forms\Components\TextInput::make('econt_street_number')
+                            ->label('Номер на улица')
+                            ->required()
+                            ->visible(fn (callable $get) => $get('delivery_type') === 'courier'),
+                    ])
+                    ->columns(3),
+
                 Forms\Components\TextInput::make('subtotal')
                     ->label('Сума без отстъпка')
                     ->numeric()

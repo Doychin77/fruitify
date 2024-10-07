@@ -231,8 +231,23 @@ const ProductDetails = () => {
                                         <span>(18 reviews)</span>
                                     </div>
                                     <div className="product__details__price">
-                                        {product.on_sale ? product.on_sale_price : product.price}$
+                                        {product.on_sale ? (
+                                            <>
+                                                <span style={{
+                                                    color: 'red',
+                                                    marginRight: '10px'
+                                                }}>${product.on_sale_price}</span>
+                                                <span style={{
+                                                    textDecoration: 'line-through',
+                                                    color: 'black',
+                                                    fontSize: '0.8em'
+                                                }}>${product.price}</span>
+                                            </>
+                                        ) : (
+                                            <span>${product.price}</span>
+                                        )}
                                     </div>
+
                                     <p>
                                         {product.description}
                                     </p>
@@ -370,7 +385,7 @@ const ProductDetails = () => {
                                                     <Link to={`/product-details/${relatedProduct.id}`}
                                                           onClick={() => {
                                                               handleScrollToTop();
-                                                              handleProductClick(); // Trigger loading state when clicked
+                                                              handleProductClick();
                                                           }}
                                                     >
                                                         {relatedProduct.name}

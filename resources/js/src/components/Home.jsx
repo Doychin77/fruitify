@@ -112,7 +112,7 @@ const Home = () => {
                                 <ul>
                                     {categories.length > 0 && categories.map((category) => (
                                         <li key={category.id}>
-                                            <a href="#">{category.name}</a>
+                                            <Link to={`/category/${category.id}`}>{category.name}</Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -123,7 +123,7 @@ const Home = () => {
                                 <div className="hero__search__form">
                                     <form action="#">
                                         <div className="hero__search__categories">
-                                            All Categories
+                                        All Categories
                                             <span className="arrow_carrot-down"/>
                                         </div>
                                         <input type="text" placeholder="What do yo u need?"/>
@@ -195,7 +195,7 @@ const Home = () => {
                                         style={{backgroundImage: `url(${BaseURL}${category.img})`}}
                                     >
                                         <h5>
-                                            <a href="#">{category.name}</a>
+                                            <Link to={`/category/${category.id}`}>{category.name}</Link>
                                         </h5>
                                     </div>
                                 </div>
@@ -209,7 +209,7 @@ const Home = () => {
             <section className="featured spad">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-12">
+                    <div className="col-lg-12">
                             <div className="section-title">
                                 <h2>Featured Products</h2>
                             </div>

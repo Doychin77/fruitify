@@ -10,6 +10,7 @@ import BlogDetails from './components/Blog/BlogDetails.jsx';
 import ProductDetails from './components/Products/ProductDetails.jsx';
 import { CartProvider } from '@/src/context/cartContext.jsx';
 import Register from "@/src/components/Register.jsx";
+import CategoryProducts from "@/src/components/Products/CategoryProducts.jsx";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/shop" element={<Shop />} />
                     <Route path="/product-details/:id" element={<ProductDetails />} />
+                    <Route path="/category/:categoryId" element={<CategoryProducts />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/blog/:id" element={<BlogDetails />} />

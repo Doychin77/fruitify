@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { getProducts, getSingleProduct} from '../services/baseService';
+import { getProducts, getSingleProduct } from '../services/baseService';
 
-const useProducts = (id) => {
+const useProducts = (id, categoryId) => {
     const [products, setProducts] = useState([]);
     const [product, setProduct] = useState(null);
     const [error, setError] = useState('');
@@ -39,13 +39,15 @@ const useProducts = (id) => {
 
     const onSaleProducts = products.filter(product => product.on_sale);
 
+    const categoryProducts = products.filter(product => product.category_id === parseInt(categoryId));
+
     const getRelatedProducts = (currentProductId) => {
         return products
             .filter(product => product.id !== currentProductId)
             .slice(0, 4);
     };
 
-    return { products, product, onSaleProducts, error, isLoading, getRelatedProducts };
+    return { products, product, onSaleProducts, categoryProducts, error, isLoading, getRelatedProducts };
 };
 
 export default useProducts;

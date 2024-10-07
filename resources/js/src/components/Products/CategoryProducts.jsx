@@ -11,13 +11,15 @@ import useProducts from "@/src/hooks/useProducts.js";
 import { CartContext } from '../../context/CartContext';
 import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
-import { Link, useNavigate } from "react-router-dom";
-import '../styles.css'
-import {useCategories} from "@/src/hooks/useCategories.js";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import '../styles.css';
+import { useCategories } from "@/src/hooks/useCategories.js";
 
-const Shop = () => {
+const CategoryProducts = () => {
+    const { categoryId } = useParams();
     const { addToCart } = useContext(CartContext);
-    const { products, error, isLoading } = useProducts();
+    const { products, error, isLoading, categoryProducts } = useProducts(null, categoryId);
+
     const { categories } = useCategories();
     const navigate = useNavigate();
     const [sortOption, setSortOption] = useState('default');
@@ -30,7 +32,7 @@ const Shop = () => {
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
 
-    const sortedProducts = [...products].sort((a, b) => {
+    const sortedProducts = [...categoryProducts].sort((a, b) => {
         const priceA = a.on_sale ? a.on_sale_price : a.price;
         const priceB = b.on_sale ? b.on_sale_price : b.price;
 
@@ -42,7 +44,6 @@ const Shop = () => {
 
         return 0;
     });
-
 
     const currentProducts = sortedProducts
         .filter(product => product.price >= minPrice && product.price <= maxPrice)
@@ -86,8 +87,8 @@ const Shop = () => {
 
     return (
         <>
-            <Hamburger />
-            <Header />
+            <Hamburger/>
+            <Header/>
 
             {/* Hero Section Begin */}
             <section className="hero hero-normal">
@@ -96,7 +97,7 @@ const Shop = () => {
                         <div className="col-lg-3">
                             <div className="hero__categories">
                                 <div className="hero__categories__all">
-                                    <i className="fa fa-bars" />
+                                    <i className="fa fa-bars"/>
                                     <span>All departments</span>
                                 </div>
                                 <ul>
@@ -114,15 +115,15 @@ const Shop = () => {
                                     <form action="#">
                                         <div className="hero__search__categories">
                                             All Categories
-                                            <span className="arrow_carrot-down" />
+                                            <span className="arrow_carrot-down"/>
                                         </div>
-                                        <input type="text" placeholder="What do you need?" />
+                                        <input type="text" placeholder="What do you need?"/>
                                         <button type="submit" className="site-btn">SEARCH</button>
                                     </form>
                                 </div>
                                 <div className="hero__search__phone">
                                     <div className="hero__search__phone__icon">
-                                        <i className="fa fa-phone" />
+                                        <i className="fa fa-phone"/>
                                     </div>
                                     <div className="hero__search__phone__text">
                                         <h5>+65 11.188.888</h5>
@@ -137,7 +138,8 @@ const Shop = () => {
             {/* Hero Section End */}
 
             {/* Breadcrumb Section Begin */}
-            <section className="breadcrumb-section set-bg" style={{ backgroundImage: "url('img/breadcrumb.jpg')" }}>
+            <section className="breadcrumb-section set-bg">
+                {/*<img src="/img/breadcrumb.jpg" alt="Breadcrumb" className="breadcrumb-image"/>*/}
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">
@@ -152,6 +154,7 @@ const Shop = () => {
                     </div>
                 </div>
             </section>
+
             {/* Breadcrumb Section End */}
 
             {/* Product Section Begin */}
@@ -161,7 +164,7 @@ const Shop = () => {
                         <div className="col-lg-3 col-md-5">
                             <div className="sidebar">
                                 <div className="sidebar__item">
-                                    <h4>Department</h4>
+                                    <h4>Categories</h4>
                                     <ul>
                                         {categories.length > 0 && categories.map((category) => (
                                             <li key={category.id}>
@@ -196,7 +199,6 @@ const Shop = () => {
                                                        readOnly/>
                                                 <span className="price-input__currency">$</span>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -206,37 +208,37 @@ const Shop = () => {
                                     <div className="sidebar__item__color sidebar__item__color--white">
                                         <label htmlFor="white">
                                             White
-                                            <input type="radio" id="white" />
+                                            <input type="radio" id="white"/>
                                         </label>
                                     </div>
                                     <div className="sidebar__item__color sidebar__item__color--gray">
                                         <label htmlFor="gray">
                                             Gray
-                                            <input type="radio" id="gray" />
+                                            <input type="radio" id="gray"/>
                                         </label>
                                     </div>
                                     <div className="sidebar__item__color sidebar__item__color--red">
                                         <label htmlFor="red">
                                             Red
-                                            <input type="radio" id="red" />
+                                            <input type="radio" id="red"/>
                                         </label>
                                     </div>
                                     <div className="sidebar__item__color sidebar__item__color--black">
                                         <label htmlFor="black">
                                             Black
-                                            <input type="radio" id="black" />
+                                            <input type="radio" id="black"/>
                                         </label>
                                     </div>
                                     <div className="sidebar__item__color sidebar__item__color--blue">
                                         <label htmlFor="blue">
                                             Blue
-                                            <input type="radio" id="blue" />
+                                            <input type="radio" id="blue"/>
                                         </label>
                                     </div>
                                     <div className="sidebar__item__color sidebar__item__color--green">
                                         <label htmlFor="green">
                                             Green
-                                            <input type="radio" id="green" />
+                                            <input type="radio" id="green"/>
                                         </label>
                                     </div>
                                 </div>
@@ -244,105 +246,113 @@ const Shop = () => {
                                 <div className="sidebar__item">
                                     <div className="latest-product__text">
                                         <h4>Latest Products</h4>
-                                        <ProductCarousel products={products} carouselOptions={carouselOptions} />
+                                        <ProductCarousel products={products} carouselOptions={carouselOptions}/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="col-lg-9 col-md-7">
-                            <ProductDiscountCarousel />
+                            <ProductDiscountCarousel/>
                             <div className="filter__item">
                                 <div className="row">
                                     <div className="col-lg-4 col-md-5">
                                         <div className="filter__sort">
-                                            <span>Sort By</span>
-                                            <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                                            <span>Sort By:</span>
+                                            <select onChange={(e) => setSortOption(e.target.value)}>
                                                 <option value="default">Default</option>
                                                 <option value="price-asc">Price: Low to High</option>
                                                 <option value="price-desc">Price: High to Low</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="col-lg-4 col-md-4">
+                                    <div className="col-lg-5 col-md-5">
                                         <div className="filter__found">
                                             <h6>
                                                 <span>{currentProducts.length}</span> Products found
                                             </h6>
                                         </div>
                                     </div>
-                                    <div className="col-lg-4 col-md-3">
-                                        <div className="filter__option">
-                                            <span className="icon_grid-2x2" />
-                                            <span className="icon_ul" />
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
+
                             <div className="row" id="product-section">
-                                {isLoading && <Spinner />}
-                                {error && <div className="col-lg-12"><p>{error}</p></div>}
-                                {currentProducts.map(product => (
-                                    <div key={product.id} className="col-lg-4 col-md-6 col-sm-6">
-                                        <div className="product__item">
-                                            <div className="product__item__pic">
-                                                <img
-                                                    src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
-                                                    alt={product.name}
-                                                />
-                                                <ul className="product__item__pic__hover">
-                                                    <li><a href="#"><i className="fa fa-heart" /></a></li>
-                                                    <li><a href="#"><i className="fa fa-retweet" /></a></li>
-                                                    <li>
-                                                        <a href="#" onClick={(e) => {
-                                                            e.preventDefault();
-                                                            addToCart(product);
-                                                        }}>
-                                                            <i className="fa fa-shopping-cart" />
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div className="product__item__text">
-                                                <h6><Link to={`/product-details/${product.id}`}>{product.name}</Link>
-                                                </h6>
-                                                <h5 style={{color: product.on_sale ? 'red' : 'inherit'}}>
-                                                    ${product.on_sale ? product.on_sale_price : product.price}
-                                                </h5>
+                                {isLoading ? (
+                                    <Spinner/>
+                                ) : error ? (
+                                    <h2>{error.message}</h2>
+                                ) : currentProducts.length > 0 ? (
+                                    currentProducts.map(product => (
+                                        <div className="col-lg-4 col-md-6 col-sm-6" key={product.id}>
+                                            <div className="product__item">
+                                                <div className="product__item__pic">
+                                                    <img
+                                                        src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
+                                                        alt={product.name}
+                                                    />
+                                                    <ul className="product__item__pic__hover">
+                                                        <li><a href="#"><i className="fa fa-heart"/></a></li>
+                                                        <li><a href="#"><i className="fa fa-retweet"/></a></li>
+                                                        <li>
+                                                            <a href="#" onClick={(e) => {
+                                                                e.preventDefault();
+                                                                addToCart(product);
+                                                            }}>
+                                                                <i className="fa fa-shopping-cart"/>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div className="product__item__text">
+                                                    <h6><Link
+                                                        to={`/product-details/${product.id}`}>{product.name}</Link>
+                                                    </h6>
+                                                    <h5 style={{color: product.on_sale ? 'red' : 'inherit'}}>
+                                                        ${product.on_sale ? product.on_sale_price : product.price}
+                                                    </h5>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                ) : (
+                                    <h2>No products found in this category.</h2>
+                                )}
                             </div>
-                            <div className="product__pagination">
-                                {Array.from({ length: totalPages }, (_, i) => (
-                                    <a
-                                        key={i + 1}
-                                        href="#"
-                                        className={currentPage === i + 1 ? 'active' : ''}
-                                        onClick={(e) => {
+
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className="product__pagination">
+                                        {Array.from({length: totalPages}, (_, i) => (
+                                            <a
+                                                key={i + 1}
+                                                href="#"
+                                                className={currentPage === i + 1 ? 'active' : ''}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    paginate(i + 1);
+                                                    scrollToProducts();
+                                                }}
+                                            >
+                                                {i + 1}
+                                            </a>
+                                        ))}
+                                        <a href="#" onClick={(e) => {
                                             e.preventDefault();
-                                            paginate(i + 1);
+                                            paginate(currentPage + 1);
                                             scrollToProducts();
-                                        }}
-                                    >
-                                        {i + 1}
-                                    </a>
-                                ))}
-                                <a href="#" onClick={(e) => {
-                                    e.preventDefault();
-                                    paginate(currentPage + 1);
-                                    scrollToProducts();
-                                }}>
-                                    <i className="fa fa-long-arrow-right" />
-                                </a>
+                                        }}>
+                                            <i className="fa fa-long-arrow-right"/>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <Footer />
+            {/* Product Section End */}
+            <Footer/>
         </>
     );
 };
 
-export default Shop;
+export default CategoryProducts;

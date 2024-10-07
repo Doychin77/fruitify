@@ -39,6 +39,7 @@ class ProductResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
                     ->label('Описание')
+                    ->rows(5)
                     ->required(),
                 Forms\Components\TextInput::make('price')
                     ->label('Цена')
@@ -76,7 +77,7 @@ class ProductResource extends Resource
                     ->live(onBlur: true)
                     ->hint('Изчислява се автоматично'),
 
-            ])->columns(3);
+            ])->columns(2);
     }
 
 

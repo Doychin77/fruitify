@@ -53,7 +53,9 @@ class CouponResource extends Resource
 
                 Forms\Components\TextInput::make('percent')
                     ->label('Процент отстъпка')
-                    ->numeric(),
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100),
                 Forms\Components\Toggle::make('is_active')
                     ->label('Активен')
                     ->required(),

@@ -11,6 +11,7 @@ import ProductDetails from './components/Products/ProductDetails.jsx';
 import { CartProvider } from '@/src/context/cartContext.jsx';
 import Register from "@/src/components/Register.jsx";
 import CategoryProducts from "@/src/components/Products/CategoryProducts.jsx";
+import Login from "@/src/components/Login.jsx";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/product-details/:id" element={<ProductDetails />} />
                     <Route path="/category/:categoryId" element={<CategoryProducts />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/blog/:id" element={<BlogDetails />} />
                     <Route path="/checkout" element={<Checkout />} />

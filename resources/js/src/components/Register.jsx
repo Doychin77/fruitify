@@ -1,49 +1,69 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './styles.css';
 
 const Register = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
-        confirmPassword: '',
+        password_confirmation: '',
     });
     const [errors, setErrors] = useState({});
     const [success, setSuccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value.trim(),
         });
     };
 
     const validateForm = () => {
         let formErrors = {};
 
-        if (!formData.name.trim()) formErrors.name = "Name is required.";
-        if (!formData.email.trim()) formErrors.email = "Email is required.";
+        if (!formData.name) formErrors.name = "Name is required.";
+        if (!formData.email) formErrors.email = "Email is required.";
         if (!formData.password) formErrors.password = "Password is required.";
-        if (formData.password !== formData.confirmPassword)
+        if (formData.password !== formData.password_confirmation) {
             formErrors.confirmPassword = "Passwords do not match.";
+        }
 
         setErrors(formErrors);
         return Object.keys(formErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            // Handle successful form submission, e.g., make API request
-            setSuccess(true);
-            console.log('Form data submitted:', formData);
-            // Reset form after success
-            setFormData({
-                name: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
-            });
+            console.log('Password:', formData.password);
+            console.log('Confirm Password:', formData.password_confirmation);
+            try {
+                const response = await axios.post('http://fruitify.test/register', formData);
+                console.log('Registration response:', response.data);
+                setSuccess(true);
+                setErrorMessage('');
+                navigate('/login');
+                setFormData({
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                });
+            } catch (error) {
+                if (error.response && error.response.data.errors) {
+                    console.error('Registration errors:', error.response.data.errors);
+                    setErrorMessage(Object.values(error.response.data.errors).flat().join(', '));
+                } else {
+                    console.error('Registration error:', error.response.data);
+                    setErrorMessage(error.response.data.message || 'Registration failed. Please try again.');
+                }
+                setSuccess(false);
+            }
         } else {
             setSuccess(false);
         }
@@ -53,6 +73,7 @@ const Register = () => {
         <div className="register-container">
             <h2>Register</h2>
             {success && <p className="success-message">Registration successful!</p>}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="name">Name</label>
@@ -94,12 +115,12 @@ const Register = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirm Password</label>
+                    <label htmlFor="password_confirmation">Confirm Password</label>
                     <input
                         type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        value={formData.password_confirmation}
                         onChange={handleChange}
                         required
                     />

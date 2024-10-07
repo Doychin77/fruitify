@@ -239,10 +239,12 @@ const Cart = () => {
             ) : (
                 <div className="empty-cart-message">
                     <h2>Your cart is empty</h2>
+                    <a href="/shop" className="primary-btn">GO SHOPPING</a>
                 </div>
+
             )}
 
-            <Footer />
+            <Footer/>
         </>
     );
 };

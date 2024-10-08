@@ -8,7 +8,7 @@ const Header = () => {
     const { cartItems } = useContext(CartContext);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const { isLoggedIn } = useUserContext();
+    const { isLoggedIn, logout } = useUserContext(); // Get isLoggedIn and logout from context
     const location = useLocation(); // Get the current location
 
     const subtotal = cartItems.reduce((total, item) => {
@@ -37,6 +37,10 @@ const Header = () => {
 
     const handleMouseLeave = () => {
         setIsHovered(false);
+    };
+
+    const handleLogout = () => {
+        logout(); // Call the logout function
     };
 
     return (
@@ -83,10 +87,16 @@ const Header = () => {
                                         </li>
                                     </ul>
                                 </div>
-                                {!isLoggedIn && ( // Show login only if not logged in
+                                {!isLoggedIn ? (
                                     <div className="header__top__right__auth">
                                         <Link to="/login">
                                             <i className="fa fa-user"/> Login
+                                        </Link>
+                                    </div>
+                                ) : ( 
+                                    <div className="header__top__right__auth">
+                                        <Link to="#" onClick={handleLogout}>
+                                            <i className="fa fa-sign-out"/> Logout
                                         </Link>
                                     </div>
                                 )}

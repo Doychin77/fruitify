@@ -252,7 +252,7 @@ const ProductDetails = () => {
                                         {product.description}
                                     </p>
                                     <div className="product__details__quantity">
-                                        <div className="quantity">
+                                        <div className="quantity-details">
                                             <div className="pro-qty">
                                                 <input type="text" defaultValue={1}/>
                                             </div>

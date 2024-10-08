@@ -407,6 +407,7 @@ ol {
 
 .header__top__right__auth {
     display: inline-block;
+    margin-right: 10px;
 }
 
 .header__top__right__auth a {
@@ -884,11 +885,18 @@ ol {
 }
 
 .featured__item__pic {
-    height: 270px;
+    height: 280px;
     position: relative;
     overflow: hidden;
     background-position: center center;
 }
+
+.featured__item__pic img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
 
 .featured__item__pic__hover {
     position: absolute;

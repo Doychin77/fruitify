@@ -1,11 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from "@/src/context/cartContext.jsx";
-import CartDropdown from './CartDropdown'; // Ensure this path is correct
+import CartDropdown from './CartDropdown';
+import { Link, useLocation } from "react-router-dom";
+import { useUserContext } from '@/src/context/UserContext';
 
 const Header = () => {
     const { cartItems } = useContext(CartContext);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const { isLoggedIn } = useUserContext();
+    const location = useLocation(); // Get the current location
 
     const subtotal = cartItems.reduce((total, item) => {
         const price = item.on_sale ? parseFloat(item.on_sale_price) : parseFloat(item.price);
@@ -79,16 +83,13 @@ const Header = () => {
                                         </li>
                                     </ul>
                                 </div>
-                                <div className="header__top__right__auth">
-                                    <a href="/login">
-                                        <i className="fa fa-user"/> Login
-                                    </a>
-                                </div>
-                                <div className="header__top__right__auth">
-                                    <a href="/register">
-                                        <i className="fa fa-user"/> Register
-                                    </a>
-                                </div>
+                                {!isLoggedIn && ( // Show login only if not logged in
+                                    <div className="header__top__right__auth">
+                                        <Link to="/login">
+                                            <i className="fa fa-user"/> Login
+                                        </Link>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -98,25 +99,25 @@ const Header = () => {
                 <div className="row">
                     <div className="col-lg-3">
                         <div className="header__logo">
-                            <a href="/">
+                            <Link to="/">
                                 <img src="img/logo.png" alt="" />
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div className="col-lg-6">
                         <nav className="header__menu">
                             <ul>
-                                <li className="active">
-                                    <a href="/">Home</a>
+                                <li className={location.pathname === '/' ? 'active' : ''}>
+                                    <Link to="/">Home</Link>
                                 </li>
-                                <li>
-                                    <a href="/shop">Shop</a>
+                                <li className={location.pathname === '/shop' ? 'active' : ''}>
+                                    <Link to="/shop">Shop</Link>
                                 </li>
-                                <li>
-                                    <a href="/blog">Blog</a>
+                                <li className={location.pathname === '/blog' ? 'active' : ''}>
+                                    <Link to="/blog">Blog</Link>
                                 </li>
-                                <li>
-                                    <a href="/contact">Contact</a>
+                                <li className={location.pathname === '/contact' ? 'active' : ''}>
+                                    <Link to="/contact">Contact</Link>
                                 </li>
                             </ul>
                         </nav>
@@ -133,9 +134,9 @@ const Header = () => {
                                     onMouseEnter={handleMouseEnter}
                                     onMouseLeave={handleMouseLeave}
                                 >
-                                    <a href="/cart">
+                                    <Link to="/cart">
                                         <i className="fa fa-shopping-bag" /> <span>{totalQuantity}</span>
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                             <div className="header__cart__price">
@@ -144,7 +145,7 @@ const Header = () => {
                         </div>
                         {isDropdownOpen && (
                             <div
-                                onMouseEnter={() => setIsHovered(true)} // Keep dropdown open on hover
+                                onMouseEnter={() => setIsHovered(true)}
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <CartDropdown cartItems={cartItems} onClose={handleMouseLeave} />

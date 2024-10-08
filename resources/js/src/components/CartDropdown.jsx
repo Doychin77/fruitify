@@ -35,7 +35,7 @@ const CartDropdown = ({ cartItems, onClose }) => {
                             <img className="cart-item-image"
                                  src={`http://fruitify.test/storage/${item.images ? item.images[0].image_url : 'default.jpg'}`}
                                  alt={item.name}
-                                 style={{width: '50px', height: '50px', objectFit: 'cover'}}
+                                 style={{width: '60px', height: '60px', objectFit: 'contain'}}
                             />
                         </Link>
                         <div style={{flex: 1}}>

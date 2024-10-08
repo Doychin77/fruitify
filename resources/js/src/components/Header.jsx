@@ -54,22 +54,22 @@ const Header = () => {
                             <div className="header__top__right">
                                 <div className="header__top__right__social">
                                     <a href="#">
-                                        <i className="fa fa-facebook" />
+                                        <i className="fa fa-facebook"/>
                                     </a>
                                     <a href="#">
-                                        <i className="fa fa-twitter" />
+                                        <i className="fa fa-twitter"/>
                                     </a>
                                     <a href="#">
-                                        <i className="fa fa-linkedin" />
+                                        <i className="fa fa-linkedin"/>
                                     </a>
                                     <a href="#">
-                                        <i className="fa fa-pinterest-p" />
+                                        <i className="fa fa-pinterest-p"/>
                                     </a>
                                 </div>
                                 <div className="header__top__right__language">
-                                    <img src="img/language.png" alt="" />
+                                    <img src="img/language.png" alt=""/>
                                     <div>English</div>
-                                    <span className="arrow_carrot-down" />
+                                    <span className="arrow_carrot-down"/>
                                     <ul>
                                         <li>
                                             <a href="#">Spanish</a>
@@ -80,8 +80,13 @@ const Header = () => {
                                     </ul>
                                 </div>
                                 <div className="header__top__right__auth">
-                                    <a href="#">
-                                        <i className="fa fa-user" /> Login
+                                    <a href="/login">
+                                        <i className="fa fa-user"/> Login
+                                    </a>
+                                </div>
+                                <div className="header__top__right__auth">
+                                    <a href="/register">
+                                        <i className="fa fa-user"/> Register
                                     </a>
                                 </div>
                             </div>

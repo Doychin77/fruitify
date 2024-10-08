@@ -1024,13 +1024,15 @@ ol {
 }
 
 .latest-product__item__pic img {
-    height: 110px;
-    width: 110px;
+    height: 120px !important;
+    width: 120px !important;
+    object-fit: contain;
 }
+
 
 .latest-product__item__text {
     overflow: hidden;
-    padding-top: 10px;
+    padding-top: 35px;
 }
 
 .latest-product__item__text h6 {
@@ -1619,9 +1621,16 @@ ol {
 }
 
 .product__item__pic {
-    height: 260px;
+    height: 290px;
     position: relative;
     overflow: hidden;
+}
+
+.product__item__pic img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
 }
 
 .product__item__pic__hover {

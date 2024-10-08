@@ -36,9 +36,9 @@ const LatestProducts = ({ products, carouselOptions }) => {
                                 <h6>
                                     <Link to={`/product-details/${product.id}`} className="plain-link">{product.name} </Link>
                                 </h6>
-                                <span>
+                                <h5 style={{color: product.on_sale ? 'red' : 'black', fontWeight: "bold"}}>
                                     ${product.on_sale ? product.on_sale_price : product.price}
-                                </span>
+                                </h5>
                             </div>
                         </a>
                     ))}

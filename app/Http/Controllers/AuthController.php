@@ -83,30 +83,32 @@ class AuthController extends Controller
 
     public function updatePassword(Request $request)
     {
-        // Validate the incoming request data
         $validator = Validator::make($request->all(), [
-            'reset_code' => 'required|string|size:5', // Ensure it's a 5 character string
-            'new_password' => 'required|string|min:8|confirmed', // Confirming new password
+            'email' => 'required|email',
+            'reset_code' => 'required|string|size:5',
+            'new_password' => 'required|string|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        // Find the user by email
         $user = User::where('email', $request->email)->first();
 
-        // Check if the reset code matches the one in the database
+        if (!$user) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+
         if ($user->reset_code !== $request->reset_code) {
             return response()->json(['error' => 'Invalid reset code.'], 403);
         }
 
-        // Update the user's password
         $user->password = Hash::make($request->new_password);
-        $user->reset_code = null; // Clear the reset code after successful password update
+        $user->reset_code = null;
         $user->save();
 
         return response()->json(['message' => 'Password updated successfully.']);
     }
+
 
 }

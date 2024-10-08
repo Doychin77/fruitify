@@ -44,8 +44,10 @@ const ResetPassword = () => {
 
         try {
             const response = await axios.post('http://fruitify.test/update-password', {
+                email,
                 reset_code: resetCode,
                 new_password: newPassword,
+                new_password_confirmation: confirmPassword,
             });
 
             setMessage('Your password has been reset successfully.');

@@ -13,6 +13,7 @@ import Register from "@/src/components/Register/Register.jsx";
 import CategoryProducts from "@/src/components/Products/CategoryProducts.jsx";
 import Login from "@/src/components/Login/Login.jsx";
 import {UserProvider} from "@/src/context/UserContext.jsx";
+import ResetPassword from "@/src/components/ResetPassword.jsx";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                         <Route path="/category/:categoryId" element={<CategoryProducts/>}/>
                         <Route path="/cart" element={<Cart/>}/>
                         <Route path="/login" element={<Login/>}/>
+                        <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="/blog" element={<Blog/>}/>
                         <Route path="/blog/:id" element={<BlogDetails/>}/>
                         <Route path="/checkout" element={<Checkout/>}/>

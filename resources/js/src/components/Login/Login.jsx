@@ -62,7 +62,7 @@ const Login = () => {
                     {error && <p className={styles['error-message']}>{error}</p>}
                     <div className={styles['remember-forgot']}>
                         <label><input type="checkbox"/>Remember Me</label>
-                        <a href="#">Forgot Password</a>
+                        <a href="/reset-password">Forgot Password</a>
                     </div>
                     <button type="submit" className={styles.btn}>Login</button>
                     <div className={styles['register-link']}>

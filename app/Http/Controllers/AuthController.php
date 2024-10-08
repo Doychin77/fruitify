@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -43,6 +45,68 @@ class AuthController extends Controller
         ]);
 
         return response()->json(['message' => 'User registered successfully'], 201);
+    }
+
+
+    public function sendResetCode(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+            ], 400);
+        }
+
+
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $resetCode = substr(str_shuffle(str_repeat($characters, 5)), 0, 5);
+
+        $user = User::where('email', $request->email)->first();
+        $user->reset_code = $resetCode;
+        $user->save();
+
+        Mail::raw("Your password reset code is: {$resetCode}", function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Password Reset Code');
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'A password reset code has been sent to your email.',
+        ]);
+    }
+
+
+    public function updatePassword(Request $request)
+    {
+        // Validate the incoming request data
+        $validator = Validator::make($request->all(), [
+            'reset_code' => 'required|string|size:5', // Ensure it's a 5 character string
+            'new_password' => 'required|string|min:8|confirmed', // Confirming new password
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+
+        // Find the user by email
+        $user = User::where('email', $request->email)->first();
+
+        // Check if the reset code matches the one in the database
+        if ($user->reset_code !== $request->reset_code) {
+            return response()->json(['error' => 'Invalid reset code.'], 403);
+        }
+
+        // Update the user's password
+        $user->password = Hash::make($request->new_password);
+        $user->reset_code = null; // Clear the reset code after successful password update
+        $user->save();
+
+        return response()->json(['message' => 'Password updated successfully.']);
     }
 
 }

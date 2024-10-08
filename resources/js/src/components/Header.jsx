@@ -93,7 +93,7 @@ const Header = () => {
                                             <i className="fa fa-user"/> Login
                                         </Link>
                                     </div>
-                                ) : ( 
+                                ) : (
                                     <div className="header__top__right__auth">
                                         <Link to="#" onClick={handleLogout}>
                                             <i className="fa fa-sign-out"/> Logout

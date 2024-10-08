@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styles from './Register.module.css'; // Assuming the styling is in Register.module.css
+import styles from './Register.module.css'; // Assuming the styling is in ResetPassword.module.css
 
 const Register = () => {
     const navigate = useNavigate();

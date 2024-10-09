@@ -62,14 +62,14 @@ class AuthController extends Controller
         }
 
 
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $resetCode = substr(str_shuffle(str_repeat($characters, 5)), 0, 5);
 
         $user = User::where('email', $request->email)->first();
         $user->reset_code = $resetCode;
         $user->save();
 
-        Mail::raw("Your password reset code is: {$resetCode}", function ($message) use ($request) {
+        Mail::send('emails.reset_code', ['resetCode' => $resetCode, 'userName' => $user->name], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Password Reset Code');
         });

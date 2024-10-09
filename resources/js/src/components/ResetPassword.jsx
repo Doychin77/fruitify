@@ -28,7 +28,7 @@ const ResetPassword = () => {
             console.log('Reset password code sent');
         } catch (err) {
             console.error(err);
-            setError('Failed to send reset password code. Please try again.');
+            setError("No account found with that email. Please double-check and try again.");
         }
     };
 
@@ -55,7 +55,7 @@ const ResetPassword = () => {
             navigate('/login');
         } catch (err) {
             console.error(err);
-            setError('Failed to reset password. Please try again.');
+            setError('Invalid password reset code.');
         }
     };
 
@@ -84,7 +84,7 @@ const ResetPassword = () => {
                     </form>
                 ) : (
                     <form onSubmit={handleResetPassword}>
-                        <h1>Enter New Password</h1>
+                        <h1>Create New Password</h1>
                         <div className={styles['input-box']}>
                             <input
                                 type="text"

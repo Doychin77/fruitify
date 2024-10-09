@@ -19,6 +19,7 @@ const ProductDetails = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
+    
 
     const relatedProducts = getRelatedProducts(parseInt(id));
 
@@ -275,8 +276,8 @@ const ProductDetails = () => {
                                         <li>
                                             <b>Shipping</b>{" "}
                                             <span>
-                  01 day shipping. <samp>Free pickup today</samp>
-                </span>
+                                                 01 day shipping. <samp>Free pickup today</samp>
+                                            </span>
                                         </li>
                                         <li>
                                             <b>Weight</b> <span>0.5 kg</span>

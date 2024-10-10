@@ -110,7 +110,7 @@ const Header = () => {
                     <div className="col-lg-3">
                         <div className="header__logo">
                             <Link to="/">
-                                <img src="img/logo.png" alt="" />
+                                <img src="img/logo2.png" alt="" />
                             </Link>
                         </div>
                     </div>

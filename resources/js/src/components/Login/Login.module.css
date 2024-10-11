@@ -92,3 +92,20 @@
 .register-link p a:hover {
     text-decoration: underline;
 }
+
+
+.success-message {
+    color: #b9eab9;
+    padding: 10px;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.error-message {
+    color: red;
+    padding: 10px;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    text-align: center;
+}

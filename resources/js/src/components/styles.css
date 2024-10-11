@@ -447,6 +447,53 @@ button {
 }
 
 
+/* src/components/NotFound.css */
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    background: url(../assets/bg4.jpg) no-repeat;
+    background-size: cover ;
+    background-position: center;
+}
+
+.not-found-container h1 {
+    font-size: 6.5rem;
+    margin-bottom: 20px;
+    color: #18a3c4;
+}
+
+.not-found-container p {
+    font-size: 2.2rem;
+    color: #18a3c4;
+}
+
+
+
+.go-home-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 2rem;
+    color: #fff;
+    background-color: #5aa415;
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.go-home-button:hover {
+    background-color: #70ad0a;
+}
+
+
+
+
 
 
 

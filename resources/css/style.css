@@ -1140,6 +1140,11 @@ ol {
     color: #1c1c1c;
     line-height: 39px;
     display: block;
+    transition: color 0.3s ease;
+}
+
+.sidebar__item ul li a:hover {
+    color: #87c528;
 }
 
 .sidebar__item .latest-product__text {

@@ -139,18 +139,18 @@ const CategoryProducts = () => {
 
             {/* Breadcrumb Section Begin */}
             <section className="breadcrumb-section set-bg">
-                {/*<img src="/img/breadcrumb.jpg" alt="Breadcrumb" className="breadcrumb-image"/>*/}
+                <img src="/img/breadcrumb.jpg" alt="Breadcrumb" className="breadcrumb-image"/>
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-12 text-center">
-                            <div className="breadcrumb__text">
-                                <h2>Fruitify Shop</h2>
-                                <div className="breadcrumb__option">
-                                    <a href="/public">Home</a>
-                                    <span>Shop</span>
-                                </div>
-                            </div>
-                        </div>
+                        {/*<div className="col-lg-12 text-center">*/}
+                        {/*    <div className="breadcrumb__text">*/}
+                        {/*        <h2>Fruitify Shop</h2>*/}
+                        {/*        <div className="breadcrumb__option">*/}
+                        {/*            <a href="/public">Home</a>*/}
+                        {/*            <span>Shop</span>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </section>

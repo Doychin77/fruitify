@@ -26,11 +26,11 @@ const Login = () => {
 
             login(token); // Use the login function from context
 
-            console.log('Login successful');
+            console.log('Login successful!');
             navigate('/'); // Redirect to the home page after successful login
         } catch (err) {
             console.error(err);
-            setError('Invalid email or password');
+            setError('Invalid email or password!');
         }
     };
 

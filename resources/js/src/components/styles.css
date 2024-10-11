@@ -451,45 +451,49 @@ button {
 .not-found-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start; /* Aligns items to the top */
+    align-items: flex-start; /* Aligns items to the left */
     height: 100vh;
     text-align: center;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
-    background: url(../assets/bg4.jpg) no-repeat;
-    background-size: cover ;
+    background: url(../assets/404.jpg) no-repeat;
+    background-size: cover;
     background-position: center;
+    padding-top: 200px;
+    padding-left: 200px;
 }
 
 .not-found-container h1 {
-    font-size: 6.5rem;
+    font-size: 5.5rem;
     margin-bottom: 20px;
-    color: #18a3c4;
+    color: #1c1b1a;
+    margin-top: 0; /* Reset top margin */
 }
 
 .not-found-container p {
-    font-size: 2.2rem;
-    color: #18a3c4;
+    font-size: 2rem;
+    color: #1c1b1a;
+    margin: 0; /* Reset margins */
 }
-
-
 
 .go-home-button {
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 8px 15px;
+    margin-left: 200px;
     font-size: 2rem;
-    color: #fff;
-    background-color: #5aa415;
+    color: #ea831b;
+    background-color: #13180e;
     border: none;
-    border-radius: 1px;
+    border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .go-home-button:hover {
-    background-color: #70ad0a;
+    background-color: #3d3b3b;
 }
+
 
 
 

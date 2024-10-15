@@ -340,14 +340,14 @@ const ProductDetails = () => {
                                                                 </small>
                                                             </div>
                                                             <div className="review-rating">
-                                        <span className="filled">
-                                            {'★'.repeat(review.rating)}
-                                        </span>
-                                                                <span className="empty">
-                                            {'☆'.repeat(5 - review.rating)}
-                                        </span>
+                                                            <span className="filled">
+                                                                {'★'.repeat(review.rating)}
+                                                            </span>
+                                                                                    <span className="empty">
+                                                                {'☆'.repeat(5 - review.rating)}
+                                                            </span>
                                                             </div>
-                                                            <p>{displayComment}</p>
+                                                            <p style={{marginBottom: 0}}>{displayComment}</p>
                                                             {review.comment.length > 470 && (
                                                                 <button
                                                                     onClick={() => toggleExpand(index)}

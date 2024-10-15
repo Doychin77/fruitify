@@ -613,6 +613,23 @@ button {
 }
 
 
+.product__details__tab .reviews-button {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.product__details__tab ul {
+    text-align: center;
+    list-style: none;
+    padding: 0;
+}
+
+.product__details__tab ul li {
+    margin-bottom: 15px;
+}
+
+
+
 
 
 

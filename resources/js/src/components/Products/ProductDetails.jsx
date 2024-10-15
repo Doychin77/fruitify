@@ -19,11 +19,17 @@ const ProductDetails = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
-    
+
 
     const relatedProducts = getRelatedProducts(parseInt(id));
 
     const [largeImageSrc, setLargeImageSrc] = useState('default.jpg');
+
+    const [showReviews, setShowReviews] = useState(false);
+
+    const toggleReviews = () => {
+        setShowReviews(!showReviews);
+    };
 
 
     useEffect(() => {
@@ -31,7 +37,7 @@ const ProductDetails = () => {
 
         if (product && product.images && product.images.length > 0) {
             setLargeImageSrc(`${baseURL}${product.images[0].image_url}`);
-            setImages(product.images.slice(1)); // Exclude the first image from thumbnails
+            setImages(product.images.slice(1));
         }
 
         setLoading(false);
@@ -72,9 +78,9 @@ const ProductDetails = () => {
         },
     };
 
-    if (loading) return <Spinner />;
+    if (loading) return <Spinner/>;
 
-    if (!product) return <Spinner />;
+    if (!product) return <Spinner/>;
     if (error) return <div>{error}</div>;
 
     return (
@@ -217,7 +223,6 @@ const ProductDetails = () => {
                                     )}
 
 
-
                                 </div>
                             </div>
                             <div className="col-lg-6 col-md-6">
@@ -304,30 +309,35 @@ const ProductDetails = () => {
                             </div>
                             <div className="col-lg-12">
                                 <div className="product__details__tab">
-                                    <ul className="nav nav-tabs" role="tablist">
-                                        <li className="nav-item">
-                                            <a
-                                                className="nav-link active"
-                                                data-toggle="tab"
-                                                href="#tabs-1"
-                                                role="tab"
-                                                aria-selected="true"
-                                            >
-                                                Description
-                                            </a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a
-                                                className="nav-link"
-                                                data-toggle="tab"
-                                                href="#tabs-3"
-                                                role="tab"
-                                                aria-selected="false"
-                                            >
-                                                Reviews <span>(1)</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <div style={{textAlign: 'center', margin: '20px 0'}}>
+                                        <button
+                                            onClick={toggleReviews}
+                                            className="primary-btn"
+                                            style={{padding: '10px 20px', cursor: 'pointer'}}
+                                        >
+                                            {showReviews ? 'Hide Reviews' : 'Show Reviews'}
+                                        </button>
+                                    </div>
+
+                                    {showReviews && (
+                                        <ul style={{textAlign: 'center', listStyle: 'none', padding: 0}}>
+                                            {product.reviews && product.reviews.length > 0 ? (
+                                                product.reviews.map((review, index) => (
+                                                    <li key={index} style={{marginBottom: '15px'}}>
+                                                        <h5>{review.user.name}</h5>
+                                                        <div className="review-rating">
+                                                            {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                                                        </div>
+                                                        <p>{review.comment}</p>
+                                                        <small>{new Date(review.created_at).toLocaleDateString()}</small>
+                                                    </li>
+                                                ))
+                                            ) : (
+                                                <p>No reviews yet.</p>
+                                            )}
+                                        </ul>
+                                    )}
+
                                     <div className="tab-content">
                                         <div className="tab-pane active" id="tabs-1" role="tabpanel">
                                             <div className="product__details__tab__desc">
@@ -346,7 +356,7 @@ const ProductDetails = () => {
                 <section className="related-product">
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-12">
+                        <div className="col-lg-12">
                                 <div className="section-title related__product__title">
                                     <h2>Related Products</h2>
                                 </div>

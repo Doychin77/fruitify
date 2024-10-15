@@ -18,7 +18,8 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('images')->find($id);
+        // Eager load images and reviews with user information
+        $product = Product::with(['images', 'reviews.user'])->find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
@@ -26,4 +27,5 @@ class ProductController extends Controller
 
         return response()->json($product);
     }
+
 }

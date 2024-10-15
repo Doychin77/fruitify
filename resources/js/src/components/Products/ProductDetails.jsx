@@ -321,15 +321,16 @@ const ProductDetails = () => {
                                     <ul style={{textAlign: 'center', listStyle: 'none', padding: 0}}>
                                         {product.reviews && product.reviews.length > 0 ? (
                                             product.reviews.map((review, index) => (
-                                                <li key={index} style={{marginBottom: '15px'}}>
+                                                <li key={index} style={{marginTop: '25px'}}>
                                                     <div style={{
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         justifyContent: 'center'
                                                     }}>
                                                         <h5 className="review-username">{review.user.name}</h5>
-                                                        <small
-                                                            style={{color: '#666'}}>{new Date(review.created_at).toLocaleDateString()}</small>
+                                                        <small style={{color: '#666'}}>
+                                                            {new Date(review.created_at).toLocaleDateString('en-GB')}
+                                                        </small>
                                                     </div>
                                                     <div className="review-rating">
                                                     <span className="filled">
@@ -347,8 +348,6 @@ const ProductDetails = () => {
                                         )}
                                     </ul>
                                 )}
-
-
                             </div>
                         </div>
                     </div>

@@ -649,6 +649,10 @@ ol {
     color: #1c1c1c;
     line-height: 39px;
     display: block;
+    transition: color 0.3s ease;
+}
+.hero__categories ul li a:hover {
+    color: #96ce26;
 }
 
 .hero__search {

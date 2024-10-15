@@ -11,7 +11,7 @@ const NotFound = () => {
 
     return (
         <div className="not-found-wrapper">
-            <div className="background-image"></div> {/* Background image outside the content container */}
+            <div className="background-image"></div>
             <div className="not-found-container">
                 <h1 className="error404">404</h1>
                 <h1>Page Not Found</h1>

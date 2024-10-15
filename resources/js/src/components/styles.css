@@ -646,6 +646,38 @@ button {
     color: #ccc;
 }
 
+.review-toggle {
+    margin-left: 20px;
+    cursor: pointer;
+    color: #333333;
+    font-weight: bold;
+    margin-bottom: 1px;
+    transition: color 0.3s ease;
+}
+
+.review-toggle:hover {
+    color: #7fad39;
+}
+
+
+.read-more-button {
+    color: #7fad39;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background: none;
+    transition: color 0.3s ease;
+}
+
+
+.read-more-button:hover {
+    color: #87c42b;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
 
 
 

@@ -1962,6 +1962,7 @@ ol {
 
 .product__details__tab .product__details__tab__desc {
     padding-top: 44px;
+    margin-bottom: 20px;
 }
 
 .product__details__tab .product__details__tab__desc h6 {
@@ -1973,6 +1974,7 @@ ol {
 
 .product__details__tab .product__details__tab__desc p {
     color: #666666;
+    margin-top: 20px !important;
     text-align: justify;
 }
 

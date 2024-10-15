@@ -19,6 +19,7 @@ const ProductDetails = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [expandedReviews, setExpandedReviews] = useState({});
 
 
     const relatedProducts = getRelatedProducts(parseInt(id));
@@ -29,6 +30,13 @@ const ProductDetails = () => {
 
     const toggleReviews = () => {
         setShowReviews(!showReviews);
+    };
+
+    const toggleExpand = (index) => {
+        setExpandedReviews(prevState => ({
+            ...prevState,
+            [index]: !prevState[index],
+        }));
     };
 
 
@@ -299,55 +307,64 @@ const ProductDetails = () => {
                                         <div className="product__details__tab__desc" style={{
                                             display: 'flex', alignItems: 'center', justifyContent: 'center'
                                         }}>
-                                            <h6 style={{margin: 0}}>Product Information</h6>
+                                            <h6 style={{ margin: 0 }}>Product Information</h6>
                                             <span
                                                 onClick={toggleReviews}
-                                                style={{
-                                                    marginLeft: '20px',
-                                                    cursor: 'pointer',
-                                                    color: '#020202',
-                                                    fontWeight: "bold",
-                                                }}
+                                                className="review-toggle"
                                             >
-                {showReviews ? 'Hide Reviews' : 'Show Reviews'}
-            </span>
+                                        {showReviews ? 'Hide Reviews' : 'Reviews'}
+                                        </span>
                                         </div>
-                                        {/* Show description only if reviews are not shown */}
                                         {!showReviews && <p>{product.description}</p>}
                                     </div>
-                                </div>
 
-                                {showReviews && (
-                                    <ul style={{textAlign: 'center', listStyle: 'none', padding: 0}}>
-                                        {product.reviews && product.reviews.length > 0 ? (
-                                            product.reviews.map((review, index) => (
-                                                <li key={index} style={{marginTop: '25px'}}>
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center'
-                                                    }}>
-                                                        <h5 className="review-username">{review.user.name}</h5>
-                                                        <small style={{color: '#666'}}>
-                                                            {new Date(review.created_at).toLocaleDateString('en-GB')}
-                                                        </small>
-                                                    </div>
-                                                    <div className="review-rating">
-                                                    <span className="filled">
-                                                        {'★'.repeat(review.rating)}
-                                                    </span>
-                                                                                    <span className="empty">
-                                                        {'☆'.repeat(5 - review.rating)}
-                                                    </span>
-                                                    </div>
-                                                    <p>{review.comment}</p>
-                                                </li>
-                                            ))
-                                        ) : (
-                                            <p>No reviews yet.</p>
-                                        )}
-                                    </ul>
-                                )}
+                                    {showReviews && (
+                                        <ul style={{ textAlign: 'center', listStyle: 'none', padding: 0 }}>
+                                            {product.reviews && product.reviews.length > 0 ? (
+                                                product.reviews.map((review, index) => {
+                                                    const isExpanded = expandedReviews[index];
+
+                                                    const displayComment = isExpanded ? review.comment : `${review.comment.slice(0, 470)}${review.comment.length > 470 ? '...' : ''}`;
+
+                                                    return (
+                                                        <li key={index} style={{ marginTop: '25px' }}>
+                                                            <div style={{
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                                marginBottom: '2px',
+                                                            }}>
+                                                                <h5 className="review-username">{review.user.name}</h5>
+                                                                <small style={{ color: '#666' }}>
+                                                                    {new Date(review.created_at).toLocaleDateString('en-GB')}
+                                                                </small>
+                                                            </div>
+                                                            <div className="review-rating">
+                                        <span className="filled">
+                                            {'★'.repeat(review.rating)}
+                                        </span>
+                                                                <span className="empty">
+                                            {'☆'.repeat(5 - review.rating)}
+                                        </span>
+                                                            </div>
+                                                            <p>{displayComment}</p>
+                                                            {review.comment.length > 470 && (
+                                                                <button
+                                                                    onClick={() => toggleExpand(index)}
+                                                                    className="read-more-button"
+                                                                >
+                                                                    {isExpanded ? 'Read Less' : 'Read More'}
+                                                                </button>
+                                                            )}
+                                                        </li>
+                                                    );
+                                                })
+                                            ) : (
+                                                <p>No reviews yet.</p>
+                                            )}
+                                        </ul>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>

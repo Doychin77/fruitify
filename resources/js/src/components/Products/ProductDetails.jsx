@@ -51,8 +51,7 @@ const ProductDetails = () => {
 
     const handleScrollToTop = () => {
         window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+            top: 0, behavior: 'smooth'
         });
     };
 
@@ -72,9 +71,7 @@ const ProductDetails = () => {
         smartSpeed: 1000,
         autoplaySpeed: 1000,
         responsive: {
-            0: {items: 1},
-            600: {items: 3},
-            1000: {items: 4},
+            0: {items: 1}, 600: {items: 3}, 1000: {items: 4},
         },
     };
 
@@ -83,342 +80,342 @@ const ProductDetails = () => {
     if (!product) return <Spinner/>;
     if (error) return <div>{error}</div>;
 
-    return (
+    return (<>
         <>
-            <>
-                <Hamburger/>
-                <Header/>
+            <Hamburger/>
+            <Header/>
                 {/* Hero Section Begin */}
-                <section className="hero hero-normal">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-3">
-                                <div className="hero__categories">
-                                    <div className="hero__categories__all">
-                                        <i className="fa fa-bars"/>
-                                        <span>All departments</span>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <a href="#">Fresh Meat</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Vegetables</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Fruit &amp; Nut Gifts</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Fresh Berries</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Ocean Foods</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Butter &amp; Eggs</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Fastfood</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Fresh Onion</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Papayaya &amp; Crisps</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Oatmeal</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Fresh Bananas</a>
-                                        </li>
-                                    </ul>
+            <section className="hero hero-normal">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-3">
+                            <div className="hero__categories">
+                                <div className="hero__categories__all">
+                                    <i className="fa fa-bars"/>
+                                    <span>All departments</span>
                                 </div>
+                                <ul>
+                                    <li>
+                                        <a href="#">Fresh Meat</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Vegetables</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Fruit &amp; Nut Gifts</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Fresh Berries</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Ocean Foods</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Butter &amp; Eggs</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Fastfood</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Fresh Onion</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Papayaya &amp; Crisps</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Oatmeal</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Fresh Bananas</a>
+                                    </li>
+                                </ul>
                             </div>
-                            <div className="col-lg-9">
-                                <div className="hero__search">
-                                    <div className="hero__search__form">
-                                        <form action="#">
-                                            <div className="hero__search__categories">
-                                                All Categories
-                                                <span className="arrow_carrot-down"/>
-                                            </div>
-                                            <input type="text" placeholder="What do yo u need?"/>
-                                            <button type="submit" className="site-btn">
-                                                SEARCH
-                                            </button>
-                                        </form>
+                        </div>
+                        <div className="col-lg-9">
+                            <div className="hero__search">
+                                <div className="hero__search__form">
+                                    <form action="#">
+                                        <div className="hero__search__categories">
+                                            All Categories
+                                            <span className="arrow_carrot-down"/>
+                                        </div>
+                                        <input type="text" placeholder="What do yo u need?"/>
+                                        <button type="submit" className="site-btn">
+                                            SEARCH
+                                        </button>
+                                    </form>
+                                </div>
+                                <div className="hero__search__phone">
+                                    <div className="hero__search__phone__icon">
+                                        <i className="fa fa-phone"/>
                                     </div>
-                                    <div className="hero__search__phone">
-                                        <div className="hero__search__phone__icon">
-                                            <i className="fa fa-phone"/>
-                                        </div>
-                                        <div className="hero__search__phone__text">
-                                            <h5>+65 11.188.888</h5>
-                                            <span>support 24/7 time</span>
-                                        </div>
+                                    <div className="hero__search__phone__text">
+                                        <h5>+65 11.188.888</h5>
+                                        <span>support 24/7 time</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
                 {/* Hero Section End */}
                 {/* Breadcrumb Section Begin */}
-                <section
-                    className="breadcrumb-section set-bg"
-                    style={{backgroundImage: "url('../img/breadcrumb.jpg')"}}
-                >
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-12 text-center">
-                                <div className="breadcrumb__text">
-                                    <h2>Vegetable’s Package</h2>
-                                    <div className="breadcrumb__option">
-                                        <a href="/">Home</a>
-                                        <a href="/">Vegetables</a>
-                                        <span>Vegetable’s Package</span>
-                                    </div>
+            <section
+                className="breadcrumb-section set-bg"
+                style={{backgroundImage: "url('../img/breadcrumb.jpg')"}}
+            >
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 text-center">
+                            <div className="breadcrumb__text">
+                                <h2>Vegetable’s Package</h2>
+                                <div className="breadcrumb__option">
+                                    <a href="/">Home</a>
+                                    <a href="/">Vegetables</a>
+                                    <span>Vegetable’s Package</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
                 {/* Breadcrumb Section End */}
                 {/* Product Details Section Begin */}
-                <section className="product-details spad">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-6 col-md-6">
-                                <div className="product__details__pic">
-                                    <div className="product__details__pic__item">
-                                        <img
-                                            className="product__details__pic__item--large"
-                                            src={largeImageSrc || `${baseURL}${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
-                                            alt="Large Product"
-                                        />
-                                    </div>
-
-                                    {product && product.images && product.images.length > 1 && (
-                                        <ReactOwlCarousel
-                                            {...options}
-                                            className="product__details__pic__slider owl-carousel"
-                                            key={largeImageSrc}
-                                        >
-                                            {product.images.map((image, index) => {
-                                                const imageUrl = `${baseURL}${image.image_url}`;
-                                                // Don't show the current large image in the slider
-                                                if (imageUrl === largeImageSrc) return null;
-                                                return (
-                                                    <div className="item" key={index}>
-                                                        <img
-                                                            onClick={() => handleImageClick(imageUrl, index)}
-                                                            src={imageUrl}
-                                                            alt={`Product ${index + 1}`}
-                                                        />
-                                                    </div>
-                                                );
-                                            })}
-                                        </ReactOwlCarousel>
-                                    )}
-
-
+            <section className="product-details spad">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-6 col-md-6">
+                            <div className="product__details__pic">
+                                <div className="product__details__pic__item">
+                                    <img
+                                        className="product__details__pic__item--large"
+                                        src={largeImageSrc || `${baseURL}${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
+                                        alt="Large Product"
+                                    />
                                 </div>
-                            </div>
-                            <div className="col-lg-6 col-md-6">
-                                <div className="product__details__text">
-                                    <h3>{product.name}</h3>
-                                    <div className="product__details__rating">
-                                        <i className="fa fa-star"/>
-                                        <i className="fa fa-star"/>
-                                        <i className="fa fa-star"/>
-                                        <i className="fa fa-star"/>
-                                        <i className="fa fa-star-half-o"/>
-                                        <span>(18 reviews)</span>
-                                    </div>
-                                    <div className="product__details__price">
-                                        {product.on_sale ? (
-                                            <>
-                                                <span style={{
-                                                    color: 'red',
-                                                    marginRight: '10px'
-                                                }}>${product.on_sale_price}</span>
-                                                <span style={{
-                                                    textDecoration: 'line-through',
-                                                    color: 'black',
-                                                    fontSize: '0.8em'
-                                                }}>${product.price}</span>
-                                            </>
-                                        ) : (
-                                            <span>${product.price}</span>
-                                        )}
-                                    </div>
 
-                                    <p>
-                                        {product.description}
-                                    </p>
-                                    <div className="product__details__quantity">
-                                        <div className="quantity-details">
-                                            <div className="pro-qty">
-                                                <input type="text" defaultValue={1}/>
-                                            </div>
+                                {product && product.images && product.images.length > 1 && (<ReactOwlCarousel
+                                    {...options}
+                                    className="product__details__pic__slider owl-carousel"
+                                    key={largeImageSrc}
+                                >
+                                    {product.images.map((image, index) => {
+                                        const imageUrl = `${baseURL}${image.image_url}`;
+                                        // Don't show the current large image in the slider
+                                        if (imageUrl === largeImageSrc) return null;
+                                        return (<div className="item" key={index}>
+                                            <img
+                                                onClick={() => handleImageClick(imageUrl, index)}
+                                                src={imageUrl}
+                                                alt={`Product ${index + 1}`}
+                                            />
+                                        </div>);
+                                    })}
+                                </ReactOwlCarousel>)}
+
+
+                            </div>
+                        </div>
+                        <div className="col-lg-6 col-md-6">
+                            <div className="product__details__text">
+                                <h3>{product.name}</h3>
+                                <div className="product__details__rating">
+                                    <i className="fa fa-star"/>
+                                    <i className="fa fa-star"/>
+                                    <i className="fa fa-star"/>
+                                    <i className="fa fa-star"/>
+                                    <i className="fa fa-star-half-o"/>
+                                    <span>(18 reviews)</span>
+                                </div>
+                                <div className="product__details__price">
+                                    {product.on_sale ? (<>
+                                                <span style={{
+                                                    color: 'red', marginRight: '10px'
+                                                }}>${product.on_sale_price}</span>
+                                        <span style={{
+                                            textDecoration: 'line-through', color: 'black', fontSize: '0.8em'
+                                        }}>${product.price}</span>
+                                    </>) : (<span>${product.price}</span>)}
+                                </div>
+
+                                <p>
+                                    {product.description}
+                                </p>
+                                <div className="product__details__quantity">
+                                    <div className="quantity-details">
+                                        <div className="pro-qty">
+                                            <input type="text" defaultValue={1}/>
                                         </div>
                                     </div>
-                                    <a href="#" className="primary-btn" onClick={(e) => {
-                                        e.preventDefault();
-                                        addToCart(product);
-                                    }}>
-                                        ADD TO CARD
-                                    </a>
+                                </div>
+                                <a href="#" className="primary-btn" onClick={(e) => {
+                                    e.preventDefault();
+                                    addToCart(product);
+                                }}>
+                                    ADD TO CARD
+                                </a>
 
-                                    <a href="#" className="heart-icon">
-                                        <span className="icon_heart_alt"/>
-                                    </a>
-                                    <ul>
-                                        <li>
-                                            <b>Availability</b> <span>{product.quantity} In Stock</span>
-                                        </li>
-                                        <li>
-                                            <b>Shipping</b>{" "}
-                                            <span>
+                                <a href="#" className="heart-icon">
+                                    <span className="icon_heart_alt"/>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <b>Availability</b> <span>{product.quantity} In Stock</span>
+                                    </li>
+                                    <li>
+                                        <b>Shipping</b>{" "}
+                                        <span>
                                                  01 day shipping. <samp>Free pickup today</samp>
                                             </span>
-                                        </li>
-                                        <li>
-                                            <b>Weight</b> <span>0.5 kg</span>
-                                        </li>
-                                        <li>
-                                            <b>Share on</b>
-                                            <div className="share">
-                                                <a href="#">
-                                                    <i className="fa fa-facebook"/>
-                                                </a>
-                                                <a href="#">
-                                                    <i className="fa fa-twitter"/>
-                                                </a>
-                                                <a href="#">
-                                                    <i className="fa fa-instagram"/>
-                                                </a>
-                                                <a href="#">
-                                                    <i className="fa fa-pinterest"/>
-                                                </a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="col-lg-12">
-                                <div className="product__details__tab">
-                                    <div style={{textAlign: 'center', margin: '20px 0'}}>
-                                        <button
-                                            onClick={toggleReviews}
-                                            className="primary-btn"
-                                            style={{padding: '10px 20px', cursor: 'pointer'}}
-                                        >
-                                            {showReviews ? 'Hide Reviews' : 'Show Reviews'}
-                                        </button>
-                                    </div>
-
-                                    {showReviews && (
-                                        <ul style={{textAlign: 'center', listStyle: 'none', padding: 0}}>
-                                            {product.reviews && product.reviews.length > 0 ? (
-                                                product.reviews.map((review, index) => (
-                                                    <li key={index} style={{marginBottom: '15px'}}>
-                                                        <h5>{review.user.name}</h5>
-                                                        <div className="review-rating">
-                                                            {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
-                                                        </div>
-                                                        <p>{review.comment}</p>
-                                                        <small>{new Date(review.created_at).toLocaleDateString()}</small>
-                                                    </li>
-                                                ))
-                                            ) : (
-                                                <p>No reviews yet.</p>
-                                            )}
-                                        </ul>
-                                    )}
-
-                                    <div className="tab-content">
-                                        <div className="tab-pane active" id="tabs-1" role="tabpanel">
-                                            <div className="product__details__tab__desc">
-                                                <h6>Product Infomation</h6>
-                                                <p>{product.description}</p>
-                                            </div>
+                                    </li>
+                                    <li>
+                                        <b>Weight</b> <span>0.5 kg</span>
+                                    </li>
+                                    <li>
+                                        <b>Share on</b>
+                                        <div className="share">
+                                            <a href="#">
+                                                <i className="fa fa-facebook"/>
+                                            </a>
+                                            <a href="#">
+                                                <i className="fa fa-twitter"/>
+                                            </a>
+                                            <a href="#">
+                                                <i className="fa fa-instagram"/>
+                                            </a>
+                                            <a href="#">
+                                                <i className="fa fa-pinterest"/>
+                                            </a>
                                         </div>
-                                    </div>
-                                </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </div>
-                </section>
-                {/* Product Details Section End */}
-                {/* Related Product Section Begin */}
-                <section className="related-product">
-                    <div className="container">
-                        <div className="row">
                         <div className="col-lg-12">
-                                <div className="section-title related__product__title">
-                                    <h2>Related Products</h2>
+                            <div className="product__details__tab">
+                                <div className="tab-content">
+                                    <div className="tab-pane active" id="tabs-1" role="tabpanel">
+                                        <div className="product__details__tab__desc" style={{
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                        }}>
+                                            <h6 style={{margin: 0}}>Product Information</h6>
+                                            <span
+                                                onClick={toggleReviews}
+                                                style={{
+                                                    marginLeft: '20px',
+                                                    cursor: 'pointer',
+                                                    color: '#020202',
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                {showReviews ? 'Hide Reviews' : 'Show Reviews'}
+            </span>
+                                        </div>
+                                        {/* Show description only if reviews are not shown */}
+                                        {!showReviews && <p>{product.description}</p>}
+                                    </div>
                                 </div>
+
+                                {showReviews && (
+                                    <ul style={{textAlign: 'center', listStyle: 'none', padding: 0}}>
+                                        {product.reviews && product.reviews.length > 0 ? (
+                                            product.reviews.map((review, index) => (
+                                                <li key={index} style={{marginBottom: '15px'}}>
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center'
+                                                    }}>
+                                                        <h5 className="review-username">{review.user.name}</h5>
+                                                        <small
+                                                            style={{color: '#666'}}>{new Date(review.created_at).toLocaleDateString()}</small>
+                                                    </div>
+                                                    <div className="review-rating">
+                                                    <span className="filled">
+                                                        {'★'.repeat(review.rating)}
+                                                    </span>
+                                                                                    <span className="empty">
+                                                        {'☆'.repeat(5 - review.rating)}
+                                                    </span>
+                                                    </div>
+                                                    <p>{review.comment}</p>
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <p>No reviews yet.</p>
+                                        )}
+                                    </ul>
+                                )}
+
+
                             </div>
                         </div>
-                        <div className="row">
-                            {relatedProducts.length > 0 ? (
-                                relatedProducts.map((relatedProduct) => (
-                                    <div className="col-lg-3 col-md-4 col-sm-6" key={relatedProduct.id}>
-                                        <div className="product__item">
-                                            <div className="product__item__pic set-bg">
-                                                <img src={`${baseURL}${relatedProduct.images[0].image_url}`}
-                                                     alt={relatedProduct.name}/>
-                                                <ul className="product__item__pic__hover">
-                                                    <li>
-                                                        <a href="#">
-                                                            <i className="fa fa-heart"/>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i className="fa fa-retweet"/>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" onClick={(e) => {
-                                                            e.preventDefault();
-                                                            addToCart(relatedProduct);
-                                                        }}>
-                                                            <i className="fa fa-shopping-cart"/>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div className="product__item__text">
-                                                <h6>
-                                                    <Link to={`/product-details/${relatedProduct.id}`}
-                                                          onClick={() => {
-                                                              handleScrollToTop();
-                                                              handleProductClick();
-                                                          }}
-                                                    >
-                                                        {relatedProduct.name}
-                                                    </Link>
-                                                </h6>
-                                                <h5>${relatedProduct.on_sale_price || relatedProduct.price}</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <div className="col-lg-12">
-                                    <p>No related products found.</p>
-                                </div>
-                            )}
+                    </div>
+                </div>
+            </section>
+            {/* Product Details Section End */}
+            {/* Related Product Section Begin */}
+            <section className="related-product">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="section-title related__product__title">
+                                <h2>Related Products</h2>
+                            </div>
                         </div>
                     </div>
-                </section>
-                <Footer/>
-            </>
+                    <div className="row">
+                        {relatedProducts.length > 0 ? (relatedProducts.map((relatedProduct) => (
+                            <div className="col-lg-3 col-md-4 col-sm-6" key={relatedProduct.id}>
+                                <div className="product__item">
+                                    <div className="product__item__pic set-bg">
+                                        <img src={`${baseURL}${relatedProduct.images[0].image_url}`}
+                                             alt={relatedProduct.name}/>
+                                        <ul className="product__item__pic__hover">
+                                            <li>
+                                                <a href="#">
+                                                    <i className="fa fa-heart"/>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i className="fa fa-retweet"/>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" onClick={(e) => {
+                                                    e.preventDefault();
+                                                    addToCart(relatedProduct);
+                                                }}>
+                                                    <i className="fa fa-shopping-cart"/>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="product__item__text">
+                                        <h6>
+                                            <Link to={`/product-details/${relatedProduct.id}`}
+                                                  onClick={() => {
+                                                      handleScrollToTop();
+                                                      handleProductClick();
+                                                  }}
+                                            >
+                                                {relatedProduct.name}
+                                            </Link>
+                                        </h6>
+                                        <h5>${relatedProduct.on_sale_price || relatedProduct.price}</h5>
+                                    </div>
+                                </div>
+                            </div>))) : (<div className="col-lg-12">
+                            <p>No related products found.</p>
+                        </div>)}
+                    </div>
+                </div>
+            </section>
+            <Footer/>
         </>
-    );
+    </>);
 };
 
 export default ProductDetails;

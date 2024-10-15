@@ -1966,12 +1966,14 @@ ol {
 
 .product__details__tab .product__details__tab__desc h6 {
     font-weight: 700;
+    text-align: center;
     color: #333333;
     margin-bottom: 26px;
 }
 
 .product__details__tab .product__details__tab__desc p {
     color: #666666;
+    text-align: justify;
 }
 
 /*---------------------

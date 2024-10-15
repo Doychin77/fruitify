@@ -629,6 +629,24 @@ button {
 }
 
 
+.review-username {
+    color: green;
+    font-weight: 600;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+
+.review-rating .filled {
+    color: orange;
+}
+
+
+.review-rating .empty {
+    color: #ccc;
+}
+
+
 
 
 

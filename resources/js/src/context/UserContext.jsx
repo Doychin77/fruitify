@@ -1,4 +1,3 @@
-// src/context/UserContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const UserContext = createContext();
@@ -11,16 +10,39 @@ export const UserProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         if (token) {
             setIsLoggedIn(true);
-            // Optionally, you can fetch user data here if needed
-            // setUser(userData); // Set user data after fetching it
+            fetchUserData(token); // Fetch user data if token is present
         }
     }, []);
 
-    const login = (token) => {
+    const fetchUserData = async (token) => {
+        try {
+            const response = await fetch('http://fruitify.test/user', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data');
+            }
+
+            const userData = await response.json();
+            setUser(userData); // Set user data in context
+            console.log('Fetched user data:', userData);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            setUser(null); // Clear user data on error
+        }
+    };
+
+    const login = async (token) => {
         localStorage.setItem('token', token);
         setIsLoggedIn(true);
-        // Optionally, you can fetch user data here if needed
-        // setUser(userData); // Set user data after fetching it
+
+        // Fetch user data after setting the token
+        await fetchUserData(token); // Await the fetch to ensure user data is set
     };
 
     const logout = () => {

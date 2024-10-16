@@ -110,5 +110,10 @@ class AuthController extends Controller
         return response()->json(['message' => 'Password updated successfully.']);
     }
 
+    public function show(Request $request)
+    {
+        return response()->json($request->user());
+    }
+
 
 }

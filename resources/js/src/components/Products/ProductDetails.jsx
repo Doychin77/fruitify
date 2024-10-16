@@ -19,10 +19,10 @@ const ProductDetails = () => {
     const {getRelatedProducts, product, error} = useProducts(parseInt(id));
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
-    const { user, isLoggedIn } = useUserContext();
+    const {user, isLoggedIn} = useUserContext();
     const [loading, setLoading] = useState(false);
     const [expandedReviews, setExpandedReviews] = useState({});
-    const [newReview, setNewReview] = useState({ comment: '', rating: 0 });
+    const [newReview, setNewReview] = useState({comment: '', rating: 0});
     const [showReviewForm, setShowReviewForm] = useState(false);
 
 
@@ -35,7 +35,6 @@ const ProductDetails = () => {
     const toggleReviews = () => {
         setShowReviews(!showReviews);
     };
-
 
 
     const toggleExpand = (index) => {
@@ -94,12 +93,9 @@ const ProductDetails = () => {
             console.log(result.message);
 
             // Reset the form
-            setNewReview({ comment: '', rating: 0 });
+            setNewReview({comment: '', rating: 0});
             setShowReviewForm(false);
 
-            // Optionally, you can update the local state of your product to include the new review
-            // product.reviews.push(result.review);
-            // setProduct({ ...product });
         } catch (error) {
             console.error('Error submitting review:', error);
         }
@@ -141,7 +137,7 @@ const ProductDetails = () => {
         <>
             <Hamburger/>
             <Header/>
-                {/* Hero Section Begin */}
+            {/* Hero Section Begin */}
             <section className="hero hero-normal">
                 <div className="container">
                     <div className="row">
@@ -216,8 +212,8 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </section>
-                {/* Hero Section End */}
-                {/* Breadcrumb Section Begin */}
+            {/* Hero Section End */}
+            {/* Breadcrumb Section Begin */}
             <section
                 className="breadcrumb-section set-bg"
                 style={{backgroundImage: "url('../img/breadcrumb.jpg')"}}
@@ -237,8 +233,8 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </section>
-                {/* Breadcrumb Section End */}
-                {/* Product Details Section Begin */}
+            {/* Breadcrumb Section End */}
+            {/* Product Details Section Begin */}
             <section className="product-details spad">
                 <div className="container">
                     <div className="row">
@@ -280,18 +276,25 @@ const ProductDetails = () => {
                             <div className="product__details__text">
                                 <h3>{product.name}</h3>
                                 <div className="product__details__rating">
-                                    <i className="fa fa-star" />
-                                    <i className="fa fa-star" />
-                                    <i className="fa fa-star" />
-                                    <i className="fa fa-star" />
-                                    <i className="fa fa-star-half-o" />
+                                    <i className="fa fa-star"/>
+                                    <i className="fa fa-star"/>
+                                    <i className="fa fa-star"/>
+                                    <i className="fa fa-star"/>
+                                    <i className="fa fa-star-half-o"/>
                                     <span>(18 reviews)</span>
                                 </div>
                                 <div className="product__details__price">
                                     {product.on_sale ? (
                                         <>
-                                            <span style={{ color: 'red', marginRight: '10px' }}>${product.on_sale_price}</span>
-                                            <span style={{ textDecoration: 'line-through', color: 'black', fontSize: '0.8em' }}>${product.price}</span>
+                                            <span style={{
+                                                color: 'red',
+                                                marginRight: '10px'
+                                            }}>${product.on_sale_price}</span>
+                                            <span style={{
+                                                textDecoration: 'line-through',
+                                                color: 'black',
+                                                fontSize: '0.8em'
+                                            }}>${product.price}</span>
                                         </>
                                     ) : (
                                         <span>${product.price}</span>
@@ -302,7 +305,7 @@ const ProductDetails = () => {
                                 <div className="product__details__quantity">
                                     <div className="quantity-details">
                                         <div className="pro-qty">
-                                            <input type="text" defaultValue={1} />
+                                            <input type="text" defaultValue={1}/>
                                         </div>
                                     </div>
                                 </div>
@@ -314,7 +317,7 @@ const ProductDetails = () => {
                                 </a>
 
                                 <a href="#" className="heart-icon">
-                                    <span className="icon_heart_alt" />
+                                    <span className="icon_heart_alt"/>
                                 </a>
                                 <ul>
                                     <li>
@@ -333,16 +336,16 @@ const ProductDetails = () => {
                                         <b>Share on</b>
                                         <div className="share">
                                             <a href="#">
-                                                <i className="fa fa-facebook" />
+                                                <i className="fa fa-facebook"/>
                                             </a>
                                             <a href="#">
-                                                <i className="fa fa-twitter" />
+                                                <i className="fa fa-twitter"/>
                                             </a>
                                             <a href="#">
-                                                <i className="fa fa-instagram" />
+                                                <i className="fa fa-instagram"/>
                                             </a>
                                             <a href="#">
-                                                <i className="fa fa-pinterest" />
+                                                <i className="fa fa-pinterest"/>
                                             </a>
                                         </div>
                                     </li>
@@ -356,24 +359,61 @@ const ProductDetails = () => {
                                         <div className="product__details__tab__desc" style={{
                                             display: 'flex', alignItems: 'center', justifyContent: 'center'
                                         }}>
-                                            <h6 style={{ margin: 0 }}>Product Information</h6>
+                                            <h6 style={{margin: 0}}>Product Information</h6>
                                             <span onClick={toggleReviews} className="review-toggle">
-                                    {showReviews ? 'Hide Reviews' : 'Reviews'}
-                                </span>
+                                                {showReviews ? 'Hide Reviews' : 'Reviews'}
+                                            </span>
                                         </div>
                                         {!showReviews && <p>{product.description}</p>}
                                     </div>
 
                                     {showReviews && (
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                            <ul style={{ textAlign: 'center', listStyle: 'none', padding: 0, flex: 1 }}>
+                                        <div style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>
+                                            {/* Review Form at the top */}
+                                            <div className="add-review-container">
+                                                <h6 className="add-review-title">Add Review</h6>
+                                                <form onSubmit={handleReviewSubmit} className="add-review-form">
+                                                    <textarea
+                                                        value={newReview.comment}
+                                                        onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
+                                                        placeholder="Write your review here..."
+                                                        required
+                                                        rows={4}
+                                                    />
+                                                    <div>
+                                                        <label>Rating:</label>
+                                                        <select
+                                                            value={newReview.rating}
+                                                            onChange={(e) => setNewReview({
+                                                                ...newReview,
+                                                                rating: Number(e.target.value)
+                                                            })}
+                                                            required
+                                                        >
+                                                            <option value="">Select Rating</option>
+                                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                                <option key={star} value={star}>{star}</option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit">Submit Review</button>
+                                                </form>
+                                            </div>
+
+                                            {/* Reviews List */}
+                                            <ul style={{textAlign: 'center', listStyle: 'none', padding: 0, flex: 1}}>
                                                 {product.reviews && product.reviews.length > 0 ? (
                                                     product.reviews.map((review, index) => {
                                                         const isExpanded = expandedReviews[index];
                                                         const displayComment = isExpanded ? review.comment : `${review.comment.slice(0, 470)}${review.comment.length > 470 ? '...' : ''}`;
 
                                                         return (
-                                                            <li key={index} style={{ marginTop: '25px' }}>
+                                                            <li key={index} style={{marginTop: '25px'}}>
                                                                 <div style={{
                                                                     display: 'flex',
                                                                     alignItems: 'center',
@@ -381,19 +421,19 @@ const ProductDetails = () => {
                                                                     marginBottom: '2px',
                                                                 }}>
                                                                     <h5 className="review-username">{review.user.name}</h5>
-                                                                    <small style={{ color: '#666' }}>
+                                                                    <small style={{color: '#666'}}>
                                                                         {new Date(review.created_at).toLocaleDateString('en-GB')}
                                                                     </small>
                                                                 </div>
                                                                 <div className="review-rating">
-                                                        <span className="filled">
-                                                            {'★'.repeat(review.rating)}
-                                                        </span>
+                                    <span className="filled">
+                                        {'★'.repeat(review.rating)}
+                                    </span>
                                                                     <span className="empty">
-                                                            {'☆'.repeat(5 - review.rating)}
-                                                        </span>
+                                        {'☆'.repeat(5 - review.rating)}
+                                    </span>
                                                                 </div>
-                                                                <p style={{ marginBottom: 0 }}>{displayComment}</p>
+                                                                <p style={{marginBottom: 0}}>{displayComment}</p>
                                                                 {review.comment.length > 470 && (
                                                                     <button
                                                                         onClick={() => toggleExpand(index)}
@@ -409,40 +449,11 @@ const ProductDetails = () => {
                                                     <p>No reviews yet.</p>
                                                 )}
                                             </ul>
-                                            <div style={{ marginLeft: '20px' }}>
-                                                <button onClick={() => setShowReviewForm(!showReviewForm)}>
-                                                    {showReviewForm ? 'Cancel' : 'Add Review'}
-                                                </button>
-                                                {showReviewForm && (
-                                                    <form onSubmit={handleReviewSubmit} style={{ marginTop: '15px' }}>
-                                            <textarea
-                                                value={newReview.comment}
-                                                onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-                                                placeholder="Write your review here..."
-                                                required
-                                                rows={4}
-                                                style={{ width: '300px' }}
-                                            />
-                                                        <div>
-                                                            <label>Rating:</label>
-                                                            <select
-                                                                value={newReview.rating}
-                                                                onChange={(e) => setNewReview({ ...newReview, rating: Number(e.target.value) })}
-                                                                required
-                                                            >
-                                                                <option value="">Select Rating</option>
-                                                                {[1, 2, 3, 4, 5].map((star) => (
-                                                                    <option key={star} value={star}>{star}</option>
-                                                                ))}
-                                                            </select>
-                                                        </div>
-                                                        <button type="submit">Submit Review</button>
-                                                    </form>
-                                                )}
-                                            </div>
                                         </div>
                                     )}
                                 </div>
+
+
                             </div>
                         </div>
                     </div>

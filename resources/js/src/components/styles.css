@@ -679,6 +679,28 @@ button {
 }
 
 
+.add-review-container {
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.add-review-title {
+    margin: 0;
+    font-weight: bold;
+}
+
+.add-review-form {
+    margin-top: 15px;
+    border-radius: 10px;
+}
+
+.add-review-form textarea {
+    border-radius: 10px;
+    width: 500px;
+}
+
+
 
 
 

@@ -33,13 +33,20 @@ class ReviewsRelationManager extends RelationManager
                     ->relationship('user', 'name')
                     ->label('Потребител')
                     ->required(),
-                TextInput::make('rating')
-                    ->numeric()
+                Select::make('rating')
+                    ->options([
+                        1 => '1',
+                        2 => '2',
+                        3 => '3',
+                        4 => '4',
+                        5 => '5',
+                    ])
                     ->label('Рейтинг')
                     ->required(),
                 Textarea::make('comment')
                     ->label('Коментар')
-                    ->rows(3),
+                    ->rows(4)
+                    ->columnSpan('full'),
             ]);
     }
 

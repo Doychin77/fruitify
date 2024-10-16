@@ -18,7 +18,6 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        // Eager load images and reviews with user information
         $product = Product::with(['images', 'reviews.user'])->find($id);
 
         if (!$product) {

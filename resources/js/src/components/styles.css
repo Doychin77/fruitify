@@ -665,6 +665,7 @@ button {
     font-weight: bold;
     cursor: pointer;
     border: none;
+    padding-top: 0;
     background: none;
     transition: color 0.3s ease;
 }
@@ -688,6 +689,7 @@ button {
 .add-review-title {
     margin: 0;
     font-weight: bold;
+    display: inline-block;
 }
 
 .add-review-form {
@@ -718,7 +720,7 @@ button {
 
 
 .star-rating span {
-    font-size: 24px;
+    font-size: 32px !important;
     cursor: pointer;
     color: #e4e5e9;
 }
@@ -734,9 +736,33 @@ button {
     font-size: 18px;
     color: #0c0000;
     margin-bottom: 0 !important;
-;
 }
 
+.review-rating {
+    font-size: 20px;
+}
+
+.review-title {
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+.add-review-title {
+
+}
+
+.add-review-title:hover {
+    color: #7fad39;
+}
+
+.review-comment {
+    font-weight: 600;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    padding-bottom: 5px;
+}
 
 
 

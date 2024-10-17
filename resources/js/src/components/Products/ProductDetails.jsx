@@ -412,7 +412,7 @@ const ProductDetails = () => {
                                             <div className="add-review-container">
                                                 {/* Clickable Title to Toggle Form */}
                                                 <div onClick={() => setShowReviewForm(!showReviewForm)}
-                                                     style={{cursor: 'pointer'}}>
+                                                     style={{cursor: 'pointer', display: 'inline-block'}}>
                                                     <h6 className="add-review-title">
                                                         {showReviewForm ? 'Cancel' : 'Add Review'}
                                                     </h6>
@@ -481,11 +481,14 @@ const ProductDetails = () => {
                                                                     <span className="filled">
                                                                         {'★'.repeat(review.rating)}
                                                                     </span>
-                                                                                                    <span className="empty">
+                                                                    <span className="empty">
                                                                         {'☆'.repeat(5 - review.rating)}
                                                                     </span>
+                                                                    <span className="review-title">
+                                                                        {review.title}
+                                                                    </span>
                                                                 </div>
-                                                                <p style={{marginBottom: 0}}>{displayComment}</p>
+                                                                <p className="review-comment">{displayComment}</p>
                                                                 {review.comment.length > 470 && (
                                                                     <button
                                                                         onClick={() => toggleExpand(index)}

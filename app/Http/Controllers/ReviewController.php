@@ -14,6 +14,7 @@ class ReviewController extends Controller
             'userId' => 'required|exists:users,id',
             'comment' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
+            'title' => 'nullable|string|max:255',
         ]);
 
         $review = Review::create([
@@ -21,6 +22,7 @@ class ReviewController extends Controller
             'user_id' => $validated['userId'],
             'comment' => $validated['comment'],
             'rating' => $validated['rating'],
+            'title' => $validated['title'],
         ]);
 
         return response()->json(['message' => 'Review submitted successfully!', 'review' => $review], 201);

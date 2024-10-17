@@ -696,8 +696,45 @@ button {
 }
 
 .add-review-form textarea {
+    border-radius: 4px;
+    padding-left: 5px;
+    border-width: 2px;
+    border-color: #7fad39;
+    padding-top: 5px;
+    width: 600px;
+}
+
+.submit-review {
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #7fad39;
     border-radius: 10px;
-    width: 500px;
+    transition: background-color ease 0.3s;
+}
+
+.submit-review:hover {
+    background-color: #8dd028;
+}
+
+
+.star-rating span {
+    font-size: 24px;
+    cursor: pointer;
+    color: #e4e5e9;
+}
+
+.star-rating span:hover,
+.star-rating span:hover ~ span {
+    color: #ffc107;
+}
+
+.rating-label {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 18px;
+    color: #0c0000;
+    margin-bottom: 0 !important;
+;
 }
 
 

@@ -24,6 +24,8 @@ const ProductDetails = () => {
     const [expandedReviews, setExpandedReviews] = useState({});
     const [newReview, setNewReview] = useState({comment: '', rating: 0});
     const [showReviewForm, setShowReviewForm] = useState(false);
+    const [hoveredStar, setHoveredStar] = useState(0);
+    const [selectedStar, setSelectedStar] = useState(0);
 
 
     const relatedProducts = getRelatedProducts(parseInt(id));
@@ -35,6 +37,26 @@ const ProductDetails = () => {
     const toggleReviews = () => {
         setShowReviews(!showReviews);
     };
+
+    const ratingLabels = [
+        "Poor",
+        "Fair",
+        "Good",
+        "Very Good",
+        "Excellent"
+    ];
+
+    const getRatingLabel = () => {
+        if (hoveredStar > 0) {
+            return <span className="rating-label">{ratingLabels[hoveredStar - 1]}</span>;
+        } else if (selectedStar > 0) {
+            return <span className="rating-label">{ratingLabels[selectedStar - 1]}</span>;
+        } else {
+            return <span className="rating-label">Rate Product</span>;
+        }
+    };
+
+
 
 
     const toggleExpand = (index) => {
@@ -62,14 +84,24 @@ const ProductDetails = () => {
         setImages(images.filter((_, i) => i !== index));
     }
 
+    const handleRatingChange = (star) => {
+        setSelectedStar(star);
+        setNewReview({...newReview, rating: star});
+    };
+
+
+
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
+
+        const reviewTitle = selectedStar > 0 ? ratingLabels[selectedStar - 1] : null;
 
         const reviewData = {
             productId: id,
             userId: user.id,
             comment: newReview.comment,
             rating: newReview.rating,
+            title: reviewTitle,
         };
 
         try {
@@ -93,13 +125,15 @@ const ProductDetails = () => {
             console.log(result.message);
 
             // Reset the form
-            setNewReview({comment: '', rating: 0});
+            setNewReview({ comment: '', rating: 0 });
+            setSelectedStar(0);
             setShowReviewForm(false);
 
         } catch (error) {
             console.error('Error submitting review:', error);
         }
     };
+
 
 
     const handleScrollToTop = () => {
@@ -376,8 +410,17 @@ const ProductDetails = () => {
                                         }}>
                                             {/* Review Form at the top */}
                                             <div className="add-review-container">
-                                                <h6 className="add-review-title">Add Review</h6>
-                                                <form onSubmit={handleReviewSubmit} className="add-review-form">
+                                                {/* Clickable Title to Toggle Form */}
+                                                <div onClick={() => setShowReviewForm(!showReviewForm)}
+                                                     style={{cursor: 'pointer'}}>
+                                                    <h6 className="add-review-title">
+                                                        {showReviewForm ? 'Cancel' : 'Add Review'}
+                                                    </h6>
+                                                </div>
+
+                                                {/* Conditionally Render Review Form */}
+                                                {showReviewForm && (
+                                                    <form onSubmit={handleReviewSubmit} className="add-review-form">
                                                     <textarea
                                                         value={newReview.comment}
                                                         onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
@@ -385,24 +428,33 @@ const ProductDetails = () => {
                                                         required
                                                         rows={4}
                                                     />
-                                                    <div>
-                                                        <label>Rating:</label>
-                                                        <select
-                                                            value={newReview.rating}
-                                                            onChange={(e) => setNewReview({
-                                                                ...newReview,
-                                                                rating: Number(e.target.value)
-                                                            })}
-                                                            required
-                                                        >
-                                                            <option value="">Select Rating</option>
-                                                            {[1, 2, 3, 4, 5].map((star) => (
-                                                                <option key={star} value={star}>{star}</option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
-                                                    <button type="submit">Submit Review</button>
-                                                </form>
+
+                                                        <div>
+                                                            <label>{getRatingLabel()}</label>
+                                                            <div className="star-rating">
+                                                                {[1, 2, 3, 4, 5].map((star) => (
+                                                                    <span
+                                                                        key={star}
+                                                                        onClick={() => handleRatingChange(star)}
+                                                                        onMouseEnter={() => setHoveredStar(star)}
+                                                                        onMouseLeave={() => setHoveredStar(0)}
+                                                                        style={{
+                                                                            cursor: 'pointer',
+                                                                            color: newReview.rating >= star || hoveredStar >= star ? '#ffc107' : '#e4e5e9',
+                                                                            fontSize: '24px'
+                                                                        }}
+                                                                    >
+                                                                        ★
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+
+                                                        <button type="submit" className="submit-review">
+                                                            Submit Review
+                                                        </button>
+                                                    </form>
+                                                )}
                                             </div>
 
                                             {/* Reviews List */}
@@ -426,12 +478,12 @@ const ProductDetails = () => {
                                                                     </small>
                                                                 </div>
                                                                 <div className="review-rating">
-                                    <span className="filled">
-                                        {'★'.repeat(review.rating)}
-                                    </span>
-                                                                    <span className="empty">
-                                        {'☆'.repeat(5 - review.rating)}
-                                    </span>
+                                                                    <span className="filled">
+                                                                        {'★'.repeat(review.rating)}
+                                                                    </span>
+                                                                                                    <span className="empty">
+                                                                        {'☆'.repeat(5 - review.rating)}
+                                                                    </span>
                                                                 </div>
                                                                 <p style={{marginBottom: 0}}>{displayComment}</p>
                                                                 {review.comment.length > 470 && (

@@ -18,6 +18,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/reset-password', [AuthController::class, 'sendResetCode']);
 Route::post('/update-password', [AuthController::class, 'updatePassword']);
 
+Route::middleware('auth:sanctum')->delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+
 Route::get('/user', [AuthController::class, 'show']);
 
 Route::post('/reviews', [ReviewController::class, 'store']);
@@ -34,6 +36,8 @@ Route::post('/orders', [OrderController::class, 'store']);
 Route::post('/order/delivery_type', [OrderController::class, 'deliveryType'])->name('order.delivery.type');
 Route::post('/order/postal_code', [OrderController::class, 'getPostCode'])->name('order.postal_code');
 
+
+//ECONT
 Route::get('/econt/get_cities', [EcontController::class, 'getCities'])->name('econt.get.cities');
 Route::get('/econt/get_offices', [EcontController::class, 'getOffices'])->name('econt.get.offices');
 Route::get('/econt/get_streets', [EcontController::class, 'getStreets'])->name('econt.get.streets');

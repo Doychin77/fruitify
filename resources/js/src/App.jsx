@@ -13,7 +13,7 @@ import Register from "@/src/components/Register/Register.jsx";
 import CategoryProducts from "@/src/components/Products/CategoryProducts.jsx";
 import Login from "@/src/components/Login/Login.jsx";
 import {UserProvider} from "@/src/context/UserContext.jsx";
-import ResetPassword from "@/src/components/ResetPassword.jsx";
+import ResetPassword from "@/src/components/ResetPassword/ResetPassword.jsx";
 import NotFound from "@/src/components/NotFound.jsx";
 
 function App() {

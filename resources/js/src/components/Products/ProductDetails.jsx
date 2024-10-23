@@ -26,13 +26,20 @@ const ProductDetails = () => {
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [hoveredStar, setHoveredStar] = useState(0);
     const [selectedStar, setSelectedStar] = useState(0);
-
-
+    const loggedInUserId = user?.id;
     const relatedProducts = getRelatedProducts(parseInt(id));
-
     const [largeImageSrc, setLargeImageSrc] = useState('default.jpg');
-
     const [showReviews, setShowReviews] = useState(false);
+
+
+    const [localReviews, setLocalReviews] = useState([]);
+
+    useEffect(() => {
+        if (product?.reviews) {
+            setLocalReviews(product.reviews);
+        }
+    }, [product]);
+
 
     const toggleReviews = () => {
         setShowReviews(!showReviews);
@@ -89,7 +96,38 @@ const ProductDetails = () => {
         setNewReview({...newReview, rating: star});
     };
 
+    const handleDeleteReview = async (reviewId) => {
+        const token = localStorage.getItem('token'); // Get token from local storage
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); // Get CSRF token from the meta tag
 
+        if (!token) {
+            console.error('No authentication token found');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://fruitify.test/reviews/${reviewId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken // Add CSRF token here
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete review');
+            }
+
+            // Optionally update the state to remove the deleted review from the list
+            const updatedReviews = localReviews.filter((review) => review.id !== reviewId);
+            setLocalReviews(updatedReviews);
+
+            console.log('Review deleted successfully');
+        } catch (error) {
+            console.error('Error deleting review:', error);
+        }
+    };
 
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
@@ -124,6 +162,19 @@ const ProductDetails = () => {
             const result = await response.json();
             console.log(result.message);
 
+            // Update the localReviews state to include the new review
+            const newReviewData = {
+                ...reviewData,
+                id: result.review.id, // Assuming the response contains the review ID
+                user: { // Assuming you want to include the current user in the review object
+                    id: user.id,
+                    name: user.name,
+                },
+                created_at: new Date().toISOString(), // Add the current timestamp for display
+            };
+
+            setLocalReviews((prevReviews) => [...prevReviews, newReviewData]);
+
             // Reset the form
             setNewReview({ comment: '', rating: 0 });
             setSelectedStar(0);
@@ -133,6 +184,7 @@ const ProductDetails = () => {
             console.error('Error submitting review:', error);
         }
     };
+
 
 
 
@@ -390,13 +442,12 @@ const ProductDetails = () => {
                             <div className="product__details__tab">
                                 <div className="tab-content">
                                     <div className="tab-pane active" id="tabs-1" role="tabpanel">
-                                        <div className="product__details__tab__desc" style={{
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center'
-                                        }}>
+                                        <div className="product__details__tab__desc"
+                                             style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                                             <h6 style={{margin: 0}}>Product Information</h6>
                                             <span onClick={toggleReviews} className="review-toggle">
-                                                {showReviews ? 'Hide Reviews' : 'Reviews'}
-                                            </span>
+                                            {showReviews ? 'Hide Reviews' : 'Reviews'}
+                                        </span>
                                         </div>
                                         {!showReviews && <p>{product.description}</p>}
                                     </div>
@@ -413,22 +464,19 @@ const ProductDetails = () => {
                                                 {/* Clickable Title to Toggle Form */}
                                                 <div onClick={() => setShowReviewForm(!showReviewForm)}
                                                      style={{cursor: 'pointer', display: 'inline-block'}}>
-                                                    <h6 className="add-review-title">
-                                                        {showReviewForm ? 'Cancel' : 'Add Review'}
-                                                    </h6>
+                                                    <h6 className="add-review-title">{showReviewForm ? 'Cancel' : 'Add Review'}</h6>
                                                 </div>
 
                                                 {/* Conditionally Render Review Form */}
                                                 {showReviewForm && (
                                                     <form onSubmit={handleReviewSubmit} className="add-review-form">
-                                                    <textarea
-                                                        value={newReview.comment}
-                                                        onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
-                                                        placeholder="Write your review here..."
-                                                        required
-                                                        rows={4}
-                                                    />
-
+                                                                <textarea
+                                                                    value={newReview.comment}
+                                                                    onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
+                                                                    placeholder="Write your review here..."
+                                                                    required
+                                                                    rows={4}
+                                                                />
                                                         <div>
                                                             <label>{getRatingLabel()}</label>
                                                             <div className="star-rating">
@@ -444,8 +492,8 @@ const ProductDetails = () => {
                                                                             fontSize: '24px'
                                                                         }}
                                                                     >
-                                                                        ★
-                                                                    </span>
+                                                                            ★
+                                                                        </span>
                                                                 ))}
                                                             </div>
                                                         </div>
@@ -459,10 +507,11 @@ const ProductDetails = () => {
 
                                             {/* Reviews List */}
                                             <ul style={{textAlign: 'center', listStyle: 'none', padding: 0, flex: 1}}>
-                                                {product.reviews && product.reviews.length > 0 ? (
-                                                    product.reviews.map((review, index) => {
+                                                {localReviews && localReviews.length > 0 ? (
+                                                    localReviews.map((review, index) => {
                                                         const isExpanded = expandedReviews[index];
                                                         const displayComment = isExpanded ? review.comment : `${review.comment.slice(0, 470)}${review.comment.length > 470 ? '...' : ''}`;
+                                                        const isReviewOwner = review.user.id === loggedInUserId;
 
                                                         return (
                                                             <li key={index} style={{marginTop: '25px'}}>
@@ -470,30 +519,40 @@ const ProductDetails = () => {
                                                                     display: 'flex',
                                                                     alignItems: 'center',
                                                                     justifyContent: 'center',
-                                                                    marginBottom: '2px',
+                                                                    marginBottom: '2px'
                                                                 }}>
                                                                     <h5 className="review-username">{review.user.name}</h5>
-                                                                    <small style={{color: '#666'}}>
+                                                                    <small style={{color: '#666', marginLeft: '10px'}}>
                                                                         {new Date(review.created_at).toLocaleDateString('en-GB')}
                                                                     </small>
                                                                 </div>
-                                                                <div className="review-rating">
-                                                                    <span className="filled">
-                                                                        {'★'.repeat(review.rating)}
-                                                                    </span>
-                                                                    <span className="empty">
-                                                                        {'☆'.repeat(5 - review.rating)}
-                                                                    </span>
-                                                                    <span className="review-title">
-                                                                        {review.title}
-                                                                    </span>
+                                                                <div className="review-content" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                                    <div className="review-rating" style={{ display: 'flex', alignItems: 'center' }}>
+                                                                        <span className="filled">{'★'.repeat(review.rating)}</span>
+                                                                        <span className="empty">{'☆'.repeat(5 - review.rating)}</span>
+                                                                        <span className="review-title" style={{ marginLeft: '10px' }}>{review.title}</span>
+                                                                    </div>
+
+                                                                    {/* Conditionally render delete button if the review belongs to the logged-in user */}
+                                                                    {isReviewOwner && (
+                                                                        <button
+                                                                            onClick={() => handleDeleteReview(review.id)}
+                                                                            className="edit-review-button">
+                                                                            Edit
+                                                                        </button>
+                                                                    )}
+                                                                    {isReviewOwner && (
+                                                                        <button
+                                                                            onClick={() => handleDeleteReview(review.id)}
+                                                                            className="delete-review-button">
+                                                                            Delete
+                                                                        </button>
+                                                                    )}
                                                                 </div>
                                                                 <p className="review-comment">{displayComment}</p>
                                                                 {review.comment.length > 470 && (
-                                                                    <button
-                                                                        onClick={() => toggleExpand(index)}
-                                                                        className="read-more-button"
-                                                                    >
+                                                                    <button onClick={() => toggleExpand(index)}
+                                                                            className="read-more-button">
                                                                         {isExpanded ? 'Read Less' : 'Read More'}
                                                                     </button>
                                                                 )}
@@ -504,6 +563,8 @@ const ProductDetails = () => {
                                                     <p>No reviews yet.</p>
                                                 )}
                                             </ul>
+
+
                                         </div>
                                     )}
                                 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -26,5 +27,27 @@ class ReviewController extends Controller
         ]);
 
         return response()->json(['message' => 'Review submitted successfully!', 'review' => $review], 201);
+    }
+
+    public function destroy($id)
+    {
+        // Find the review by its ID
+        $review = Review::find($id);
+
+        // Check if the review exists
+        if (!$review) {
+            return response()->json(['message' => 'Review not found'], 404);
+        }
+
+        // Check if the logged-in user is the owner of the review
+        if ($review->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Delete the review
+        $review->delete();
+
+        // Return success response
+        return response()->json(['message' => 'Review deleted successfully'], 200);
     }
 }

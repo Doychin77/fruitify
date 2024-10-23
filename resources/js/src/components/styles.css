@@ -764,6 +764,33 @@ button {
     padding-bottom: 5px;
 }
 
+.delete-review-button {
+    background-color: red;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 0;
+    margin-left: 10px;
+    padding: 0 5px;
+    transition: ease background-color 0.3s;
+}
+
+.delete-review-button:hover {
+    background-color: #b61515;
+}
+
+.edit-review-button {
+    background-color: #57b81f;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 0;
+    margin-left: 10px;
+    padding: 0 5px;
+    transition: ease background-color 0.3s;
+}
+
+.edit-review-button:hover {
+    background-color: #61f10d;
+}
 
 
 

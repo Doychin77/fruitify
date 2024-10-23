@@ -19,6 +19,7 @@ Route::post('/reset-password', [AuthController::class, 'sendResetCode']);
 Route::post('/update-password', [AuthController::class, 'updatePassword']);
 
 Route::middleware('auth:sanctum')->delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+Route::put('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
 
 Route::get('/user', [AuthController::class, 'show']);
 

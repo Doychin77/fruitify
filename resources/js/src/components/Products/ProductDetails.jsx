@@ -30,6 +30,8 @@ const ProductDetails = () => {
     const relatedProducts = getRelatedProducts(parseInt(id));
     const [largeImageSrc, setLargeImageSrc] = useState('default.jpg');
     const [showReviews, setShowReviews] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [reviewToEdit, setReviewToEdit] = useState(null);
 
 
     const [localReviews, setLocalReviews] = useState([]);
@@ -182,6 +184,55 @@ const ProductDetails = () => {
 
         } catch (error) {
             console.error('Error submitting review:', error);
+        }
+    };
+
+
+    const handleEditReview = (review) => {
+        setEditMode(true);
+        setReviewToEdit(review);
+        setNewReview({ comment: review.comment, rating: review.rating });
+        setShowReviewForm(true); // Open form in edit mode
+    };
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        const reviewData = {
+            comment: newReview.comment,
+            rating: newReview.rating,
+        };
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const response = await fetch(`http://fruitify.test/reviews/${reviewToEdit.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify(reviewData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update review');
+            }
+
+            const result = await response.json();
+
+            setLocalReviews((prevReviews) =>
+                prevReviews.map((review) =>
+                    review.id === reviewToEdit.id ? { ...review, ...reviewData } : review
+                )
+            );
+
+            setEditMode(false);
+            setReviewToEdit(null);
+            setNewReview({ comment: '', rating: 0 });
+            setShowReviewForm(false);
+        } catch (error) {
+            console.error('Error editing review:', error);
         }
     };
 
@@ -442,41 +493,50 @@ const ProductDetails = () => {
                             <div className="product__details__tab">
                                 <div className="tab-content">
                                     <div className="tab-pane active" id="tabs-1" role="tabpanel">
-                                        <div className="product__details__tab__desc"
-                                             style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                        <div
+                                            className="product__details__tab__desc"
+                                            style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+                                        >
                                             <h6 style={{margin: 0}}>Product Information</h6>
                                             <span onClick={toggleReviews} className="review-toggle">
-                                            {showReviews ? 'Hide Reviews' : 'Reviews'}
-                                        </span>
+                    {showReviews ? 'Hide Reviews' : 'Reviews'}
+                </span>
                                         </div>
                                         {!showReviews && <p>{product.description}</p>}
                                     </div>
 
                                     {showReviews && (
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            alignItems: 'center',
-                                            justifyContent: 'center'
-                                        }}>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
                                             {/* Review Form at the top */}
                                             <div className="add-review-container">
                                                 {/* Clickable Title to Toggle Form */}
-                                                <div onClick={() => setShowReviewForm(!showReviewForm)}
-                                                     style={{cursor: 'pointer', display: 'inline-block'}}>
-                                                    <h6 className="add-review-title">{showReviewForm ? 'Cancel' : 'Add Review'}</h6>
+                                                <div
+                                                    onClick={() => setShowReviewForm(!showReviewForm)}
+                                                    style={{cursor: 'pointer', display: 'inline-block'}}
+                                                >
+                                                    <h6 className="add-review-title">
+                                                        {showReviewForm ? 'Cancel' : editMode ? 'Edit Review' : 'Add Review'}
+                                                    </h6>
                                                 </div>
 
                                                 {/* Conditionally Render Review Form */}
-                                                {showReviewForm && (
-                                                    <form onSubmit={handleReviewSubmit} className="add-review-form">
-                                                                <textarea
-                                                                    value={newReview.comment}
-                                                                    onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
-                                                                    placeholder="Write your review here..."
-                                                                    required
-                                                                    rows={4}
-                                                                />
+                                                {(showReviewForm || editMode) && (
+                                                    <form onSubmit={editMode ? handleEditSubmit : handleReviewSubmit}
+                                                          className="add-review-form">
+                            <textarea
+                                value={newReview.comment}
+                                onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
+                                placeholder="Write your review here..."
+                                required
+                                rows={4}
+                            />
                                                         <div>
                                                             <label>{getRatingLabel()}</label>
                                                             <div className="star-rating">
@@ -488,19 +548,28 @@ const ProductDetails = () => {
                                                                         onMouseLeave={() => setHoveredStar(0)}
                                                                         style={{
                                                                             cursor: 'pointer',
-                                                                            color: newReview.rating >= star || hoveredStar >= star ? '#ffc107' : '#e4e5e9',
-                                                                            fontSize: '24px'
+                                                                            color:
+                                                                                newReview.rating >= star || hoveredStar >= star
+                                                                                    ? '#ffc107'
+                                                                                    : '#e4e5e9',
+                                                                            fontSize: '24px',
                                                                         }}
                                                                     >
-                                                                            ★
-                                                                        </span>
+                                            ★
+                                        </span>
                                                                 ))}
                                                             </div>
                                                         </div>
 
                                                         <button type="submit" className="submit-review">
-                                                            Submit Review
+                                                            {editMode ? 'Save Changes' : 'Submit Review'}
                                                         </button>
+                                                        {editMode && (
+                                                            <button onClick={() => setEditMode(false)}
+                                                                    className="cancel-edit">
+                                                                Cancel
+                                                            </button>
+                                                        )}
                                                     </form>
                                                 )}
                                             </div>
@@ -510,49 +579,72 @@ const ProductDetails = () => {
                                                 {localReviews && localReviews.length > 0 ? (
                                                     localReviews.map((review, index) => {
                                                         const isExpanded = expandedReviews[index];
-                                                        const displayComment = isExpanded ? review.comment : `${review.comment.slice(0, 470)}${review.comment.length > 470 ? '...' : ''}`;
+                                                        const displayComment = isExpanded
+                                                            ? review.comment
+                                                            : `${review.comment.slice(0, 470)}${review.comment.length > 470 ? '...' : ''}`;
                                                         const isReviewOwner = review.user.id === loggedInUserId;
 
                                                         return (
                                                             <li key={index} style={{marginTop: '25px'}}>
-                                                                <div style={{
-                                                                    display: 'flex',
-                                                                    alignItems: 'center',
-                                                                    justifyContent: 'center',
-                                                                    marginBottom: '2px'
-                                                                }}>
+                                                                <div
+                                                                    style={{
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        justifyContent: 'center',
+                                                                        marginBottom: '2px',
+                                                                    }}
+                                                                >
                                                                     <h5 className="review-username">{review.user.name}</h5>
                                                                     <small style={{color: '#666', marginLeft: '10px'}}>
                                                                         {new Date(review.created_at).toLocaleDateString('en-GB')}
                                                                     </small>
                                                                 </div>
-                                                                <div className="review-content" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                                    <div className="review-rating" style={{ display: 'flex', alignItems: 'center' }}>
-                                                                        <span className="filled">{'★'.repeat(review.rating)}</span>
-                                                                        <span className="empty">{'☆'.repeat(5 - review.rating)}</span>
-                                                                        <span className="review-title" style={{ marginLeft: '10px' }}>{review.title}</span>
+                                                                <div
+                                                                    className="review-content"
+                                                                    style={{
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center'
+                                                                    }}
+                                                                >
+                                                                    <div
+                                                                        className="review-rating"
+                                                                        style={{display: 'flex', alignItems: 'center'}}
+                                                                    >
+                                                                        <span
+                                                                            className="filled">{'★'.repeat(review.rating)}</span>
+                                                                        <span
+                                                                            className="empty">{'☆'.repeat(5 - review.rating)}</span>
+                                                                        <span className="review-title"
+                                                                              style={{marginLeft: '10px'}}>
+                                                {review.title}
+                                            </span>
                                                                     </div>
 
-                                                                    {/* Conditionally render delete button if the review belongs to the logged-in user */}
+                                                                    {/* Conditionally render edit and delete buttons if the review belongs to the logged-in user */}
                                                                     {isReviewOwner && (
-                                                                        <button
-                                                                            onClick={() => handleDeleteReview(review.id)}
-                                                                            className="edit-review-button">
-                                                                            Edit
-                                                                        </button>
-                                                                    )}
-                                                                    {isReviewOwner && (
-                                                                        <button
-                                                                            onClick={() => handleDeleteReview(review.id)}
-                                                                            className="delete-review-button">
-                                                                            Delete
-                                                                        </button>
+                                                                        <>
+                                                                            <button
+                                                                                onClick={() => handleEditReview(review)}
+                                                                                className="edit-review-button"
+                                                                            >
+                                                                                Edit
+                                                                            </button>
+                                                                            <button
+                                                                                onClick={() => handleDeleteReview(review.id)}
+                                                                                className="delete-review-button"
+                                                                            >
+                                                                                Delete
+                                                                            </button>
+                                                                        </>
                                                                     )}
                                                                 </div>
                                                                 <p className="review-comment">{displayComment}</p>
                                                                 {review.comment.length > 470 && (
-                                                                    <button onClick={() => toggleExpand(index)}
-                                                                            className="read-more-button">
+                                                                    <button
+                                                                        onClick={() => toggleExpand(index)}
+                                                                        className="read-more-button"
+                                                                    >
                                                                         {isExpanded ? 'Read Less' : 'Read More'}
                                                                     </button>
                                                                 )}
@@ -563,8 +655,6 @@ const ProductDetails = () => {
                                                     <p>No reviews yet.</p>
                                                 )}
                                             </ul>
-
-
                                         </div>
                                     )}
                                 </div>

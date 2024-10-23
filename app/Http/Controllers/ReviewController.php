@@ -29,6 +29,30 @@ class ReviewController extends Controller
         return response()->json(['message' => 'Review submitted successfully!', 'review' => $review], 201);
     }
 
+
+    public function update(Request $request, Review $review)
+    {
+        // Ensure the authenticated user owns the review
+        if ($review->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Validate the updated review data
+        $validated = $request->validate([
+            'comment' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        // Update the review
+        $review->update([
+            'comment' => $validated['comment'],
+            'rating' => $validated['rating'],
+        ]);
+
+        return response()->json(['message' => 'Review updated successfully', 'review' => $review], 200);
+    }
+
+
     public function destroy($id)
     {
         // Find the review by its ID

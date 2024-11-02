@@ -1,8 +1,10 @@
 import React from 'react';
-import OwlCarousel from 'react-owl-carousel';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Link } from "react-router-dom";
+import 'swiper/css';
 
-const LatestProducts = ({ products, carouselOptions }) => {
+const LatestProducts = ({ products, swiperOptions }) => {
     const groupProducts = (products, itemsPerGroup) => {
         const groups = [];
         for (let i = 0; i < products.length; i += itemsPerGroup) {
@@ -11,20 +13,26 @@ const LatestProducts = ({ products, carouselOptions }) => {
         return groups;
     };
 
-    // Slice the last 6 products
+    
     const lastSixProducts = products.slice(-6);
     const groupedProducts = groupProducts(lastSixProducts, 3);
 
     return (
-        <OwlCarousel
+        <Swiper
             key={lastSixProducts.map(product => product.id).join('-')}
-            className='latest-product__slider owl-carousel'
-            loop={true} // Enable looping
-            items={1} // Adjust according to your needs
-            {...carouselOptions}
+            className='latest-product__slider'
+            loop={true}
+            modules={[Autoplay]}
+            autoplay={{
+                delay: 2000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            }}
+            speed={1200}
+            {...swiperOptions}
         >
             {groupedProducts.map((group, groupIndex) => (
-                <div key={groupIndex} className="latest-product__slider__item">
+                <SwiperSlide key={groupIndex} className="latest-product__slider__item">
                     {group.map((product, index) => (
                         <a href="#" key={index} className="latest-product__item">
                             <div className="latest-product__item__pic">
@@ -43,9 +51,9 @@ const LatestProducts = ({ products, carouselOptions }) => {
                             </div>
                         </a>
                     ))}
-                </div>
+                </SwiperSlide>
             ))}
-        </OwlCarousel>
+        </Swiper>
     );
 };
 

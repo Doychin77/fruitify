@@ -52,6 +52,21 @@ export const getProducts = async () => {
     }
 };
 
+
+export const getTopRatedProducts = async () => {
+    try {
+        const response = await fetch(`${baseUrl}/products/top-rated`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching top-rated products:', error);
+        throw error; // Re-throw to handle it in useProducts.js
+    }
+};
+
 export const getSingleProduct = async (id) => {
     try {
         const response = await fetch(`${baseUrl}/product/${id}`);

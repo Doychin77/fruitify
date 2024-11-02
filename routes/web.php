@@ -28,6 +28,7 @@ Route::post('/reviews', [ReviewController::class, 'store']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/product/{id}', [ProductController::class, 'show']);
+Route::get('/products/top-rated', [ProductController::class, 'topRated']);
 Route::post('/apply-coupon', [CouponController::class, 'applyCoupon']);
 Route::get('/blog-categories', [BlogController::class, 'allCategories']);
 Route::get('/articles', [BlogController::class, 'allArticles']);

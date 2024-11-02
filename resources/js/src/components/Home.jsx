@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
@@ -7,21 +7,36 @@ import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import useProducts from "@/src/hooks/useProducts.js";
-import {CartContext} from "@/src/context/cartContext.jsx";
+import { CartContext } from "@/src/context/cartContext.jsx";
 import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
-import {Link} from "react-router-dom";
-import {useCategories} from "@/src/hooks/useCategories.js";
-import {getAllArticles} from "@/src/services/baseService.js";
-
-
+import { Link } from "react-router-dom";
+import { useCategories } from "@/src/hooks/useCategories.js";
+import { getAllArticles, getTopRatedProducts } from "@/src/services/baseService.js";
+import TopRatedProducts from "@/src/components/Products/TopRatedProducts.jsx";
 
 const Home = () => {
-
-    const BaseURL = 'http://fruitify.test/storage/'
+    const BaseURL = 'http://fruitify.test/storage/';
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [topRatedProducts, setTopRatedProducts] = useState([]);
+    const [loadingTopRated, setLoadingTopRated] = useState(true);
+
+    useEffect(() => {
+        const fetchTopRatedProducts = async () => {
+            try {
+                const data = await getTopRatedProducts();
+                setTopRatedProducts(data);
+            } catch (error) {
+                console.error("Error fetching top-rated products:", error);
+            } finally {
+                setLoadingTopRated(false);
+            }
+        };
+
+        fetchTopRatedProducts();
+    }, []);
 
     const shuffleArray = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
@@ -65,7 +80,6 @@ const Home = () => {
         }
     }, [selectedCategory, products, categories]);
 
-
     const carouselOptions = {
         loop: true,
         margin: 10,
@@ -88,10 +102,9 @@ const Home = () => {
         }
     };
 
-    if (isLoading) {
+    if (isLoading || loadingTopRated) {
         return <Spinner />;
     }
-
     return (
 
         <>
@@ -307,7 +320,7 @@ const Home = () => {
                         <div className="col-lg-4 col-md-6">
                             <div className="latest-product__text">
                                 <h4>Top Rated Products</h4>
-                                <ProductCarousel products={products} carouselOptions={carouselOptions}/>
+                                <TopRatedProducts products={topRatedProducts} carouselOptions={carouselOptions}/>
                             </div>
                         </div>
 

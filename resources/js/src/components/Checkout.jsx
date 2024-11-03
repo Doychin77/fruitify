@@ -105,7 +105,7 @@ const Checkout = () => {
                     econt_office_id: '', econt_office: '', delivery_type: deliveryType,
                 });
                 clearCart();
-                navigate('/');
+                navigate('/thank-you');
             } else {
                 const errorData = await response.json();
                 setError(errorData.message || 'Failed to place the order.');

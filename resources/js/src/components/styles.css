@@ -792,7 +792,6 @@ button {
     background-color: #61f10d;
 }
 
-
 .thank-you-container {
     display: flex;
     flex-direction: column;
@@ -802,55 +801,66 @@ button {
     height: 100vh;
     padding: 20px;
     box-sizing: border-box;
-    /*color: white; !* Ensure text is readable *!*/
     position: relative;
     background: url('../assets/bg4.jpg') no-repeat center center/cover;
 }
 
-.thank-you-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    /*background-color: rgba(0, 0, 0, 0.5);*/
-    z-index: 1;
+.text-box {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    max-width: 800px;
+    text-align: center;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 .thank-you-container h1,
-.thank-you-container p,
-.btn-home {
-    position: relative;
-    z-index: 2;
+.thank-you-container p
+{
+    color: #1b160f;
 }
 
 .thank-you-container h1 {
     font-size: 3.5em;
+    color: #0c8394;
+    font-family: Broadway;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
 .thank-you-container p {
     font-size: 1.9em;
-    font-weight: bold;
-    color: #ff9100;
+    font-family: Broadway;
     margin-bottom: 10px;
 }
 
 .btn-home {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    display: block;
+    width: 170px;
+    margin-top: 30px;
+    font-size: 25px;
+    padding: 10px 10px;
+    font-family: "Droid Sans";
     color: white;
+    background-color: #FFA24A;
     font-weight: bold;
     text-decoration: none;
     border-radius: 5px;
+    transition: background-color ease 0.3s;
 }
 
+
 .btn-home:hover {
-    background-color: #45a049;
+    background-color: #dd921e;
 }
+
 
 
 

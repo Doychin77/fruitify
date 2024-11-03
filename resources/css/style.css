@@ -884,15 +884,39 @@ ol {
 .featured__item {
     margin-bottom: 50px;
     background-color: white;
-    /*border: 1px solid #e1dcdc;*/
     border-radius: 12px;
-    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.featured__item::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -50px;
+    width: 50px;
+    height: 4px;
+    background-color: rgba(47, 127, 4, 0.5);
+    transition: left 0.5s ease, opacity 0.5s ease; 
+    opacity: 0;
 }
 
 .featured__item:hover {
-    box-shadow: 0 8px 16px rgba(39, 107, 3, 0.3); /* Adds shadow on hover */
-    transform: translateY(-4px); /* Slight lift effect */
+    box-shadow: 0 12px 16px rgba(39, 107, 3, 0.5);
+    transform: translateY(-4px);
 }
+
+.featured__item:hover::before {
+    left: calc(50% - 25px);
+    opacity: 1;
+}
+
+.featured__item::before {
+    opacity: 0; /* Reset opacity */
+}
+
+
 
 
 .featured__item:hover .featured__item__pic .featured__item__pic__hover {

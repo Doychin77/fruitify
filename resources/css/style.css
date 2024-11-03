@@ -33,6 +33,7 @@
 html,
 body {
     height: 100%;
+    background-color: #e9f1eb;
     font-family: "Cairo", sans-serif;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
@@ -882,7 +883,17 @@ ol {
 
 .featured__item {
     margin-bottom: 50px;
+    background-color: white;
+    /*border: 1px solid #e1dcdc;*/
+    border-radius: 12px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition */
 }
+
+.featured__item:hover {
+    box-shadow: 0 8px 16px rgba(39, 107, 3, 0.3); /* Adds shadow on hover */
+    transform: translateY(-4px); /* Slight lift effect */
+}
+
 
 .featured__item:hover .featured__item__pic .featured__item__pic__hover {
     bottom: 20px;
@@ -978,6 +989,7 @@ ol {
 
 .featured__item__text h5 {
     color: #252525;
+    padding-bottom: 15px;
     font-weight: 700;
 }
 
@@ -1625,13 +1637,20 @@ ol {
 }
 
 .product__item {
-    margin-bottom: 50px;
-    display: flex; /* Enable flexbox */
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center items horizontally */
-    text-align: center; /* Center text within the item */
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition */
 }
 
+.product__item:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adds shadow on hover */
+    transform: translateY(-4px); /* Slight lift effect */
+}
 
 .product__item:hover .product__item__pic .product__item__pic__hover {
     bottom: 20px;
@@ -1713,7 +1732,7 @@ ol {
 
 .product__item__text {
     text-align: center;
-    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .product__item__text h6 {

@@ -826,7 +826,7 @@ button {
 }
 
 .thank-you-container h1 {
-    font-size: 3em;
+    font-size: 3.5em;
     font-weight: bold;
     margin-bottom: 20px;
 }
@@ -834,6 +834,7 @@ button {
 .thank-you-container p {
     font-size: 1.9em;
     font-weight: bold;
+    color: #ff9100;
     margin-bottom: 10px;
 }
 
@@ -842,6 +843,7 @@ button {
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
+    font-weight: bold;
     text-decoration: none;
     border-radius: 5px;
 }

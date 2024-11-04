@@ -167,12 +167,12 @@ const ProductDetails = () => {
             // Update the localReviews state to include the new review
             const newReviewData = {
                 ...reviewData,
-                id: result.review.id, // Assuming the response contains the review ID
-                user: { // Assuming you want to include the current user in the review object
+                id: result.review.id,
+                user: {
                     id: user.id,
                     name: user.name,
                 },
-                created_at: new Date().toISOString(), // Add the current timestamp for display
+                created_at: new Date().toISOString(),
             };
 
             setLocalReviews((prevReviews) => [...prevReviews, newReviewData]);

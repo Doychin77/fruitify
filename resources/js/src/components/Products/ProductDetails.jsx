@@ -418,7 +418,7 @@ const ProductDetails = () => {
                                     <i className="fa fa-star"/>
                                     <i className="fa fa-star"/>
                                     <i className="fa fa-star-half-o"/>
-                                    <span>(18 reviews)</span>
+                                    <span>({localReviews.length} reviews)</span>
                                 </div>
                                 <div className="product__details__price">
                                     {product.on_sale ? (

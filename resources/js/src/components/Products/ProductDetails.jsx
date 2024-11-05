@@ -673,45 +673,41 @@ const ProductDetails = () => {
                     <div className="row">
                         {relatedProducts.length > 0 ? (relatedProducts.map((relatedProduct) => (
                             <div className="col-lg-3 col-md-4 col-sm-6" key={relatedProduct.id}>
-                                <div className="product__item">
-                                    <div className="product__item__pic set-bg">
-                                        <img src={`${baseURL}${relatedProduct.images[0].image_url}`}
-                                             alt={relatedProduct.name}/>
-                                        <ul className="product__item__pic__hover">
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-heart"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i className="fa fa-retweet"/>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" onClick={(e) => {
-                                                    e.preventDefault();
-                                                    addToCart(relatedProduct);
-                                                }}>
-                                                    <i className="fa fa-shopping-cart"/>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                <Link to={`/product-details/${relatedProduct.id}`} className="plain-link" onClick={() => {
+                                    handleScrollToTop();
+                                    handleProductClick();
+                                }}>
+                                    <div className="product__item">
+                                        <div className="product__item__pic set-bg">
+                                            <img src={`${baseURL}${relatedProduct.images[0].image_url}`} alt={relatedProduct.name} />
+                                            <ul className="product__item__pic__hover">
+                                                <li>
+                                                    <a href="#">
+                                                        <i className="fa fa-heart" />
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i className="fa fa-retweet" />
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" onClick={(e) => {
+                                                        e.preventDefault();
+                                                        addToCart(relatedProduct);
+                                                    }}>
+                                                        <i className="fa fa-shopping-cart" />
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div className="product__item__text">
+                                            <h6>{relatedProduct.name}</h6>
+                                            <h5>${relatedProduct.on_sale_price || relatedProduct.price}</h5>
+                                        </div>
                                     </div>
-                                    <div className="product__item__text">
-                                        <h6>
-                                            <Link to={`/product-details/${relatedProduct.id}`}
-                                                  onClick={() => {
-                                                      handleScrollToTop();
-                                                      handleProductClick();
-                                                  }}
-                                            >
-                                                {relatedProduct.name}
-                                            </Link>
-                                        </h6>
-                                        <h5>${relatedProduct.on_sale_price || relatedProduct.price}</h5>
-                                    </div>
-                                </div>
+                                </Link>
+
                             </div>))) : (<div className="col-lg-12">
                             <p>No related products found.</p>
                         </div>)}

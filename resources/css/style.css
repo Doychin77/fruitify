@@ -1252,6 +1252,7 @@ ol {
 
 .price-range-wrap .range-slider .price-input input {
     font-size: 16px;
+    background-color: #E9F1EB;
     color: #dd2222;
     font-weight: 700;
     max-width: 20%;
@@ -2155,7 +2156,7 @@ ol {
 .shoping__cart__table table tbody tr td {
     padding-top: 30px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #dcdddc;
 }
 
 .shoping__cart__table table tbody tr td.shoping__cart__item {
@@ -2166,7 +2167,12 @@ ol {
 .shoping__cart__table table tbody tr td.shoping__cart__item img {
     display: inline-block;
     margin-right: 25px;
+    height: 100px !important;
+    width: 100px !important;
+    border-radius: 5px;
+    object-fit: fill;
 }
+
 
 .shoping__cart__table table tbody tr td.shoping__cart__item h5 {
     color: #1c1c1c;
@@ -2587,6 +2593,7 @@ ol {
 
 .blog__item__text h5 {
     margin-bottom: 12px;
+    font-weight: bold;
 }
 
 .blog__item__text h5 a {

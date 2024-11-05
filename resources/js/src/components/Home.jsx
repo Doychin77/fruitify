@@ -350,11 +350,12 @@ const Home = () => {
                     <div className="row">
                         {randomArticles.map((article) => (
                             <div key={article.id} className="col-lg-4 col-md-4 col-sm-6">
-                                <div className="blog__item">
+                                <Link to={`/blog/${article.id}`} className="blog__item">
                                     <div className="blog__item__pic">
                                         <img
                                             src={`http://fruitify.test/storage/${article.image}`}
                                             alt={article.title}
+                                            style={{ width: '100%', height: 'auto' }} // Ensure image fits well
                                         />
                                     </div>
                                     <div className="blog__item__text">
@@ -363,14 +364,12 @@ const Home = () => {
                                                 <i className="fa fa-calendar-o"/> {new Date(article.published_at).toLocaleDateString()}
                                             </li>
                                         </ul>
-                                        <h5>
-                                            <a href={`/blog/${article.id}`}>{article.title}</a>
-                                        </h5>
+                                        <h5>{article.title}</h5>
                                         <p>
                                             {article.content.substring(0, 100)}...
                                         </p>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         ))}
                     </div>

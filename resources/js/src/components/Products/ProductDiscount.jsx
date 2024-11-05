@@ -48,52 +48,50 @@ const ProductDiscount = () => {
                 >
                     {onSaleProducts.map((product, index) => (
                         <SwiperSlide key={index}>
-                            <div className="product-item">
-                                <div className="product-item-pic">
-                                    <img
-                                        src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
-                                        alt={product.name}
-                                    />
-                                    <div className="product-item-percent">
-                                        -{product.on_sale_percent.toString().includes('.')
-                                        ? product.on_sale_percent.toString().split('.')[0]
-                                        : product.on_sale_percent}%
-                                    </div>
+                            <Link to={`/product-details/${product.id}`} className="plain-link">
+                                <div className="product-item" onClick={(e) => e.stopPropagation()}>
+                                    <div className="product-item-pic">
+                                        <img
+                                            src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
+                                            alt={product.name}
+                                        />
+                                        <div className="product-item-percent">
+                                            -{product.on_sale_percent.toString().includes('.')
+                                            ? product.on_sale_percent.toString().split('.')[0]
+                                            : product.on_sale_percent}%
+                                        </div>
 
-                                    <ul className="product-item-hover">
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-heart"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i className="fa fa-retweet"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" onClick={(e) => {
-                                                e.preventDefault();
-                                                addToCart(product);
-                                            }}>
-                                                <i className="fa fa-shopping-cart"/>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="product-item-text">
-                                    <span>{product.category.name}</span>
-                                    <h5>
-                                        <Link to={`/product-details/${product.id}`} className="plain-link">{product.name} </Link>
-                                    </h5>
-                                    <div className="product-item-price">
-                                        <span className="current-price">${product.on_sale_price}</span>
-                                        {product.price && (
-                                            <span className="original-price">{product.price}</span>
-                                        )}
+                                        <ul className="product-item-hover" onClick={(e) => e.stopPropagation()}>
+                                            <li>
+                                                <a href="#" onClick={(e) => e.preventDefault()}>
+                                                    <i className="fa fa-heart" />
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" onClick={(e) => e.preventDefault()}>
+                                                    <i className="fa fa-retweet" />
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" onClick={(e) => { e.preventDefault(); addToCart(product); }}>
+                                                    <i className="fa fa-shopping-cart" />
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="product-item-text">
+                                        <span>{product.category.name}</span>
+                                        <h5>{product.name}</h5>
+                                        <div className="product-item-price">
+                                            <span className="current-price">${product.on_sale_price}</span>
+                                            {product.price && (
+                                                <span className="original-price">{product.price}</span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
+
                         </SwiperSlide>
                     ))}
                 </Swiper>

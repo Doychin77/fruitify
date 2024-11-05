@@ -253,35 +253,39 @@ const Home = () => {
                         {filteredProducts.map(product => (
                             <div key={product.id}
                                  className={`col-lg-3 col-md-4 col-sm-6 mix ${categories.find(cat => cat.id === product.category_id)?.name.toLowerCase() || ''}`}>
-                                <div className="featured__item">
-                                    <div className="featured__item__pic">
-                                        {product.images && product.images.length > 0 && (
-                                            <img src={`http://fruitify.test/storage/${product.images[0].image_url}`}
-                                                 alt={product.name}/>
-                                        )}
-                                        <ul className="featured__item__pic__hover">
-                                            <li><a href="#"><i className="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet"></i></a></li>
-                                            <li>
-                                                <a href="#" onClick={(e) => {
-                                                    e.preventDefault();
-                                                    addToCart(product);
-                                                }}>
-                                                    <i className="fa fa-shopping-cart"/>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                <Link to={`/product-details/${product.id}`} className="plain-link">
+                                    <div className="featured__item" onClick={(e) => e.stopPropagation()}>
+                                        <div className="featured__item__pic">
+                                            {product.images && product.images.length > 0 && (
+                                                <img src={`http://fruitify.test/storage/${product.images[0].image_url}`} alt={product.name} />
+                                            )}
+                                            <ul className="featured__item__pic__hover" onClick={(e) => e.stopPropagation()}>
+                                                <li>
+                                                    <a href="#" onClick={(e) => e.preventDefault()}>
+                                                        <i className="fa fa-heart"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" onClick={(e) => e.preventDefault()}>
+                                                        <i className="fa fa-retweet"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" onClick={(e) => { e.preventDefault(); addToCart(product); }}>
+                                                        <i className="fa fa-shopping-cart" />
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div className="featured__item__text">
+                                            <h6>{product.name}</h6>
+                                            <h5 style={{ color: product.on_sale ? 'red' : 'inherit' }}>
+                                                ${product.on_sale ? product.on_sale_price : product.price}
+                                            </h5>
+                                        </div>
                                     </div>
-                                    <div className="featured__item__text">
-                                        <h6>
-                                            <Link to={`/product-details/${product.id}`}
-                                                  className="plain-link">{product.name} </Link>
-                                        </h6>
-                                        <h5 style={{color: product.on_sale ? 'red' : 'inherit'}}>
-                                            ${product.on_sale ? product.on_sale_price : product.price}
-                                        </h5>
-                                    </div>
-                                </div>
+                                </Link>
+
                             </div>
                         ))}
                     </div>

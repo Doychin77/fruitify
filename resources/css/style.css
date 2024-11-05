@@ -1898,6 +1898,7 @@ ol {
 
 .product__details__pic__item img {
     width: 450px;
+    height: 450px;
     margin-bottom: 40px;
     align-items: center;
 }
@@ -1908,6 +1909,8 @@ ol {
 
 .product__details__pic__slider.owl-carousel .owl-item img {
     width: auto;
+    border-radius: 5px;
+    height: 131px;
 }
 
 .product__details__text h3 {

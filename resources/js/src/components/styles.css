@@ -47,7 +47,6 @@
     justify-content: space-between;
     position: relative;
     transition: transform 0.3s ease;
-    /*transition: border 0.3s ease;*/
 }
 
 .product-item:hover {
@@ -86,8 +85,8 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    opacity: 0; /* Hide icons initially */
-    visibility: hidden; /* Hide icons initially */
+    opacity: 0;
+    visibility: hidden;
     transition: opacity 1s ease, bottom 1s ease;
 }
 
@@ -118,7 +117,7 @@
 .product-item:hover .product-item-hover {
     opacity: 1;
     visibility: visible; /* Show icons on hover */
-    bottom: 10px; /* Adjust to move icons up when hovering */
+    bottom: 2px; /* Adjust to move icons up when hovering */
 }
 
 .product-item-text {

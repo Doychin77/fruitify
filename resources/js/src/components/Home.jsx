@@ -250,18 +250,20 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="row featured__filter">
-                        {filteredProducts.map((product, index) => (
+                        {filteredProducts.slice(0, 12).map((product, index) => (
                             <div
                                 key={product.id}
                                 className={`col-lg-3 col-md-4 col-sm-6 mix ${categories.find(cat => cat.id === product.category_id)?.name.toLowerCase() || ''} zoom-in`}
-                                style={{animationDelay: `${index * 0.1}s`}}  // Delay each item for a staggered effect
+                                style={{animationDelay: `${index * 0.1}s`}}
                             >
                                 <Link to={`/product-details/${product.id}`} className="plain-link">
                                     <div className="featured__item" onClick={(e) => e.stopPropagation()}>
                                         <div className="featured__item__pic">
                                             {product.images && product.images.length > 0 && (
-                                                <img src={`http://fruitify.test/storage/${product.images[0].image_url}`}
-                                                     alt={product.name}/>
+                                                <img
+                                                    src={`http://fruitify.test/storage/${product.images[0].image_url}`}
+                                                    alt={product.name}
+                                                />
                                             )}
                                             <ul className="featured__item__pic__hover"
                                                 onClick={(e) => e.stopPropagation()}>
@@ -296,6 +298,7 @@ const Home = () => {
                             </div>
                         ))}
                     </div>
+
 
                 </div>
             </section>

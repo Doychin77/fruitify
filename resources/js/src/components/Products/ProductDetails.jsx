@@ -252,22 +252,15 @@ const ProductDetails = () => {
 
     const options = {
         items: 1,
-        loop: true,
-        autoplay: true,
-        autoplayTimeout: 3000,
-        autoplayHoverPause: true,
         margin: 10,
         nav: true,
-        smartSpeed: 1000,
-        autoplaySpeed: 1000,
         responsive: {
             0: {items: 1}, 600: {items: 3}, 1000: {items: 4},
         },
     };
 
-    if (loading) return <Spinner/>;
+    if (loading || !product) return <Spinner />;
 
-    if (!product) return <Spinner/>;
     if (error) return <div>{error}</div>;
 
     return (<>

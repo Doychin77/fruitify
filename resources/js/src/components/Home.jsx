@@ -253,7 +253,7 @@ const Home = () => {
                         {filteredProducts.slice(0, 12).map((product, index) => (
                             <div
                                 key={product.id}
-                                className={`col-lg-3 col-md-4 col-sm-6 mix ${categories.find(cat => cat.id === product.category_id)?.name.toLowerCase() || ''} zoom-in`}
+                                className={`col-lg-3 col-md-4 col-sm-6 mix ${categories.find(cat => cat.id === product.category_id)?.name.toLowerCase() || ''} animate__animated animate__pulse`}
                                 style={{animationDelay: `${index * 0.1}s`}}
                             >
                                 <Link to={`/product-details/${product.id}`} className="plain-link">

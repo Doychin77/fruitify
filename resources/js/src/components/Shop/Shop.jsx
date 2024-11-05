@@ -14,6 +14,7 @@ import Spinner from "@/src/components/Spinner/Spinner.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles.css'
 import {useCategories} from "@/src/hooks/useCategories.js";
+import 'animate.css';
 
 const Shop = () => {
     const { addToCart } = useContext(CartContext);
@@ -282,7 +283,7 @@ const Shop = () => {
                                 {isLoading && <Spinner />}
                                 {error && <div className="col-lg-12"><p>{error}</p></div>}
                                 {currentProducts.map(product => (
-                                    <div key={product.id} className="col-lg-4 col-md-6 col-sm-6">
+                                    <div key={product.id} className="col-lg-4 col-md-6 col-sm-6 animate__animated animate__pulse">
                                         <Link to={`/product-details/${product.id}`} className="plain-link">
                                             <div className="product__item" onClick={(e) => e.stopPropagation()}>
                                                 <div className="product__item__pic">

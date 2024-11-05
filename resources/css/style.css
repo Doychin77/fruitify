@@ -888,6 +888,7 @@ ol {
     position: relative;
     overflow: hidden;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .featured__item::before {
@@ -1704,6 +1705,8 @@ ol {
     position: relative;
     overflow: hidden;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
+
 }
 
 .product__item::before {

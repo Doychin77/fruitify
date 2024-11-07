@@ -31,6 +31,12 @@ const Shop = () => {
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpen(prevState => !prevState);
+    };
+
     const sortedProducts = [...products].sort((a, b) => {
         const priceA = a.on_sale ? a.on_sale_price : a.price;
         const priceB = b.on_sale ? b.on_sale_price : b.price;
@@ -87,23 +93,23 @@ const Shop = () => {
 
     return (
         <>
-            <Hamburger />
+            {/*<Hamburger />*/}
             <Header />
 
             {/* Hero Section Begin */}
-            <section className="hero hero-normal">
+            <section className="hero">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-3">
                             <div className="hero__categories">
-                                <div className="hero__categories__all">
-                                    <i className="fa fa-bars" />
-                                    <span>All departments</span>
+                                <div className="hero__categories__all" onClick={toggleDropdown}>
+                                    <i className="fa fa-bars"/>
+                                    <span>All categories</span>
                                 </div>
-                                <ul>
+                                <ul className={`category-list ${isOpen ? 'open' : ''}`}>
                                     {categories.length > 0 && categories.map((category) => (
                                         <li key={category.id}>
-                                            <a href="#">{category.name}</a>
+                                            <Link to={`/category/${category.id}`}>{category.name}</Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -115,15 +121,15 @@ const Shop = () => {
                                     <form action="#">
                                         <div className="hero__search__categories">
                                             All Categories
-                                            <span className="arrow_carrot-down" />
+                                            <span className="arrow_carrot-down"/>
                                         </div>
-                                        <input type="text" placeholder="What do you need?" />
+                                        <input type="text" placeholder="What do you need?"/>
                                         <button type="submit" className="site-btn">SEARCH</button>
                                     </form>
                                 </div>
                                 <div className="hero__search__phone">
                                     <div className="hero__search__phone__icon">
-                                        <i className="fa fa-phone" />
+                                        <i className="fa fa-phone"/>
                                     </div>
                                     <div className="hero__search__phone__text">
                                         <h5>+65 11.188.888</h5>
@@ -138,7 +144,7 @@ const Shop = () => {
             {/* Hero Section End */}
 
             {/* Breadcrumb Section Begin */}
-            <section className="breadcrumb-section set-bg" style={{ backgroundImage: "url('img/breadcrumb.jpg')" }}>
+            <section className="breadcrumb-section set-bg" style={{backgroundImage: "url('img/breadcrumb.jpg')"}}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12 text-center">

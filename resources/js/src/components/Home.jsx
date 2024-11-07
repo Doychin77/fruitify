@@ -22,6 +22,11 @@ const Home = () => {
     const [error, setError] = useState(null);
     const [topRatedProducts, setTopRatedProducts] = useState([]);
     const [loadingTopRated, setLoadingTopRated] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpen(prevState => !prevState);
+    };
 
     useEffect(() => {
         const fetchTopRatedProducts = async () => {
@@ -108,7 +113,7 @@ const Home = () => {
     return (
 
         <>
-            <Hamburger/>
+            {/*<Hamburger/>*/}
 
             <Header/>
 
@@ -118,11 +123,11 @@ const Home = () => {
                     <div className="row">
                         <div className="col-lg-3">
                             <div className="hero__categories">
-                                <div className="hero__categories__all">
+                                <div className="hero__categories__all" onClick={toggleDropdown}>
                                     <i className="fa fa-bars"/>
                                     <span>All categories</span>
                                 </div>
-                                <ul>
+                                <ul className={`category-list ${isOpen ? 'open' : ''}`}>
                                     {categories.length > 0 && categories.map((category) => (
                                         <li key={category.id}>
                                             <Link to={`/category/${category.id}`}>{category.name}</Link>
@@ -136,7 +141,7 @@ const Home = () => {
                                 <div className="hero__search__form">
                                     <form action="#">
                                         <div className="hero__search__categories">
-                                        All Categories
+                                            All Categories
                                             <span className="arrow_carrot-down"/>
                                         </div>
                                         <input type="text" placeholder="What do yo u need?"/>

@@ -949,6 +949,70 @@ button {
     }
 }
 
+.header__menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .header__menu {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .header__menu.open {
+        display: flex;
+    }
+    .humberger__open {
+        display: block;
+        cursor: pointer;
+    }
+}
+
+
+.hero__categories__all {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.hero__categories__all i {
+    margin-right: 10px;
+}
+
+.category-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+}
+
+.category-list.open {
+    max-height: 465px;
+    background-color: white;
+    transition: max-height 0.5s ease-in;
+}
+
+.category-list li {
+    padding: 3px 0;
+}
+
+.category-list li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+
+
+
+
 
 
 

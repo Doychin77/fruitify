@@ -8,24 +8,21 @@ const Header = () => {
     const { cartItems } = useContext(CartContext);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const { isLoggedIn, logout } = useUserContext(); // Get isLoggedIn and logout from context
-    const location = useLocation(); // Get the current location
+    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false); 
+    const { isLoggedIn, logout } = useUserContext();
+    const location = useLocation();
 
     const subtotal = cartItems.reduce((total, item) => {
         const price = item.on_sale ? parseFloat(item.on_sale_price) : parseFloat(item.price);
-        const itemTotal = price * item.quantity;
-        return total + itemTotal;
+        return total + price * item.quantity;
     }, 0);
-
     const totalQuantity = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
     const formattedTotalPrice = subtotal.toFixed(2);
 
     useEffect(() => {
         let timer;
         if (!isHovered && isDropdownOpen) {
-            timer = setTimeout(() => {
-                setDropdownOpen(false);
-            }, 2000); // Close after 2 seconds
+            timer = setTimeout(() => setDropdownOpen(false), 2000);
         }
         return () => clearTimeout(timer);
     }, [isHovered, isDropdownOpen]);
@@ -40,7 +37,12 @@ const Header = () => {
     };
 
     const handleLogout = () => {
-        logout(); // Call the logout function
+        logout();
+    };
+
+    // Toggle mobile menu
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!isMobileMenuOpen);
     };
 
     return (
@@ -61,43 +63,27 @@ const Header = () => {
                         <div className="col-lg-6 col-md-6">
                             <div className="header__top__right">
                                 <div className="header__top__right__social">
-                                    <a href="#">
-                                        <i className="fa fa-facebook"/>
-                                    </a>
-                                    <a href="#">
-                                        <i className="fa fa-twitter"/>
-                                    </a>
-                                    <a href="#">
-                                        <i className="fa fa-linkedin"/>
-                                    </a>
-                                    <a href="#">
-                                        <i className="fa fa-pinterest-p"/>
-                                    </a>
+                                    <a href="#"><i className="fa fa-facebook"/></a>
+                                    <a href="#"><i className="fa fa-twitter"/></a>
+                                    <a href="#"><i className="fa fa-linkedin"/></a>
+                                    <a href="#"><i className="fa fa-pinterest-p"/></a>
                                 </div>
                                 <div className="header__top__right__language">
                                     <img src="img/language.png" alt=""/>
                                     <div>English</div>
                                     <span className="arrow_carrot-down"/>
                                     <ul>
-                                        <li>
-                                            <a href="#">Spanish</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">English</a>
-                                        </li>
+                                        <li><a href="#">Spanish</a></li>
+                                        <li><a href="#">English</a></li>
                                     </ul>
                                 </div>
                                 {!isLoggedIn ? (
                                     <div className="header__top__right__auth">
-                                        <Link to="/login">
-                                            <i className="fa fa-user"/> Login
-                                        </Link>
+                                        <Link to="/login"><i className="fa fa-user"/> Login</Link>
                                     </div>
                                 ) : (
                                     <div className="header__top__right__auth">
-                                        <Link to="#" onClick={handleLogout}>
-                                            <i className="fa fa-sign-out"/> Logout
-                                        </Link>
+                                        <Link to="#" onClick={handleLogout}><i className="fa fa-sign-out"/> Logout</Link>
                                     </div>
                                 )}
                             </div>
@@ -109,44 +95,25 @@ const Header = () => {
                 <div className="row">
                     <div className="col-lg-3">
                         <div className="header__logo">
-                            <Link to="/">
-                                <img src="img/logo22.png" alt="" />
-                            </Link>
+                            <Link to="/"><img src="img/logo22.png" alt=""/></Link>
                         </div>
                     </div>
-                    <div className="col-lg-6">
-                        <nav className="header__menu">
+                    <div className={`col-lg-6 header__menu ${isMobileMenuOpen ? 'open' : ''}`}>
+                        <nav>
                             <ul>
-                                <li className={location.pathname === '/' ? 'active' : ''}>
-                                    <Link to="/">Home</Link>
-                                </li>
-                                <li className={location.pathname === '/shop' ? 'active' : ''}>
-                                    <Link to="/shop">Shop</Link>
-                                </li>
-                                <li className={location.pathname === '/blog' ? 'active' : ''}>
-                                    <Link to="/blog">Blog</Link>
-                                </li>
-                                <li className={location.pathname === '/contact' ? 'active' : ''}>
-                                    <Link to="/contact">Contact</Link>
-                                </li>
+                                <li className={location.pathname === '/' ? 'active' : ''}><Link to="/">Home</Link></li>
+                                <li className={location.pathname === '/shop' ? 'active' : ''}><Link to="/shop">Shop</Link></li>
+                                <li className={location.pathname === '/blog' ? 'active' : ''}><Link to="/blog">Blog</Link></li>
+                                <li className={location.pathname === '/contact' ? 'active' : ''}><Link to="/contact">Contact</Link></li>
                             </ul>
                         </nav>
                     </div>
                     <div className="col-lg-3">
                         <div className="header__cart">
                             <ul>
-                                <li>
-                                    <a href="">
-                                        <i className="fa fa-heart" /> <span>1</span>
-                                    </a>
-                                </li>
-                                <li
-                                    onMouseEnter={handleMouseEnter}
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                    <Link to="/cart">
-                                        <i className="fa fa-shopping-bag" /> <span>{totalQuantity}</span>
-                                    </Link>
+                                <li><a href="#"><i className="fa fa-heart" /> <span>1</span></a></li>
+                                <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                                    <Link to="/cart"><i className="fa fa-shopping-bag" /> <span>{totalQuantity}</span></Link>
                                 </li>
                             </ul>
                             <div className="header__cart__price">
@@ -154,16 +121,13 @@ const Header = () => {
                             </div>
                         </div>
                         {isDropdownOpen && (
-                            <div
-                                onMouseEnter={() => setIsHovered(true)}
-                                onMouseLeave={handleMouseLeave}
-                            >
+                            <div onMouseEnter={() => setIsHovered(true)} onMouseLeave={handleMouseLeave}>
                                 <CartDropdown cartItems={cartItems} onClose={handleMouseLeave} />
                             </div>
                         )}
                     </div>
                 </div>
-                <div className="humberger__open">
+                <div className="humberger__open" onClick={toggleMobileMenu}>
                     <i className="fa fa-bars" />
                 </div>
             </div>

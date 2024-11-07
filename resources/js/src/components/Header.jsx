@@ -8,7 +8,7 @@ const Header = () => {
     const { cartItems } = useContext(CartContext);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false); 
+    const [isMobileMenuOpen, setMobileMenuOpen] = useState(true);
     const { isLoggedIn, logout } = useUserContext();
     const location = useLocation();
 

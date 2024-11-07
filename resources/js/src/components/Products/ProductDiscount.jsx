@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -6,14 +6,19 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import '../styles.css';
 import useProducts from "@/src/hooks/useProducts.js";
-import {CartContext} from "@/src/context/cartContext.jsx";
-import {Link} from "react-router-dom";
+import { CartContext } from "@/src/context/cartContext.jsx";
+import { Link } from "react-router-dom";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
-
 
 const ProductDiscount = () => {
     const { onSaleProducts, isLoading } = useProducts();
     const { addToCart } = useContext(CartContext);
+
+    useEffect(() => {
+        if (window.swiper) {
+            window.swiper.update();
+        }
+    }, [onSaleProducts]);
 
     if (isLoading) {
         return <Spinner />;
@@ -34,17 +39,24 @@ const ProductDiscount = () => {
                         pauseOnMouseEnter: true,
                     }}
                     slidesPerView={3}
-                    centeredSlides={true}
+                    centeredSlides={false}
                     loop={true}
                     speed={1200}
                     breakpoints={{
                         1024: {
                             slidesPerView: 3,
                         },
-                        600: {
+                        768: {
                             slidesPerView: 2,
+                        },
+                        375: {
+                            slidesPerView: 2,
+                        },
+                        0: {
+                            slidesPerView: 1,
                         }
                     }}
+
                 >
                     {onSaleProducts.map((product, index) => (
                         <SwiperSlide key={index}>
@@ -91,7 +103,6 @@ const ProductDiscount = () => {
                                     </div>
                                 </div>
                             </Link>
-
                         </SwiperSlide>
                     ))}
                 </Swiper>

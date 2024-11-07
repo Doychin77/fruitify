@@ -22,7 +22,7 @@ const Home = () => {
     const [error, setError] = useState(null);
     const [topRatedProducts, setTopRatedProducts] = useState([]);
     const [loadingTopRated, setLoadingTopRated] = useState(true);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
     const toggleDropdown = () => {
         setIsOpen(prevState => !prevState);

@@ -943,12 +943,6 @@ button {
     }
 }
 
-@media (max-width: 768px) {
-    .review-products {
-        display: none;
-    }
-}
-
 .header__menu {
     display: flex;
     justify-content: center;
@@ -957,6 +951,9 @@ button {
 }
 
 @media (max-width: 768px) {
+    .review-products {
+        display: none;
+    }
     .header__menu {
         display: none;
         flex-direction: column;
@@ -1010,6 +1007,30 @@ button {
 }
 
 
+@media (max-width: 425px) {
+    .sidebar__item {
+        display: none;
+    }
+
+    .product-discount-title h2 {
+        text-align: center;
+        margin: 0 auto;
+        margin-bottom: 30px;
+    }
+
+    .product {
+        padding-top: 30px;
+    }
+}
+
+
+
+
+@media (max-width: 320px) {
+    .header__menu ul li {
+        margin-right: 25px;
+    }
+}
 
 
 

@@ -93,16 +93,26 @@ const Header = () => {
             </div>
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-3">
+                    <div className="col-lg-3 d-flex justify-content-between align-items-center">
                         <div className="header__logo">
                             <Link to="/"><img src="img/logo22.png" alt=""/></Link>
                         </div>
+                        <div className="header__top__right__auth d-lg-none">
+                            {!isLoggedIn ? (
+                                <Link to="/login"><i className="fa fa-user"/> LOGIN</Link>
+                            ) : (
+                                <Link to="#" onClick={handleLogout}><i className="fa fa-sign-out"/> LOGOUT</Link>
+                            )}
+                        </div>
                     </div>
+
+
                     <div className={`col-lg-6 header__menu ${isMobileMenuOpen ? 'open' : ''}`}>
                         <nav>
                             <ul>
                                 <li className={location.pathname === '/' ? 'active' : ''}><Link to="/">Home</Link></li>
-                                <li className={location.pathname === '/shop' ? 'active' : ''}><Link to="/shop">Shop</Link></li>
+                                <li className={location.pathname === '/shop' ? 'active' : ''}><Link
+                                    to="/shop">Shop</Link></li>
                                 <li className={location.pathname === '/blog' ? 'active' : ''}><Link to="/blog">Blog</Link></li>
                                 <li className={location.pathname === '/contact' ? 'active' : ''}><Link to="/contact">Contact</Link></li>
                             </ul>

@@ -326,20 +326,20 @@ const Home = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-4 col-md-6">
-                            <div className="latest-product__text">
+                            <div className="latest-product__text latest-products">
                                 <h4>Latest Products</h4>
                                 <ProductCarousel products={products} carouselOptions={carouselOptions}/>
                             </div>
                         </div>
 
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-4 col-md-6 top-rated-products">
                             <div className="latest-product__text">
                                 <h4>Top Rated Products</h4>
                                 <TopRatedProducts products={topRatedProducts} carouselOptions={carouselOptions}/>
                             </div>
                         </div>
 
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-4 col-md-6 review-products">
                             <div className="latest-product__text">
                                 <h4>Review Products</h4>
                                 <ProductCarousel products={products} carouselOptions={carouselOptions}/>
@@ -348,6 +348,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
             {/* Latest Product Section End */}
             <section className="from-blog spad">
                 <div className="container">

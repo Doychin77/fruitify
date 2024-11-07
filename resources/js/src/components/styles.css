@@ -936,6 +936,18 @@ button {
 }
 
 
+@media (max-width: 767px) {
+    .top-rated-products,
+    .review-products {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .review-products {
+        display: none;
+    }
+}
 
 
 

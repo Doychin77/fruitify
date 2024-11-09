@@ -1047,6 +1047,28 @@ button {
     }
 }
 
+.featured__controls {
+    font-weight: bold;
+}
+
+.featured__controls ul li {
+    transition: color ease 0.3s;
+}
+
+.featured__controls ul li:hover {
+    color: #7fad39
+}
+
+.cart-dropdown {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.cart-dropdown.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 
 

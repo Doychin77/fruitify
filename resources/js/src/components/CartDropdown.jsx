@@ -1,9 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from "@/src/context/cartContext.jsx";
 import { Link } from 'react-router-dom';
 
 const CartDropdown = ({ cartItems, onClose }) => {
     const { removeFromCart, clearCart } = useContext(CartContext);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        // Trigger the animation when the component mounts
+        setIsVisible(true);
+    }, []);
+
     const subtotal = cartItems.reduce((total, item) => {
         const price = item.on_sale ? parseFloat(item.on_sale_price) : parseFloat(item.price);
         const itemTotal = price * item.quantity;
@@ -26,7 +33,7 @@ const CartDropdown = ({ cartItems, onClose }) => {
     }
 
     return (
-        <div className="cart-dropdown">
+        <div className={`cart-dropdown ${isVisible ? 'animate' : ''}`}>
             <ul>
                 {cartItems.map((item, index) => (
                     <li key={index} style={{display: 'flex', alignItems: 'center', padding: '10px 0'}}>

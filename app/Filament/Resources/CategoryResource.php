@@ -34,7 +34,7 @@ class CategoryResource extends Resource
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('img')
                     ->required()
-                    ->disk('public')
+                    ->disk('local')
                     ->directory('images/category')
                     ->image()
                     ->maxSize(4 * 1024)

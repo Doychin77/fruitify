@@ -1,3 +1,7 @@
+import { defineConfig, loadEnv } from "vite";
+import laravel from "laravel-vite-plugin";
+import react from "@vitejs/plugin-react";
+
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), "");
     return {
@@ -15,11 +19,10 @@ export default defineConfig(({ mode }) => {
             }),
         ],
         base: env.APP_URL.includes('https') ? '/' : '',
-        server: {
-            https: env.APP_URL.includes('https'), // Enable HTTPS locally if needed
-        },
+
         // build: {
-        //     manifest: true,
+        //     // outDir: 'public/build',
+        //     manifest: true, // Include a manifest file
         //     assetsDir: '', // Avoid nested directories for assets
         // },
     };

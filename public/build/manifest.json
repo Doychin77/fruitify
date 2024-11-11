@@ -64,7 +64,7 @@
     "src": "public/img/hero/banner.jpg"
   },
   "resources/css/app.css": {
-    "file": "assets/app-BusnW9GW.css",
+    "file": "assets/app-DKe8-1d9.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -85,12 +85,12 @@
     "src": "resources/js/src/assets/econt-icon.png"
   },
   "resources/js/src/index.jsx": {
-    "file": "assets/index-DB1gV0rF.js",
+    "file": "assets/index-CTEKRGvr.js",
     "name": "index",
     "src": "resources/js/src/index.jsx",
     "isEntry": true,
     "css": [
-      "assets/index-BYNrYanm.css"
+      "assets/index-COOzpmq2.css"
     ],
     "assets": [
       "assets/banner-vNmOjYTW.jpg",

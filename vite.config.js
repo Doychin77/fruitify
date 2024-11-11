@@ -18,10 +18,14 @@ export default defineConfig(({ mode }) => {
                 refresh: true,
             }),
         ],
-        // build: {
-        //     // outDir: 'public/build',
-        //     manifest: true, // Include a manifest file
-        //     assetsDir: '', // Avoid nested directories for assets
-        // },
+        // Ensure the base URL is HTTPS in production
+        base: env.APP_URL.includes('https') ? '/' : '',  // or '/build/' if needed
+        server: {
+            https: env.APP_URL.includes('https') // Enable HTTPS for local dev if needed
+        },
+        build: {
+            manifest: true, // Include a manifest file
+            assetsDir: '', // Avoid nested directories for assets
+        },
     };
 });

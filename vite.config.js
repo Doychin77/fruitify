@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
             }),
         ],
         build: {
-            outDir: 'public/build', // Output React app to 'public/build'
+            outDir: 'public/build/.vite', // Output React app to 'public/build'
             manifest: true, // Include a manifest file
             assetsDir: '', // Avoid nested directories for assets
         },

@@ -7,7 +7,7 @@ import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import useProducts from "@/src/hooks/useProducts.js";
-import { CartContext } from "@/src/context/cartContext.jsx";
+import { CartContext } from "@/src/context/CartContext.jsx";
 import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
 import { Link } from "react-router-dom";

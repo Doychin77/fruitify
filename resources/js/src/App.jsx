@@ -8,7 +8,7 @@ import Blog from './components/Blog/Blog.jsx';
 import Checkout from './components/Checkout.jsx';
 import BlogDetails from './components/Blog/BlogDetails.jsx';
 import ProductDetails from './components/Products/ProductDetails.jsx';
-import {CartProvider} from '@/src/context/cartContext.jsx';
+import {CartProvider} from '@/src/context/CartContext.jsx';
 import Register from "@/src/components/Register/Register.jsx";
 import CategoryProducts from "@/src/components/Products/CategoryProducts.jsx";
 import Login from "@/src/components/Login/Login.jsx";

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CartContext } from "@/src/context/cartContext.jsx";
+import { CartContext } from "@/src/context/CartContext.jsx";
 import { Link } from 'react-router-dom';
 
 const CartDropdown = ({ cartItems, onClose }) => {

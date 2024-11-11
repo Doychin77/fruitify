@@ -8,7 +8,7 @@ import ProductDiscountCarousel from "@/src/components/Products/ProductDiscount.j
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import useProducts from "@/src/hooks/useProducts.js";
-import { CartContext } from '../../context/CartContext';
+import { CartContext } from '../../context/CartContext.jsx';
 import ProductCarousel from "@/src/components/Products/LatestProducts.jsx";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
 import { Link, useNavigate } from "react-router-dom";

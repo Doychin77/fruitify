@@ -9,7 +9,7 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
 import useProducts from "@/src/hooks/useProducts.js";
-import {CartContext} from "@/src/context/cartContext.jsx";
+import {CartContext} from "@/src/context/CartContext.jsx";
 import {useUserContext} from "@/src/context/UserContext.jsx";
 
 const ProductDetails = () => {

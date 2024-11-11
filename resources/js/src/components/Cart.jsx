@@ -3,7 +3,7 @@ import './styles.css';
 import Footer from "@/src/components/Footer.jsx";
 import Header from "@/src/components/Header.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
-import { CartContext } from "@/src/context/cartContext.jsx";
+import { CartContext } from "@/src/context/CartContext.jsx";
 import axios from 'axios'; // For handling coupon API requests
 
 const Cart = () => {

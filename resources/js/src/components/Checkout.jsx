@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import Header from "@/src/components/Header.jsx";
 import Footer from "@/src/components/Footer.jsx";
 import Hamburger from "@/src/components/Hamburger.jsx";
-import {CartContext} from "@/src/context/cartContext.jsx";
+import {CartContext} from "@/src/context/CartContext.jsx";
 import useDebounce from "@/src/hooks/useDebounce.jsx";
 import econtService from "@/src/services/econtService.js";
 import { toast } from "react-toastify";

@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import '../styles.css';
 import useProducts from "@/src/hooks/useProducts.js";
-import { CartContext } from "@/src/context/cartContext.jsx";
+import { CartContext } from "@/src/context/CartContext.jsx";
 import { Link } from "react-router-dom";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
 

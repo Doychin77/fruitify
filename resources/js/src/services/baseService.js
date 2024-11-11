@@ -1,4 +1,4 @@
-const baseUrl = 'http://fruitify.test';
+const baseUrl = 'https://fruitify7-f4553cbbf4f5.herokuapp.com';
 
 export const getCategories = async (endpoint) => {
     try {

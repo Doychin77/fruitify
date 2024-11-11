@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ secure_asset('favicon.png') }}">
+{{--    <link rel="icon" href="{{ secure_asset('favicon.png') }}">--}}
 
     <meta name="description" content="Ogani Template" />
     <meta name="keywords" content="Ogani, unica, creative, html" />

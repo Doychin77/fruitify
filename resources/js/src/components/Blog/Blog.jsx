@@ -12,7 +12,7 @@ const Blog = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const articlesPerPage = 4;
-    
+
     const lastIndex = currentPage * articlesPerPage;
     const firstIndex = lastIndex - articlesPerPage;
     const currentArticles = articles.slice(firstIndex, lastIndex);
@@ -142,7 +142,7 @@ const Blog = () => {
                                             >
                                                 <div className="blog__sidebar__recent__item__pic">
                                                     <img
-                                                        src={`http://fruitify.test/storage/${article.image}`}
+                                                        src={`https://fruitify7-f4553cbbf4f5.herokuapp.com/storage/${article.image}`}
                                                         alt={article.title || 'Article Image'}
                                                     />
                                                 </div>
@@ -174,7 +174,7 @@ const Blog = () => {
                                         <div className="blog__item">
                                             <div className="blog__item__pic">
                                                 <img
-                                                    src={`http://fruitify.test/storage/${article.image}`}
+                                                    src={`https://fruitify7-f4553cbbf4f5.herokuapp.com/storage/${article.image}`}
                                                     alt={article.title || 'Article Image'}
                                                     style={{ width: '100%', height: 'auto' }}
                                                 />

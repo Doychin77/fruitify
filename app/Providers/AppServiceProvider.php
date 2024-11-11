@@ -58,6 +58,5 @@ class AppServiceProvider extends ServiceProvider
             return URL::alternateHasValidSignature($this, $absolute, $ignoreQuery);
         });
     }
-
-    }
+    
 }

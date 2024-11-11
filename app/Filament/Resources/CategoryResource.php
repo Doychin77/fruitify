@@ -37,7 +37,7 @@ class CategoryResource extends Resource
                     ->disk('local')
                     ->directory('images/category')
                     ->image()
-                    ->maxSize(4 * 1024)
+                    ->maxSize(4 * 1024 * 1024)
             ]);
     }
 

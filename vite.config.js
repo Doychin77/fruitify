@@ -18,10 +18,10 @@ export default defineConfig(({ mode }) => {
                 refresh: true,
             }),
         ],
-        build: {
-            outDir: 'public/build/.vite', // Output React app to 'public/build'
-            manifest: true, // Include a manifest file
-            assetsDir: '', // Avoid nested directories for assets
-        },
+        // build: {
+        //     // outDir: 'public/build',
+        //     manifest: true, // Include a manifest file
+        //     assetsDir: '', // Avoid nested directories for assets
+        // },
     };
 });

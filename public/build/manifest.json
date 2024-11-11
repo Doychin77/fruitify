@@ -84,6 +84,11 @@
     "file": "assets/econt-icon-BQhkpTZM.png",
     "src": "resources/js/src/assets/econt-icon.png"
   },
+  "resources/js/src/components/styles.css": {
+    "file": "assets/styles-ChV8I4OG.css",
+    "src": "resources/js/src/components/styles.css",
+    "isEntry": true
+  },
   "resources/js/src/index.jsx": {
     "file": "assets/index-BaQ_GQ13.js",
     "name": "index",

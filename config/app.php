@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'https://fruitify7-f4553cbbf4f5.herokuapp.com'),
 
+    'force_scheme' => env('FORCE_SCHEME', 'https'),
+
 
     /*
     |--------------------------------------------------------------------------

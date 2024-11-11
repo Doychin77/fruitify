@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), "");
     return {
-        base: `${env.APP_URL}/`,
+        base: "https://fruitify7-f4553cbbf4f5.herokuapp.com/",
         define: {
             "process.env.APP_URL": JSON.stringify(env.APP_URL),
         },

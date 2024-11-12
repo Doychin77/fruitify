@@ -36,7 +36,7 @@ const LatestProducts = ({ products, swiperOptions }) => {
                         <Link to={`/product-details/${product.id}`} key={index} className="latest-product__item">
                             <div className="latest-product__item__pic">
                                 <img
-                                    src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
+                                    src={`https://fruitify7-f4553cbbf4f5.herokuapp.com/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
                                     alt={product.name}
                                 />
                             </div>

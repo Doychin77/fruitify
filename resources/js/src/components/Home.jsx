@@ -16,7 +16,7 @@ import { getAllArticles, getTopRatedProducts } from "@/src/services/baseService.
 import TopRatedProducts from "@/src/components/Products/TopRatedProducts.jsx";
 
 const Home = () => {
-    const BaseURL = 'http://fruitify.test/storage/';
+    const BaseURL = 'https://fruitify7-f4553cbbf4f5.herokuapp.com/';
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -372,7 +372,7 @@ const Home = () => {
                                 <Link to={`/blog/${article.id}`} className="blog__item">
                                     <div className="blog__item__pic">
                                         <img
-                                            src={`http://fruitify.test/storage/${article.image}`}
+                                            src={`${BaseURL}${article.image}`}
                                             alt={article.title}
                                             style={{ width: '100%', height: 'auto' }} // Ensure image fits well
                                         />

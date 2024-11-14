@@ -16,7 +16,7 @@ import { getAllArticles, getTopRatedProducts } from "@/src/services/baseService.
 import TopRatedProducts from "@/src/components/Products/TopRatedProducts.jsx";
 
 const Home = () => {
-    const BaseURL = 'https://fruitify7-f4553cbbf4f5.herokuapp.com/';
+    const BaseURL = 'https://fruitify7.s3.eu-north-1.amazonaws.com/';
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

@@ -45,7 +45,17 @@ class BlogArticleResource extends Resource
                     ->required(),
                 FileUpload::make('image')
                     ->label('Изображение')
-                    ->nullable(),
+                    ->disk('s3')
+                    ->directory('images/blog')
+                    ->preserveFilenames()
+                    ->maxSize(1024 * 4)
+                    ->required()
+                    ->afterStateUpdated(function ($state) {
+                        if ($state instanceof \Illuminate\Http\UploadedFile) {
+                            // Ensure original filename is preserved manually
+                            return $state->storeAs('images/blog', $state->getClientOriginalName(), 's3');
+                        }
+                    }),
                 Toggle::make('is_published')
                     ->label('Публикувана')
                     ->default(false),

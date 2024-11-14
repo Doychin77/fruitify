@@ -27,11 +27,11 @@ class ImagesRelationManager extends RelationManager
             ->schema([
                 Forms\Components\FileUpload::make('image_url')
                     ->label('Изображение')
-                    ->required()
-                    ->disk('public')
+                    ->disk('s3')
                     ->directory('images/products')
                     ->preserveFilenames()
-                    ->maxSize(1024)
+                    ->maxSize(1024)  
+                    ->required(),
             ])->columns(1);
     }
 

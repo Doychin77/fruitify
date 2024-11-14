@@ -193,7 +193,7 @@ const BlogDetails = () => {
                         </div>
                         <div className="col-lg-8 col-md-7 order-md-1 order-1">
                             <div className="blog__details__text">
-                                <img src={`http://fruitify.test/storage/${article.image}`} alt=""/>
+                                <img src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${article.image}`} alt=""/>
                                 <p>{article.content}</p>
                                 <h3>
                                     The corner window forms a place within a place that is a resting

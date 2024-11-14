@@ -143,7 +143,7 @@ const Blog = () => {
                                             >
                                                 <div className="blog__sidebar__recent__item__pic">
                                                     <img
-                                                        src={`${baseUrl}${article.image}`}
+                                                        src={`${baseUrl}/${article.image}`}
                                                         alt={article.title || 'Article Image'}
                                                     />
                                                 </div>

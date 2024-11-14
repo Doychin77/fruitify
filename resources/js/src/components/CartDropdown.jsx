@@ -40,7 +40,7 @@ const CartDropdown = ({ cartItems, onClose }) => {
                         <Link to={`/product-details/${item.id}`} onClick={onClose}
                               style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
                             <img className="cart-item-image"
-                                 src={`http://fruitify.test/storage/${item.images ? item.images[0].image_url : 'default.jpg'}`}
+                                 src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${item.images ? item.images[0].image_url : 'default.jpg'}`}
                                  alt={item.name}
                                  style={{ width: '60px', height: '60px', objectFit: 'contain' }}
                             />

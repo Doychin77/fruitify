@@ -160,7 +160,7 @@ const Cart = () => {
                                             <tr key={index}>
                                                 <td className="shoping__cart__item">
                                                     <img
-                                                        src={`http://fruitify.test/storage/${item.images ? item.images[0].image_url : 'default.jpg'}`}
+                                                        src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${item.images ? item.images[0].image_url : 'default.jpg'}`}
                                                         alt={item.name} style={{width: '100px', height: 'auto'}}/>
                                                     <h5>{item.name}</h5>
                                                 </td>

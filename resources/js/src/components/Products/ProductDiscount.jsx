@@ -64,7 +64,7 @@ const ProductDiscount = () => {
                                 <div className="product-item" onClick={(e) => e.stopPropagation()}>
                                     <div className="product-item-pic">
                                         <img
-                                            src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
+                                            src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${product.images[0].image_url}`}
                                             alt={product.name}
                                         />
                                         <div className="product-item-percent">

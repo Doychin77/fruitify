@@ -286,7 +286,7 @@ const CategoryProducts = () => {
                                             <div className="product__item">
                                                 <div className="product__item__pic">
                                                     <img
-                                                        src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
+                                                        src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${product.images[0].image_url}`}
                                                         alt={product.name}
                                                     />
                                                     <ul className="product__item__pic__hover">

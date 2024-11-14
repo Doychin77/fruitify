@@ -679,16 +679,19 @@ const ProductDetails = () => {
                                 }}>
                                     <div className="product__item">
                                         <div className="product__item__pic set-bg">
-                                            <img src={`${baseURL}${relatedProduct.images[0].image_url}`} alt={relatedProduct.name} />
+                                            <img
+                                                src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${relatedProduct.images[0].image_url}`}
+                                                alt={relatedProduct.name}
+                                            />
                                             <ul className="product__item__pic__hover">
                                                 <li>
                                                     <a href="#">
-                                                        <i className="fa fa-heart" />
+                                                        <i className="fa fa-heart"/>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a href="#">
-                                                        <i className="fa fa-retweet" />
+                                                        <i className="fa fa-retweet"/>
                                                     </a>
                                                 </li>
                                                 <li>
@@ -696,7 +699,7 @@ const ProductDetails = () => {
                                                         e.preventDefault();
                                                         addToCart(relatedProduct);
                                                     }}>
-                                                        <i className="fa fa-shopping-cart" />
+                                                        <i className="fa fa-shopping-cart"/>
                                                     </a>
                                                 </li>
                                             </ul>

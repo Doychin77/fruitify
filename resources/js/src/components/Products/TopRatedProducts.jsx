@@ -51,13 +51,13 @@ const TopRatedProducts = ({ swiperOptions }) => {
                         <Link to={`/product-details/${product.id}`} key={index} className="latest-product__item">
                             <div className="latest-product__item__pic">
                                 <img
-                                    src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
+                                    src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${product.images[0].image_url}`}
                                     alt={product.name}
                                 />
                             </div>
                             <div className="latest-product__item__text">
                                 <h6>{product.name}</h6>
-                                <h5 style={{ color: product.on_sale ? 'red' : 'black', fontWeight: "bold" }}>
+                                <h5 style={{color: product.on_sale ? 'red' : 'black', fontWeight: "bold" }}>
                                     ${product.on_sale ? product.on_sale_price : product.price}
                                 </h5>
                             </div>

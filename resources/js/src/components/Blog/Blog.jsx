@@ -7,6 +7,7 @@ import useArticles from "@/src/hooks/useArticles.js";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
 
 const Blog = () => {
+    const baseUrl = import.meta.env.VITE_APP_URL;
     const { blogCategories, error, loading: blogLoading } = useBlogCategories();
     const { articles, loading: articleLoading } = useArticles();
 
@@ -142,7 +143,7 @@ const Blog = () => {
                                             >
                                                 <div className="blog__sidebar__recent__item__pic">
                                                     <img
-                                                        src={`https://fruitify7-f4553cbbf4f5.herokuapp.com/storage/${article.image}`}
+                                                        src={`${baseUrl}/storage/${article.image}`}
                                                         alt={article.title || 'Article Image'}
                                                     />
                                                 </div>
@@ -174,7 +175,7 @@ const Blog = () => {
                                         <div className="blog__item">
                                             <div className="blog__item__pic">
                                                 <img
-                                                    src={`https://fruitify7-f4553cbbf4f5.herokuapp.com/storage/${article.image}`}
+                                                    src={`${baseUrl}/storage/${article.image}`}
                                                     alt={article.title || 'Article Image'}
                                                     style={{ width: '100%', height: 'auto' }}
                                                 />

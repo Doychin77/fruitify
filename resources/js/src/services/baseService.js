@@ -1,4 +1,6 @@
-const baseUrl = 'https://fruitify7-f4553cbbf4f5.herokuapp.com';
+const baseUrl = import.meta.env.VITE_APP_URL;
+
+console.log(baseUrl);
 
 export const getCategories = async (endpoint) => {
     try {
@@ -52,7 +54,6 @@ export const getProducts = async () => {
     }
 };
 
-
 export const getTopRatedProducts = async () => {
     try {
         const response = await fetch(`${baseUrl}/products/top-rated`);
@@ -63,21 +64,17 @@ export const getTopRatedProducts = async () => {
         return data;
     } catch (error) {
         console.error('Error fetching top-rated products:', error);
-        throw error; // Re-throw to handle it in useProducts.js
+        throw error;
     }
 };
 
 export const getSingleProduct = async (id) => {
     try {
         const response = await fetch(`${baseUrl}/product/${id}`);
-
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        const productData = await response.json();
-
-        return productData;
+        return await response.json();
     } catch (error) {
         throw error;
     }
@@ -99,12 +96,8 @@ export const calculateDelivery = async (data) => {
             body: JSON.stringify(data),
         });
 
-        const result = await response.json();
-        return result;
+        return await response.json();
     } catch (error) {
         throw error;
     }
 };
-
-
-

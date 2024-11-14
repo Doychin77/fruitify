@@ -33,11 +33,18 @@ class CategoryResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('img')
+                    ->label('Изображение')
+                    ->disk('s3')
+                    ->directory('images/categories')
+                    ->preserveFilenames()
+                    ->maxSize(1024)
                     ->required()
-                    ->disk('local')
-                    ->directory('images/category')
-                    ->image()
-                    ->maxSize(4 * 1024 * 1024)
+                    ->afterStateUpdated(function ($state) {
+                        if ($state instanceof \Illuminate\Http\UploadedFile) {
+                            // Ensure original filename is preserved manually
+                            return $state->storeAs('images/categories', $state->getClientOriginalName(), 's3');
+                        }
+                    }),
             ]);
     }
 

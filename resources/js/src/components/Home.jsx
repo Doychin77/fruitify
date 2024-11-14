@@ -160,7 +160,9 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="hero__item" style={{backgroundImage: `url(${bannerImage})`}}>
+                            <div className="hero__item" style={{
+                                backgroundImage: `url('https://fruitify7.s3.eu-north-1.amazonaws.com/images/products/banner.jpg')`,
+                            }}>
                                 <div className="hero__text">
                                     <span>FRUIT FRESH</span>
                                     <h2>

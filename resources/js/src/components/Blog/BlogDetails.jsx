@@ -18,7 +18,7 @@ const BlogDetails = () => {
     useEffect(() => {
         const fetchArticle = async () => {
             try {
-                const response = await fetch(`http://fruitify.test/article/${id}`);
+                const response = await fetch(`https://fruitify7-f4553cbbf4f5.herokuapp.com/article/${id}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

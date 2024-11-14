@@ -161,7 +161,7 @@ const BlogDetails = () => {
                                                 >
                                                     <div className="blog__sidebar__recent__item__pic">
                                                         <img
-                                                            src={`http://fruitify.test/storage/${article.image}`}
+                                                            src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${article.image}`}
                                                             alt={article.title || 'Article Image'}
                                                         />
                                                     </div>

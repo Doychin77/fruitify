@@ -175,7 +175,7 @@ const Blog = () => {
                                         <div className="blog__item">
                                             <div className="blog__item__pic">
                                                 <img
-                                                    src={`${baseUrl}/storage/${article.image}`}
+                                                    src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${article.image}`}
                                                     alt={article.title || 'Article Image'}
                                                     style={{ width: '100%', height: 'auto' }}
                                                 />

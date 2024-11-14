@@ -210,7 +210,9 @@ const Home = () => {
                                 <div key={category.id} className="item col-lg-3">
                                     <div
                                         className="categories__item set-bg"
-                                        style={{backgroundImage: `url(${BaseURL}${category.img})`}}
+                                        style={{
+                                            backgroundImage: `url(https://fruitify7.s3.eu-north-1.amazonaws.com/images/categories/${category.img})`
+                                        }}
                                     >
                                         <h5>
                                             <Link to={`/category/${category.id}`}>{category.name}</Link>

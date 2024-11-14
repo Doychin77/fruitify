@@ -211,7 +211,7 @@ const Home = () => {
                                     <div
                                         className="categories__item set-bg"
                                         style={{
-                                            backgroundImage: `url(https://fruitify7.s3.eu-north-1.amazonaws.com/images/categories/${category.img})`
+                                            backgroundImage: `url(https://fruitify7.s3.eu-north-1.amazonaws.com/${category.img})`
                                         }}
                                     >
                                         <h5>

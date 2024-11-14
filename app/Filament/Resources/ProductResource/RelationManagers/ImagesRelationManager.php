@@ -30,8 +30,14 @@ class ImagesRelationManager extends RelationManager
                     ->disk('s3')
                     ->directory('images/products')
                     ->preserveFilenames()
-                    ->maxSize(1024)  
-                    ->required(),
+                    ->maxSize(1024)
+                    ->required()
+                    ->afterStateUpdated(function ($state) {
+                        if ($state instanceof \Illuminate\Http\UploadedFile) {
+                            // Ensure original filename is preserved manually
+                            return $state->storeAs('images/products', $state->getClientOriginalName(), 's3');
+                        }
+                    }),
             ])->columns(1);
     }
 

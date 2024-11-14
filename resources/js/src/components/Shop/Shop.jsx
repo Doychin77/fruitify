@@ -294,10 +294,12 @@ const Shop = () => {
                                             <div className="product__item" onClick={(e) => e.stopPropagation()}>
                                                 <div className="product__item__pic">
                                                     <img
-                                                        src={`http://fruitify.test/storage/${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
+                                                        src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${product.images[0].image_url}`}
                                                         alt={product.name}
                                                     />
-                                                    <ul className="product__item__pic__hover" onClick={(e) => e.stopPropagation()}>
+
+                                                    <ul className="product__item__pic__hover"
+                                                        onClick={(e) => e.stopPropagation()}>
                                                         <li><a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-heart" /></a></li>
                                                         <li><a href="#" onClick={(e) => e.preventDefault()}><i className="fa fa-retweet" /></a></li>
                                                         <li>

@@ -266,14 +266,14 @@ const Home = () => {
                                         <div className="featured__item__pic">
                                             {product.images && product.images.length > 0 && (
                                                 <img
-                                                    src={`http://fruitify.test/storage/${product.images[0].image_url}`}
+                                                    src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${product.images[0].image_url}`}
                                                     alt={product.name}
                                                 />
                                             )}
                                             <ul className="featured__item__pic__hover"
                                                 onClick={(e) => e.stopPropagation()}>
                                                 <li>
-                                                    <a href="#" onClick={(e) => e.preventDefault()}>
+                                                <a href="#" onClick={(e) => e.preventDefault()}>
                                                         <i className="fa fa-heart"></i>
                                                     </a>
                                                 </li>

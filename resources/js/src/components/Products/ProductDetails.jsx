@@ -13,7 +13,7 @@ import {CartContext} from "@/src/context/CartContext.jsx";
 import {useUserContext} from "@/src/context/UserContext.jsx";
 
 const ProductDetails = () => {
-    const baseURL = 'https://fruitify7.s3.eu-north-1.amazonaws.com'
+    const baseURL = 'https://fruitify7.s3.eu-north-1.amazonaws.com/'
     const {id} = useParams();
     const {addToCart} = useContext(CartContext);
     const {getRelatedProducts, product, error} = useProducts(parseInt(id));

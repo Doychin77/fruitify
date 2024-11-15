@@ -13,7 +13,9 @@ import {CartContext} from "@/src/context/CartContext.jsx";
 import {useUserContext} from "@/src/context/UserContext.jsx";
 
 const ProductDetails = () => {
-    const baseURL = 'https://fruitify7.s3.eu-north-1.amazonaws.com/'
+    const baseImgURL = 'https://fruitify7.s3.eu-north-1.amazonaws.com/'
+    const baseURL = import.meta.env.VITE_APP_URL;
+
     const {id} = useParams();
     const {addToCart} = useContext(CartContext);
     const {getRelatedProducts, product, error} = useProducts(parseInt(id));
@@ -80,7 +82,7 @@ const ProductDetails = () => {
         setLoading(true);
 
         if (product && product.images && product.images.length > 0) {
-            setLargeImageSrc(`${baseURL}${product.images[0].image_url}`);
+            setLargeImageSrc(`${baseImgURL}${product.images[0].image_url}`);
             setImages(product.images.slice(1));
         }
 
@@ -108,7 +110,7 @@ const ProductDetails = () => {
         }
 
         try {
-            const response = await fetch(`http://fruitify.test/reviews/${reviewId}`, {
+            const response = await fetch(`${baseURL}/reviews/${reviewId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -147,7 +149,7 @@ const ProductDetails = () => {
         try {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            const response = await fetch('http://fruitify.test/reviews', {
+            const response = await fetch(`${baseURL}/reviews`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -205,7 +207,7 @@ const ProductDetails = () => {
         try {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            const response = await fetch(`http://fruitify.test/reviews/${reviewToEdit.id}`, {
+            const response = await fetch(`${baseURL}/reviews/${reviewToEdit.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -373,7 +375,7 @@ const ProductDetails = () => {
                                 <div className="product__details__pic__item">
                                     <img
                                         className="product__details__pic__item--large"
-                                        src={largeImageSrc || `${baseURL}${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
+                                        src={largeImageSrc || `${baseImgURL}${product.images && product.images.length > 0 ? product.images[0].image_url : 'default.jpg'}`}
                                         alt="Large Product"
                                     />
                                 </div>
@@ -385,7 +387,7 @@ const ProductDetails = () => {
                                         key={largeImageSrc}
                                     >
                                         {product.images.map((image, index) => {
-                                            const imageUrl = `${baseURL}${image.image_url}`;
+                                            const imageUrl = `${baseImgURL}${image.image_url}`;
                                             // Don't show the current large image in the slider
                                             if (imageUrl === largeImageSrc) return null;
                                             return (

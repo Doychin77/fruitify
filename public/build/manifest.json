@@ -43,16 +43,8 @@
     "file": "assets/fontawesome-webfont-B-jkhYfk.woff2",
     "src": "public/fonts/fontawesome-webfont.woff2"
   },
-  "public/img/bus-icon.png": {
-    "file": "assets/bus-icon-BoejrSaT.png",
-    "src": "public/img/bus-icon.png"
-  },
-  "public/img/econt-icon.png": {
-    "file": "assets/econt-icon-BQhkpTZM.png",
-    "src": "public/img/econt-icon.png"
-  },
   "resources/css/app.css": {
-    "file": "assets/app-B4c0FDEy.css",
+    "file": "assets/app-ToGT6oOZ.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -65,21 +57,19 @@
     "src": "resources/js/src/assets/bg4.jpg"
   },
   "resources/js/src/components/styles.css": {
-    "file": "assets/styles-DtKI7cb-.css",
+    "file": "assets/styles-oJGiYg8s.css",
     "src": "resources/js/src/components/styles.css",
     "isEntry": true
   },
   "resources/js/src/index.jsx": {
-    "file": "assets/index-B-9utrdS.js",
+    "file": "assets/index-B_mmwAKa.js",
     "name": "index",
     "src": "resources/js/src/index.jsx",
     "isEntry": true,
     "css": [
-      "assets/index-BTBRuFrH.css"
+      "assets/index-DcVzrtUM.css"
     ],
     "assets": [
-      "assets/bus-icon-BoejrSaT.png",
-      "assets/econt-icon-BQhkpTZM.png",
       "assets/owl.video.play-BJo37keB.png",
       "assets/404-FWTiJtiy.jpg",
       "assets/bg4-DB8OYiWE.jpg",

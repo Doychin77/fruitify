@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
 
     const fetchUserData = async (token) => {
         try {
-            const response = await fetch('http://fruitify.test/user', {
+            const response = await fetch('https://fruitify7-f4553cbbf4f5.herokuapp.com/user', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

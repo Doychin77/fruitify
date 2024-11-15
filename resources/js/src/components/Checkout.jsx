@@ -80,7 +80,7 @@ const Checkout = () => {
         const items = Array.isArray(cartItems) ? cartItems : [];
 
         try {
-            const response = await fetch('http://fruitify.test/orders', {
+            const response = await fetch('https://fruitify7-f4553cbbf4f5.herokuapp.com/orders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

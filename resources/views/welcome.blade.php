@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Fruitify</title>
+    <link rel="preload" href="https://fruitify7.s3.eu-north-1.amazonaws.com/images/products/bg4.jpg" as="image">
+    <link rel="preload" href="https://fruitify7.s3.eu-north-1.amazonaws.com/images/products/404.jpg" as="image">
 
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"

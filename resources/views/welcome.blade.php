@@ -15,7 +15,8 @@
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
         rel="stylesheet"
     />
-    <link href="https://cdn.jsdelivr.net/npm/@icon/elegant-icons@0.0.1-alpha.4/elegant-icons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/elegant-icons@0.0.1/style.min.css" rel="stylesheet">
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 

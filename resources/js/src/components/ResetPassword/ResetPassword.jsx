@@ -43,7 +43,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await axios.post('http://fruitify.test/update-password', {
+            const response = await axios.post('https://fruitify7-f4553cbbf4f5.herokuapp.com/update-password', {
                 email,
                 reset_code: resetCode,
                 new_password: newPassword,

@@ -59,10 +59,6 @@
     "file": "assets/fontawesome-webfont-B-jkhYfk.woff2",
     "src": "public/fonts/fontawesome-webfont.woff2"
   },
-  "public/img/hero/banner.jpg": {
-    "file": "assets/banner-vNmOjYTW.jpg",
-    "src": "public/img/hero/banner.jpg"
-  },
   "resources/css/app.css": {
     "file": "assets/app-DNdZ8XLg.css",
     "src": "resources/css/app.css",
@@ -90,15 +86,14 @@
     "isEntry": true
   },
   "resources/js/src/index.jsx": {
-    "file": "assets/index-CI-ymkQd.js",
+    "file": "assets/index--_s9KsuO.js",
     "name": "index",
     "src": "resources/js/src/index.jsx",
     "isEntry": true,
     "css": [
-      "assets/index-C4XSBJPs.css"
+      "assets/index-DcVzrtUM.css"
     ],
     "assets": [
-      "assets/banner-vNmOjYTW.jpg",
       "assets/bus-icon-BoejrSaT.png",
       "assets/econt-icon-BQhkpTZM.png",
       "assets/owl.video.play-BJo37keB.png",

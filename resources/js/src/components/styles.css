@@ -1097,7 +1097,7 @@ button {
 
 .categories__item:hover::after {
     opacity: 1;
-    animation: diagonalFlash 0.8s ease forwards;
+    animation: diagonalFlash 2s ease forwards; /* Increased duration to 2 seconds */
 }
 
 .categories__item h5 {
@@ -1118,6 +1118,7 @@ button {
         opacity: 0;
     }
 }
+
 
 
 

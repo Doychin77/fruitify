@@ -17,7 +17,7 @@ const Login = () => {
         setError('');
 
         try {
-            const response = await axios.post('http://fruitify.test/login', {
+            const response = await axios.post('https://fruitify7-f4553cbbf4f5.herokuapp.com/login', {
                 email,
                 password,
             });

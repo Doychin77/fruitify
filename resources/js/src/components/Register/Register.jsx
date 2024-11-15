@@ -41,7 +41,7 @@ const Register = () => {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await axios.post('http://fruitify.test/register', formData);
+                const response = await axios.post('https://fruitify7-f4553cbbf4f5.herokuapp.com/register', formData);
                 setSuccess(true);
                 setErrorMessage('');
                 navigate('/login');

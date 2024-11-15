@@ -1066,10 +1066,59 @@ button {
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.cart-dropdown.animate {
-    opacity: 1;
-    transform: translateY(0);
+.categories__item {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
 }
+
+.categories__item:hover {
+    transform: scale(1.05);
+}
+
+.categories__item::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0.1) 100%
+    );
+    transform: translate(-100%, -100%) rotate(45deg);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.categories__item:hover::after {
+    opacity: 1;
+    animation: diagonalFlash 0.8s ease forwards;
+}
+
+.categories__item h5 {
+    color: #fff;
+    z-index: 2;
+    text-transform: uppercase;
+    font-size: 18px;
+    transition: none;
+}
+
+@keyframes diagonalFlash {
+    0% {
+        transform: translate(-100%, -100%) rotate(45deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(100%, 100%) rotate(45deg);
+        opacity: 0;
+    }
+}
+
 
 
 

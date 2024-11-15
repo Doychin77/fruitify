@@ -8,8 +8,8 @@ import useDebounce from "@/src/hooks/useDebounce.jsx";
 import econtService from "@/src/services/econtService.js";
 import { toast } from "react-toastify";
 
-import deliveryIcon from "../assets/bus-icon.png";
-import econtIcon from "../assets/econt-icon.png";
+import deliveryIcon from "../../../../public/img/bus-icon.png";
+import econtIcon from "../../../../public/img/econt-icon.png";
 import * as baseService from "../services/baseService";
 
 const Checkout = () => {

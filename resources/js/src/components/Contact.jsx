@@ -31,7 +31,7 @@ const Contact = () => {
 
         try {
             // Post form data to your backend
-            await axios.post('http://fruitify.test/contact', formData);
+            await axios.post('https://fruitify7-f4553cbbf4f5.herokuapp.com/contact', formData);
             setSubmitted(true);
             setError('');
             // Reset form data after submission

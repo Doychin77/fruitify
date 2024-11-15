@@ -802,7 +802,7 @@ button {
     padding: 20px;
     box-sizing: border-box;
     position: relative;
-    background: url('../assets/bg4.jpg') no-repeat center center/cover;
+    background: url('https://fruitify7.s3.eu-north-1.amazonaws.com/images/products/bg4.jpg') no-repeat;
 }
 
 .text-box {

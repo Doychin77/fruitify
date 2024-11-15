@@ -52,7 +52,7 @@
     "src": "public/img/econt-icon.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-ToGT6oOZ.css",
+    "file": "assets/app-B4c0FDEy.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -65,17 +65,17 @@
     "src": "resources/js/src/assets/bg4.jpg"
   },
   "resources/js/src/components/styles.css": {
-    "file": "assets/styles-oJGiYg8s.css",
+    "file": "assets/styles-DtKI7cb-.css",
     "src": "resources/js/src/components/styles.css",
     "isEntry": true
   },
   "resources/js/src/index.jsx": {
-    "file": "assets/index--_s9KsuO.js",
+    "file": "assets/index-B-9utrdS.js",
     "name": "index",
     "src": "resources/js/src/index.jsx",
     "isEntry": true,
     "css": [
-      "assets/index-DcVzrtUM.css"
+      "assets/index-BTBRuFrH.css"
     ],
     "assets": [
       "assets/bus-icon-BoejrSaT.png",

@@ -6,7 +6,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), "");
     return {
-        base: "https://fruitify7-f4553cbbf4f5.herokuapp.com/",
+        base: "/",
         define: {
             "process.env.APP_URL": JSON.stringify(env.APP_URL),
         },
@@ -25,9 +25,21 @@ export default defineConfig(({ mode }) => {
                     {
                         src: 'public/fonts/*',
                         dest: 'fonts',
+                    },
+                    {
+                        src: 'public/img/*',
+                        dest: 'img',
                     }
                 ]
             }),
         ],
+        build: {
+            assetsDir: 'assets',
+            rollupOptions: {
+                output: {
+                    assetFileNames: 'assets/[name]-[hash][extname]', 
+                }
+            }
+        }
     };
 });

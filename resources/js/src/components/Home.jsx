@@ -243,7 +243,7 @@ const Home = () => {
                                     >
                                         All
                                     </li>
-                                    {categories.slice(0, 6).map(category => (
+                                    {categories.slice(-7).map(category => (
                                         <li
                                             key={category.id}
                                             className={selectedCategory === category.name.toLowerCase() ? 'active' : ''}
@@ -255,6 +255,7 @@ const Home = () => {
                                     ))}
                                 </ul>
                             </div>
+
                         </div>
                     </div>
                     <div className="row featured__filter">

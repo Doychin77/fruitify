@@ -283,15 +283,24 @@ const CategoryProducts = () => {
                                 ) : currentProducts.length > 0 ? (
                                     currentProducts.map(product => (
                                         <div className="col-lg-4 col-md-6 col-sm-6" key={product.id}>
-                                            <div className="product__item">
+                                            <Link to={`/product-details/${product.id}`} className="product__item"
+                                                  style={{textDecoration: 'none', color: 'inherit'}}>
                                                 <div className="product__item__pic">
                                                     <img
                                                         src={`https://fruitify7.s3.eu-north-1.amazonaws.com/${product.images[0].image_url}`}
                                                         alt={product.name}
                                                     />
                                                     <ul className="product__item__pic__hover">
-                                                        <li><a href="#"><i className="fa fa-heart"/></a></li>
-                                                        <li><a href="#"><i className="fa fa-retweet"/></a></li>
+                                                        <li>
+                                                            <a href="#" onClick={(e) => e.preventDefault()}>
+                                                                <i className="fa fa-heart"/>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" onClick={(e) => e.preventDefault()}>
+                                                                <i className="fa fa-retweet"/>
+                                                            </a>
+                                                        </li>
                                                         <li>
                                                             <a href="#" onClick={(e) => {
                                                                 e.preventDefault();
@@ -303,15 +312,14 @@ const CategoryProducts = () => {
                                                     </ul>
                                                 </div>
                                                 <div className="product__item__text">
-                                                    <h6><Link
-                                                        to={`/product-details/${product.id}`}>{product.name}</Link>
-                                                    </h6>
+                                                    <h6>{product.name}</h6>
                                                     <h5 style={{color: product.on_sale ? 'red' : 'inherit'}}>
                                                         ${product.on_sale ? product.on_sale_price : product.price}
                                                     </h5>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         </div>
+
                                     ))
                                 ) : (
                                     <h2>No products found in this category.</h2>

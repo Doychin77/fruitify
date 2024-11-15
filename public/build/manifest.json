@@ -23,22 +23,6 @@
     "file": "assets/slick-BlUtDIuC.woff",
     "src": "node_modules/slick-carousel/slick/fonts/slick.woff"
   },
-  "public/fonts/ElegantIcons.eot": {
-    "file": "assets/ElegantIcons-DAcKoRel.eot",
-    "src": "public/fonts/ElegantIcons.eot"
-  },
-  "public/fonts/ElegantIcons.svg": {
-    "file": "assets/ElegantIcons-BLHFlQ6G.svg",
-    "src": "public/fonts/ElegantIcons.svg"
-  },
-  "public/fonts/ElegantIcons.ttf": {
-    "file": "assets/ElegantIcons-DN4ZM7zy.ttf",
-    "src": "public/fonts/ElegantIcons.ttf"
-  },
-  "public/fonts/ElegantIcons.woff": {
-    "file": "assets/ElegantIcons-DznOoThm.woff",
-    "src": "public/fonts/ElegantIcons.woff"
-  },
   "public/fonts/fontawesome-webfont.eot": {
     "file": "assets/fontawesome-webfont-G5YE5S7X.eot",
     "src": "public/fonts/fontawesome-webfont.eot"
@@ -59,8 +43,16 @@
     "file": "assets/fontawesome-webfont-B-jkhYfk.woff2",
     "src": "public/fonts/fontawesome-webfont.woff2"
   },
+  "public/img/bus-icon.png": {
+    "file": "assets/bus-icon-BoejrSaT.png",
+    "src": "public/img/bus-icon.png"
+  },
+  "public/img/econt-icon.png": {
+    "file": "assets/econt-icon-BQhkpTZM.png",
+    "src": "public/img/econt-icon.png"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-DNdZ8XLg.css",
+    "file": "assets/app-ToGT6oOZ.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -71,14 +63,6 @@
   "resources/js/src/assets/bg4.jpg": {
     "file": "assets/bg4-DB8OYiWE.jpg",
     "src": "resources/js/src/assets/bg4.jpg"
-  },
-  "resources/js/src/assets/bus-icon.png": {
-    "file": "assets/bus-icon-BoejrSaT.png",
-    "src": "resources/js/src/assets/bus-icon.png"
-  },
-  "resources/js/src/assets/econt-icon.png": {
-    "file": "assets/econt-icon-BQhkpTZM.png",
-    "src": "resources/js/src/assets/econt-icon.png"
   },
   "resources/js/src/components/styles.css": {
     "file": "assets/styles-oJGiYg8s.css",

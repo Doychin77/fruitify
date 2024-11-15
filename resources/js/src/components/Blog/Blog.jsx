@@ -7,7 +7,7 @@ import useArticles from "@/src/hooks/useArticles.js";
 import Spinner from "@/src/components/Spinner/Spinner.jsx";
 
 const Blog = () => {
-    const baseUrl = import.meta.env.AWS_IMG_URL;
+    const baseUrl = import.meta.env.VITE_AWS_IMG_URL;
     const { blogCategories, error, loading: blogLoading } = useBlogCategories();
     const { articles, loading: articleLoading } = useArticles();
 

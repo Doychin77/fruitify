@@ -9,7 +9,7 @@ import econtService from "@/src/services/econtService.js";
 import { toast } from "react-toastify";
 
 const deliveryIcon = "https://fruitify7.s3.eu-north-1.amazonaws.com/images/products/bus-icon.png";
-import econtIcon from "https://fruitify7.s3.eu-north-1.amazonaws.com/images/products/econt-icon.png";
+const econtIcon = "https://fruitify7.s3.eu-north-1.amazonaws.com/images/products/econt-icon.png";
 import * as baseService from "../services/baseService";
 
 const Checkout = () => {

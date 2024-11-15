@@ -51,7 +51,7 @@ class AuthController extends Controller
     public function sendResetCode(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|email',
         ]);
 
         if ($validator->fails()) {

@@ -9,6 +9,8 @@
   <li><strong>Real-time Cart Management:</strong> Add, update, or remove items from the cart with real-time updates.</li>
   <li><strong>Responsive Design:</strong> Fully responsive layout for mobile, tablet, and desktop users.</li>
   <li><strong>Filament Admin Panel:</strong> Easily manage products, categories, users, and orders through a powerful and user-friendly admin interface powered by Filament.</li>
+  <li><strong>Cloud-Based Image Storage:</strong> Product images are securely uploaded and stored on <strong>AWS S3</strong>, ensuring fast and reliable access across the platform.</li>
+  <li><strong>Hosting on Heroku:</strong> The platform is hosted on <strong>Heroku</strong> for scalable and efficient deployment. You can explore the live project at: <a href="https://fruitify7-f4553cbbf4f5.herokuapp.com/">Fruitify on Heroku</a>.</li>
   <li><strong>Backend with Laravel:</strong> Efficient, secure, and scalable backend for smooth data handling and integrations.</li>
   <li><strong>Frontend with React:</strong> Fast, reactive interface that enhances user experience.</li>
 </ul>
@@ -19,5 +21,6 @@
   <li><strong>Frontend:</strong> React</li>
   <li><strong>Database:</strong> MySQL or preferred relational database</li>
   <li><strong>Admin Panel:</strong> Filament for Laravel</li>
+  <li><strong>Image Hosting:</strong> AWS S3</li>
+  <li><strong>Deployment:</strong> Heroku</li>
 </ul>
-
